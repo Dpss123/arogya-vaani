@@ -10,7 +10,7 @@ Send `menu` (or `hi`) → a tappable list appears:
 | 🩺 Lakshan batao | Describe symptoms → AI advice (multi-turn, Hindi/English) |
 | 📋 Report / Photo | Send a photo (X-ray, blood test, medicine) → Vision AI explains it |
 | 🧠 Mann ki jaanch | **PHQ-9 screener** — 9 tappable questions → score + KIRAN helpline |
-| 🏥 Doctor dhundo | Share location → nearest clinics/hospitals (OpenStreetMap) |
+| 📍 Doctor dhundo | Share location → nearest clinics/hospitals (OpenStreetMap) |
 | 🏛️ Govt schemes | Give age/income/state → eligible govt health schemes (AI) |
 | 🚨 Emergency | 108 + first-aid response |
 

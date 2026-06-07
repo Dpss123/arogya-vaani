@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       if (session.flow === "doctor") {
         await doctorByLocation(from, message.location.latitude, message.location.longitude);
       } else {
-        await sendWhatsAppMessage(from, "📍 Location mili. Nazdeeki clinic dhundhne ke liye *menu* se '🏥 Doctor dhundo' chunein.");
+        await sendWhatsAppMessage(from, "📍 Location mili. Nazdeeki clinic dhundhne ke liye *menu* se '📍 Doctor dhundo' chunein.");
       }
       return NextResponse.json({ status: "ok" });
     }
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: "ok" });
     }
     if (session.flow === "doctor") {
-      await sendWhatsAppMessage(from, "🏥 Doctor dhundhne ke liye apni *location share karein*: 📎 → Location → Send your current location.");
+      await sendWhatsAppMessage(from, "📍 Doctor dhundhne ke liye apni *location share karein*: 📎 → Location → Send your current location.");
       return NextResponse.json({ status: "ok" });
     }
 

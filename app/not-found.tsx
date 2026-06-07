@@ -1,11 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Logo from "@/components/Logo";
 
 export default function NotFound() {
   const router = useRouter();
   return (
     <div style={{ minHeight: "100vh", background: "#06090f", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-      <div style={{ fontSize: 64, marginBottom: 20 }}>🏥</div>
+      <div style={{ marginBottom: 24 }}><Logo size={56} /></div>
       <h1 style={{ fontSize: 28, fontWeight: 800, color: "#F9F6F0", fontFamily: "var(--font-display)", letterSpacing: "-0.02em", marginBottom: 10 }}>
         Page Nahi Mila
       </h1>
@@ -17,7 +18,7 @@ export default function NotFound() {
           ← Wapas Jao
         </button>
         <button onClick={() => router.push("/chat")} style={{ background: "linear-gradient(135deg,#00E676,#00B4D8)", border: "none", borderRadius: 12, padding: "12px 24px", color: "#0A1128", fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14 }}>
-          🏥 Chat Pe Jao
+          Chat Pe Jao
         </button>
       </div>
     </div>

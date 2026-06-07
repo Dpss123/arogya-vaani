@@ -34,7 +34,7 @@ export default function TriageCard({ verdict, advice, symptoms, showActions = tr
             </a>
           )}
           <button onClick={() => router.push("/doctors")} style={{ flex: 1, background: "rgba(249,246,240,0.06)", border: "1px solid rgba(249,246,240,0.1)", borderRadius: 12, padding: "12px", color: "rgba(249,246,240,0.7)", cursor: "pointer", fontFamily: "DM Sans,sans-serif", fontSize: 13 }}>
-            🏥 Doctor Dhundho
+            📍 Doctor Dhundho
           </button>
         </div>
       )}

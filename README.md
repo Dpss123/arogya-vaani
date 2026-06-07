@@ -1,4 +1,8 @@
-# 🏥 Arogya Vaani
+<p align="center">
+  <img src="public/logo.png" alt="Arogya Vaani" width="140" />
+</p>
+
+# Arogya Vaani
 ## India's First WhatsApp-Native AI Healthcare Platform
 
 > Built by **Dheerendra** | CEO, Trixo Technologies | Haridwar, Uttarakhand

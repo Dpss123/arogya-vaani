@@ -187,7 +187,7 @@ function TriageContent() {
             </a>
           )}
           <button onClick={() => router.push("/doctors")} style={{ background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "14px", color: "#04060D", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>
-            🏥 Nearest Doctor Dhundho
+            📍 Nearest Doctor Dhundho
           </button>
           <button onClick={() => router.push("/chat")} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 100, padding: "14px", color: "var(--text-2)", fontSize: 14, cursor: "pointer", fontFamily: "var(--font-body)" }}>
             💬 Aur Sawaal Poochhein

@@ -13,7 +13,7 @@ export async function sendMainMenu(to: string) {
       { id: "svc_symptom", title: "🩺 Lakshan batao", description: "Symptom check + AI salah" },
       { id: "svc_report", title: "📋 Report / Photo", description: "X-ray, blood test, dawai padhwao" },
       { id: "svc_mental", title: "🧠 Mann ki jaanch", description: "Tanav, neend, mood (PHQ-9)" },
-      { id: "svc_doctor", title: "🏥 Doctor dhundo", description: "Nazdeeki clinic / hospital" },
+      { id: "svc_doctor", title: "📍 Doctor dhundo", description: "Nazdeeki clinic / hospital" },
       { id: "svc_scheme", title: "🏛️ Govt schemes", description: "Free health yojana" },
       { id: "svc_emergency", title: "🚨 Emergency", description: "108 + first-aid" },
     ]
@@ -36,7 +36,7 @@ export async function startService(id: string, phone: string): Promise<boolean> 
       return true;
     case "svc_doctor":
       await setSession(phone, { flow: "doctor", step: 0, data: {} });
-      await sendWhatsAppMessage(phone, "🏥 Nazdeeki clinic dhundhne ke liye apni *location share karein*:\n\n📎 (attach) → *Location* → *Send your current location*");
+      await sendWhatsAppMessage(phone, "📍 Nazdeeki clinic dhundhne ke liye apni *location share karein*:\n\n📎 (attach) → *Location* → *Send your current location*");
       return true;
     case "svc_scheme":
       await setSession(phone, { flow: "scheme", step: 0, data: {} });
@@ -170,7 +170,7 @@ export async function doctorByLocation(phone: string, lat: number, lng: number) 
     const list = items
       .map((x, i) => `${i + 1}. *${x.name}* (${x.type}) — ${x.dist.toFixed(1)} km`)
       .join("\n");
-    await sendWhatsAppMessage(phone, `🏥 *Nazdeeki health facilities:*\n\n${list}\n\n_OpenStreetMap data — jaane se pehle call karke confirm karein._\n\nMenu: *menu* likhein.`);
+    await sendWhatsAppMessage(phone, `📍 *Nazdeeki health facilities:*\n\n${list}\n\n_OpenStreetMap data — jaane se pehle call karke confirm karein._\n\nMenu: *menu* likhein.`);
   } catch {
     await clearSession(phone);
     await sendWhatsAppMessage(phone, "Location se search nahi ho paaya. Dobara *menu* se try karein.");
