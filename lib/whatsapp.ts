@@ -83,16 +83,19 @@ export async function sendWhatsAppList(
   to: string,
   body: string,
   buttonText: string,
-  rows: { id: string; title: string; description?: string }[]
+  rows: { id: string; title: string; description?: string }[],
+  opts?: { header?: string; footer?: string; sectionTitle?: string }
 ) {
   return sendInteractive(to, {
     type: "list",
+    ...(opts?.header ? { header: { type: "text", text: cut(opts.header, 60) } } : {}),
     body: { text: cut(body, 1024) },
+    ...(opts?.footer ? { footer: { text: cut(opts.footer, 60) } } : {}),
     action: {
       button: cut(buttonText, 20),
       sections: [
         {
-          title: "Arogya Vaani",
+          title: cut(opts?.sectionTitle || "Services", 24),
           rows: rows.slice(0, 10).map((r) => ({
             id: cut(r.id, 200),
             title: cut(r.title, 24),

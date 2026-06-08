@@ -7,16 +7,17 @@ import { setSession, clearSession } from "./whatsappSession";
 export async function sendMainMenu(to: string) {
   await sendWhatsAppList(
     to,
-    "Namaste! 🙏 Main *Arogya Vaani* hoon.\n\nNiche se koi service chunein, ya seedha apni problem likh dein.",
+    "Namaste! 🙏 Main aapka *free health saathi* hoon.\n\nNeeche se koi service chunein — ya seedha apni problem likh dein (Hindi ya English mein).",
     "Services dekhein",
     [
-      { id: "svc_symptom", title: "🩺 Lakshan batao", description: "Symptom check + AI salah" },
-      { id: "svc_report", title: "📋 Report / Photo", description: "X-ray, blood test, dawai padhwao" },
+      { id: "svc_symptom", title: "🩺 Lakshan batao", description: "Bukhar, dard, etc — AI se salah" },
+      { id: "svc_report", title: "📋 Report padhwao", description: "X-ray, blood test, dawai ki photo" },
       { id: "svc_mental", title: "🧠 Mann ki jaanch", description: "Tanav, neend, mood (PHQ-9)" },
       { id: "svc_doctor", title: "📍 Doctor dhundo", description: "Nazdeeki clinic / hospital" },
-      { id: "svc_scheme", title: "🏛️ Govt schemes", description: "Free health yojana" },
-      { id: "svc_emergency", title: "🚨 Emergency", description: "108 + first-aid" },
-    ]
+      { id: "svc_scheme", title: "🏛️ Govt schemes", description: "Free sarkari health yojana" },
+      { id: "svc_emergency", title: "🚨 Emergency", description: "108 + turant first-aid" },
+    ],
+    { header: "Arogya Vaani 🌿", footer: "Free • Private • 12 languages", sectionTitle: "Health Services" }
   );
 }
 
