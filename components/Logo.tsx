@@ -12,8 +12,8 @@ export default function Logo({
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 11 }}>
       <span style={{
-        position: "relative", width: size * 1.12, height: size, borderRadius: size * 0.26,
-        background: "linear-gradient(160deg,#FBF7EF,#EFE8D8)", overflow: "hidden", flexShrink: 0,
+        position: "relative", width: size, height: size, borderRadius: size * 0.26,
+        background: "#ffffff", overflow: "hidden", flexShrink: 0,
         boxShadow: "0 4px 14px rgba(0,0,0,0.28)", border: "1px solid rgba(0,0,0,0.06)",
       }}>
         <Image src="/logo.png" alt="Arogya Vaani" fill sizes="80px" priority style={{ objectFit: "cover" }} />
