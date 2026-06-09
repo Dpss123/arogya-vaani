@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { getPatientKey } from "@/lib/patientId";
+import { supabaseBrowser } from "@/lib/supabaseBrowser";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
 import {
@@ -41,6 +42,7 @@ export default function AccountPage() {
     district: "Haridwar", state: "Uttarakhand",
     blood_group: "", allergies: "", emergency_contact: "", abha_id: "",
   });
+  const [auth, setAuth] = useState<{ name: string; email: string; image: string }>({ name: "", email: "", image: "" });
 
   useEffect(() => {
     const saved = localStorage.getItem("av_profile");
@@ -56,6 +58,25 @@ export default function AccountPage() {
     }
     fetch(`/api/reports?phone=${getPatientKey()}`).then((r) => r.json()).then((d) => setReports(d.reports || [])).catch(() => {});
     fetch(`/api/messages?phone=${getPatientKey()}&limit=20`).then((r) => r.json()).then((d) => setMessages(d.messages || [])).catch(() => {});
+
+    // Pull identity from whichever auth was used: Supabase (email/password) or
+    // NextAuth (Google). Show the email + pre-fill the name on first login.
+    (async () => {
+      let aName = "", aEmail = "", aImg = "";
+      try {
+        const { data: { user } } = await supabaseBrowser.auth.getUser();
+        if (user) {
+          aEmail = user.email || "";
+          const m = (user.user_metadata || {}) as { name?: string; full_name?: string };
+          aName = m.name || m.full_name || "";
+        } else {
+          const s = await fetch("/api/auth/session").then((r) => r.json()).catch(() => null);
+          if (s && s.user) { aName = s.user.name || ""; aEmail = s.user.email || ""; aImg = s.user.image || ""; }
+        }
+      } catch { /* not logged in */ }
+      setAuth({ name: aName, email: aEmail, image: aImg });
+      if (aName) setProfile((p) => (p.name ? p : { ...p, name: aName }));
+    })();
   }, []);
 
   const saveProfile = async () => {
@@ -74,6 +95,16 @@ export default function AccountPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const logout = async () => {
+    try {
+      await supabaseBrowser.auth.signOut();
+      const { signOut } = await import("next-auth/react");
+      await signOut({ redirect: false });
+    } catch { /* ignore */ }
+    localStorage.removeItem("av_profile");
+    router.push("/login");
   };
 
   const addVaccine = () => {
@@ -106,7 +137,7 @@ export default function AccountPage() {
           <BackButton size={20} />
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Mera Account</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{profile.name || "Aapka Naam"}</h1>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{profile.name || auth.name || "Aapka Naam"}</h1>
           </div>
           {tab === "profile" && (
             <button onClick={editing ? saveProfile : () => setEditing(true)} disabled={saving} style={{ background: editing ? "rgba(0,230,118,0.1)" : "transparent", border: `1px solid ${editing ? "rgba(0,230,118,0.3)" : "var(--border)"}`, color: editing ? "#00E676" : "var(--text-2)", padding: "6px 16px", borderRadius: 100, fontSize: 13, cursor: "pointer", fontFamily: "var(--font-body)", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
@@ -117,10 +148,16 @@ export default function AccountPage() {
         </div>
 
         <GlassCard accent="#00E676" lift={false} style={{ padding: 24, marginBottom: 18, textAlign: "center" }}>
-          <div style={{ width: 72, height: 72, borderRadius: "50%", background: "linear-gradient(135deg,#00E676,#00B4D8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, color: "#04060D", fontWeight: 800, margin: "0 auto 12px", boxShadow: "0 0 24px rgba(0,230,118,0.2)" }}>
-            {profile.name ? profile.name[0].toUpperCase() : <User size={28} color="#04060D" strokeWidth={1.8} />}
-          </div>
-          <div style={{ fontSize: 20, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{profile.name || "Aapka Naam"}</div>
+          {auth.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={auth.image} alt="" width={72} height={72} style={{ borderRadius: "50%", objectFit: "cover", margin: "0 auto 12px", display: "block", boxShadow: "0 0 24px rgba(0,230,118,0.2)" }} />
+          ) : (
+            <div style={{ width: 72, height: 72, borderRadius: "50%", background: "linear-gradient(135deg,#00E676,#00B4D8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, color: "#04060D", fontWeight: 800, margin: "0 auto 12px", boxShadow: "0 0 24px rgba(0,230,118,0.2)" }}>
+              {(profile.name || auth.name) ? (profile.name || auth.name)[0].toUpperCase() : <User size={28} color="#04060D" strokeWidth={1.8} />}
+            </div>
+          )}
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{profile.name || auth.name || "Aapka Naam"}</div>
+          {auth.email && <div style={{ fontSize: 12, color: "var(--text-2)", marginTop: 5, fontFamily: "var(--font-body)" }}>{auth.email}</div>}
           <div style={{ fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 4 }}>
             {profile.village && `${profile.village}, `}{profile.district}
           </div>
@@ -162,7 +199,7 @@ export default function AccountPage() {
               <div style={{ fontSize: 12, color: "var(--text-3)", marginBottom: 14, lineHeight: 1.6 }}>Koi bhi emergency mein 108 call karein · AI automatically location bhejta hai.</div>
               <a href="tel:108" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, background: "rgba(255,71,87,0.12)", border: "1px solid rgba(255,71,87,0.3)", borderRadius: 12, padding: "13px", textAlign: "center", color: "#FF4757", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 15 }}><Phone size={16} color="#FF4757" strokeWidth={1.8} />108 Call Karein</a>
             </GlassCard>
-            <button onClick={() => { localStorage.removeItem("av_profile"); router.push("/login"); }} style={{ width: "100%", marginTop: 12, background: "transparent", border: "1px solid var(--border)", borderRadius: 12, padding: "12px", color: "var(--text-3)", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13 }}>Logout</button>
+            <button onClick={logout} style={{ width: "100%", marginTop: 12, background: "transparent", border: "1px solid var(--border)", borderRadius: 12, padding: "12px", color: "var(--text-3)", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13 }}>Logout</button>
           </div>
         )}
 
