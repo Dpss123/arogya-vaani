@@ -6,6 +6,7 @@ import { FileText, Siren, User, Paperclip, Mic, Square, ArrowRight, Stethoscope 
 import LangSelect from "@/components/LangSelect";
 import BackButton from "@/components/ui/BackButton";
 import { getLang } from "@/lib/lang";
+import { useT } from "@/components/LanguageProvider";
 
 type Message = { id: string; role: "patient" | "ai"; content: string; time: string; };
 
@@ -19,9 +20,10 @@ function AiAvatar({ size = 32 }: { size?: number }) {
 
 export default function ChatPage() {
   const router = useRouter();
+  const { t } = useT();
   const [messages, setMessages] = useState<Message[]>([{
     id: "1", role: "ai",
-    content: "Namaskar! Main Arogya Vaani AI hoon.\n\nApni sehat ki koi bhi baat poochhein, Hindi ya English mein.\n\nReport bhejne ke liye neeche clip button, aur bolne ke liye mic button dabayein.\n\nYeh AI advice hai, serious symptoms mein 108 call karein.",
+    content: t("Namaskar! Main Arogya Vaani AI hoon.\n\nApni sehat ki koi bhi baat poochhein, Hindi ya English mein.\n\nReport bhejne ke liye neeche clip button, aur bolne ke liye mic button dabayein.\n\nYeh AI advice hai, serious symptoms mein 108 call karein."),
     time: new Date().toLocaleTimeString("hi-IN", { hour: "2-digit", minute: "2-digit" })
   }]);
   const [input, setInput] = useState("");
@@ -45,15 +47,15 @@ export default function ChatPage() {
     try {
       const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text, history: messages.slice(-6), lang: getLang() }) });
       const data = await res.json();
-      addMessage("ai", data.reply || "Kuch problem aayi. Dobara try karein.");
-    } catch { addMessage("ai", "Network error. Please check connection."); }
+      addMessage("ai", data.reply || t("Kuch problem aayi. Dobara try karein."));
+    } catch { addMessage("ai", t("Network error. Please check connection.")); }
     finally { setLoading(false); }
   };
 
   const handleVoice = () => {
     const w = window as Window & { SpeechRecognition?: new() => { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: { results: { [k: number]: { [k: number]: { transcript: string } } } }) => void) | null; onend: (() => void) | null; onerror: (() => void) | null; start: () => void; stop: () => void; }; webkitSpeechRecognition?: new() => { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: { results: { [k: number]: { [k: number]: { transcript: string } } } }) => void) | null; onend: (() => void) | null; onerror: (() => void) | null; start: () => void; stop: () => void; } };
     const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
-    if (!SR) { toast.error("Chrome use karein voice ke liye"); return; }
+    if (!SR) { toast.error(t("Chrome use karein voice ke liye")); return; }
     if (isListening) { setIsListening(false); return; }
     const recognition = new SR();
     recognition.lang = "hi-IN";
@@ -61,7 +63,7 @@ export default function ChatPage() {
     recognition.interimResults = false;
     recognition.onresult = (e) => { setInput(e.results[0][0].transcript); setIsListening(false); };
     recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => { toast.error("Mic access do"); setIsListening(false); };
+    recognition.onerror = () => { toast.error(t("Mic access do")); setIsListening(false); };
     recognition.start();
     setIsListening(true);
   };
@@ -76,8 +78,8 @@ export default function ChatPage() {
     try {
       const res = await fetch("/api/report", { method: "POST", body: formData });
       const data = await res.json();
-      addMessage("ai", data.summary || "Report padh nahi paya.");
-    } catch { addMessage("ai", "Report upload mein problem aayi."); }
+      addMessage("ai", data.summary || t("Report padh nahi paya."));
+    } catch { addMessage("ai", t("Report upload mein problem aayi.")); }
     finally { setUploadingReport(false); if (fileRef.current) fileRef.current.value = ""; }
   };
 
@@ -89,16 +91,16 @@ export default function ChatPage() {
         <BackButton size={19} style={{ flexShrink: 0 }} />
         <AiAvatar size={36} />
         <div style={{ minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(17px,2.2vw,21px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: 0 }}>Arogya Vaani AI</h1>
+          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(17px,2.2vw,21px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: 0 }}>{t("Arogya Vaani AI")}</h1>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 1 }}>
             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#00E676", boxShadow: "0 0 8px #00E676", animation: "heartbeat 1.8s infinite" }} />
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.06em" }}>Online · Hindi + English</span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.06em" }}>{t("Online · Hindi + English")}</span>
           </div>
         </div>
         <div className="m-wrap" style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
           <LangSelect />
-          <button onClick={() => router.push("/report")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(0,230,118,0.08)", border: "1px solid rgba(0,230,118,0.15)", color: "#00E676", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><FileText size={14} /> Report</button>
-          <button onClick={() => router.push("/emergency")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,71,87,0.08)", border: "1px solid rgba(255,71,87,0.2)", color: "#FF4757", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><Siren size={14} /> Emergency</button>
+          <button onClick={() => router.push("/report")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(0,230,118,0.08)", border: "1px solid rgba(0,230,118,0.15)", color: "#00E676", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><FileText size={14} /> {t("Report")}</button>
+          <button onClick={() => router.push("/emergency")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,71,87,0.08)", border: "1px solid rgba(255,71,87,0.2)", color: "#FF4757", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><Siren size={14} /> {t("Emergency")}</button>
           <button onClick={() => router.push("/account")} style={{ display: "flex", alignItems: "center", background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", padding: 8, borderRadius: 100, cursor: "pointer" }}><User size={15} /></button>
         </div>
       </div>
@@ -129,7 +131,7 @@ export default function ChatPage() {
       {messages.length <= 1 && (
         <div style={{ padding: "0 clamp(16px,4vw,28px) 12px", display: "flex", gap: 8, overflowX: "auto", flexShrink: 0, maxWidth: 720, width: "100%", margin: "0 auto" }}>
           {quickActions.map(action => (
-            <button key={action} onClick={() => sendMessage(action)} style={{ background: "rgba(0,230,118,0.06)", border: "1px solid rgba(0,230,118,0.15)", color: "#00E676", padding: "8px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "var(--font-body)", flexShrink: 0 }}>{action}</button>
+            <button key={action} onClick={() => sendMessage(action)} style={{ background: "rgba(0,230,118,0.06)", border: "1px solid rgba(0,230,118,0.15)", color: "#00E676", padding: "8px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "var(--font-body)", flexShrink: 0 }}>{t(action)}</button>
           ))}
         </div>
       )}
@@ -141,14 +143,14 @@ export default function ChatPage() {
             {uploadingReport ? <div style={{ width: 16, height: 16, border: "2px solid rgba(0,230,118,0.3)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /> : <Paperclip size={18} />}
           </button>
           <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 24, padding: "10px 16px" }}>
-            <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }} placeholder="Apni problem batayein..." rows={1} style={{ width: "100%", background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", resize: "none", lineHeight: 1.5 }} />
+            <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }} placeholder={t("Apni problem batayein...")} rows={1} style={{ width: "100%", background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", resize: "none", lineHeight: 1.5 }} />
           </div>
           <button onClick={handleVoice} style={{ width: 44, height: 44, borderRadius: "50%", background: isListening ? "rgba(255,71,87,0.15)" : "rgba(255,255,255,0.03)", border: `1px solid ${isListening ? "rgba(255,71,87,0.4)" : "var(--border)"}`, color: isListening ? "#FF4757" : "var(--text-2)", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
             {isListening ? <Square size={16} fill="currentColor" /> : <Mic size={18} />}
           </button>
           <button onClick={() => sendMessage(input)} disabled={!input.trim() || loading} style={{ width: 44, height: 44, borderRadius: "50%", background: input.trim() && !loading ? "linear-gradient(135deg,#00E676,#00C4FF)" : "rgba(255,255,255,0.03)", border: "none", color: input.trim() && !loading ? "#04060D" : "var(--text-3)", cursor: input.trim() && !loading ? "pointer" : "not-allowed", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}><ArrowRight size={18} /></button>
         </div>
-        <div style={{ textAlign: "center", marginTop: 8, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>AI ADVICE · EMERGENCY → 108</div>
+        <div style={{ textAlign: "center", marginTop: 8, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t("AI ADVICE · EMERGENCY → 108")}</div>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}@keyframes wave{0%,100%{transform:scale(0.5)}50%{transform:scale(1)}}`}</style>
     </div>

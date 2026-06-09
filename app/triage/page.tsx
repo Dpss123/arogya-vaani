@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import GlassCard from "@/components/ui/GlassCard";
 import { Smile, Stethoscope, Siren, AlertTriangle, Clock } from "lucide-react";
 import BackButton from "@/components/ui/BackButton";
+import { useT } from "@/components/LanguageProvider";
 
 type TriageData = {
   verdict: "rest" | "clinic" | "emergency";
@@ -25,6 +26,7 @@ function TriageContent() {
   const [questions, setQuestions] = useState<string[] | null>(null);
   const [answers, setAnswers] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const { t } = useT();
 
   useEffect(() => {
     if (!symptoms) { router.push("/chat"); return; }
@@ -78,7 +80,7 @@ function TriageContent() {
   if (loading) return (
     <div style={{ minHeight: "100vh", background: "#06090f", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
       <div style={{ width: 48, height: 48, border: "3px solid rgba(0,230,118,0.2)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-      <p style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 13 }}>AI triage kar raha hai...</p>
+      <p style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 13 }}>{t("AI triage kar raha hai...")}</p>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
   );
@@ -89,20 +91,20 @@ function TriageContent() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
           <BackButton size={20} />
           <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>AI Triage</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "4px 0 0" }}>Kuch Aur Batayein</h1>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{t("AI Triage")}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "4px 0 0" }}>{t("Kuch Aur Batayein")}</h1>
           </div>
         </div>
         <GlassCard accent="#00E676" lift={false} style={{ padding: 24 }}>
-          <div style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.7, marginBottom: 20 }}>Sahi salah ke liye AI ko 1-2 baatein aur jaanni hain:</div>
+          <div style={{ fontSize: 13, color: "var(--text-3)", lineHeight: 1.7, marginBottom: 20 }}>{t("Sahi salah ke liye AI ko 1-2 baatein aur jaanni hain:")}</div>
           {questions.map((q, i) => (
             <div key={i} style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 14, color: "#F0F4FF", marginBottom: 8 }}>{q}</div>
-              <input value={answers[i] || ""} onChange={e => { const a = [...answers]; a[i] = e.target.value; setAnswers(a); }} placeholder="Aapka jawab..." style={{ width: "100%", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 12, padding: "12px 14px", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", outline: "none" }} />
+              <div style={{ fontSize: 14, color: "#F0F4FF", marginBottom: 8 }}>{t(q)}</div>
+              <input value={answers[i] || ""} onChange={e => { const a = [...answers]; a[i] = e.target.value; setAnswers(a); }} placeholder={t("Aapka jawab...")} style={{ width: "100%", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 12, padding: "12px 14px", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", outline: "none" }} />
             </div>
           ))}
           <button onClick={submitAnswers} disabled={submitting} style={{ width: "100%", marginTop: 8, background: submitting ? "rgba(255,255,255,0.025)" : "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "15px", color: submitting ? "var(--text-3)" : "#04060D", fontSize: 15, fontWeight: 600, cursor: submitting ? "not-allowed" : "pointer", fontFamily: "var(--font-body)" }}>
-            {submitting ? "AI soch raha hai..." : "Aage Badho → Triage Dekho"}
+            {submitting ? t("AI soch raha hai...") : t("Aage Badho → Triage Dekho")}
           </button>
         </GlassCard>
       </div>
@@ -113,8 +115,8 @@ function TriageContent() {
   if (!triage) return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ textAlign: "center" }}>
-        <p style={{ color: "var(--text-3)", marginBottom: 16 }}>Kuch problem aayi.</p>
-        <button onClick={() => router.push("/chat")} style={{ background: "linear-gradient(135deg,#00E676,#00C4FF)", color: "#04060D", border: "none", padding: "12px 24px", borderRadius: 100, cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: 600 }}>Wapis Jao</button>
+        <p style={{ color: "var(--text-3)", marginBottom: 16 }}>{t("Kuch problem aayi.")}</p>
+        <button onClick={() => router.push("/chat")} style={{ background: "linear-gradient(135deg,#00E676,#00C4FF)", color: "#04060D", border: "none", padding: "12px 24px", borderRadius: 100, cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: 600 }}>{t("Wapis Jao")}</button>
       </div>
     </div>
   );
@@ -128,8 +130,8 @@ function TriageContent() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
           <BackButton size={20} />
           <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>AI Triage</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "4px 0 0" }}>Triage Result</h1>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{t("AI Triage")}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "4px 0 0" }}>{t("Triage Result")}</h1>
           </div>
         </div>
 
@@ -143,7 +145,7 @@ function TriageContent() {
                 : <Siren size={56} color={colors[c]} strokeWidth={1.8} />}
           </div>
           <div style={{ fontSize: 22, fontWeight: 800, color: colors[c], fontFamily: "var(--font-display)", letterSpacing: "-0.02em", marginBottom: 12 }}>
-            {labels[triage.verdict]}
+            {t(labels[triage.verdict])}
           </div>
           <div style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.75 }}>
             {triage.hindi_advice}
@@ -152,14 +154,14 @@ function TriageContent() {
 
         {/* SYMPTOMS */}
         <GlassCard accent="#00C4FF" lift={false} style={{ padding: 20, marginBottom: 16 }}>
-          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.08em", marginBottom: 8 }}>AAPKE SYMPTOMS</div>
+          <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.08em", marginBottom: 8 }}>{t("AAPKE SYMPTOMS")}</div>
           <div style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.6, fontStyle: "italic" }}>&quot;{symptoms}&quot;</div>
         </GlassCard>
 
         {/* WARNING SIGNS */}
         {triage.warning_signs?.length > 0 && (
           <GlassCard accent="#fbbf24" lift={false} style={{ padding: 20, marginBottom: 16 }}>
-            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#fbbf24", letterSpacing: "0.08em", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}><AlertTriangle size={14} color="#fbbf24" strokeWidth={1.8} />IN SIGNS PE DHYAN DEIN</div>
+            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#fbbf24", letterSpacing: "0.08em", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}><AlertTriangle size={14} color="#fbbf24" strokeWidth={1.8} />{t("IN SIGNS PE DHYAN DEIN")}</div>
             {triage.warning_signs.map((sign, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 8, fontSize: 13, color: "var(--text-2)" }}>
                 <span style={{ color: "#fbbf24", flexShrink: 0 }}>•</span>{sign}
@@ -172,9 +174,9 @@ function TriageContent() {
         <GlassCard accent={colors[c]} lift={false} style={{ padding: 18, marginBottom: 20, display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{ display: "flex", flexShrink: 0 }}><Clock size={28} color={colors[c]} strokeWidth={1.8} /></div>
           <div>
-            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 4 }}>DOCTOR SE MILEIN</div>
+            <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 4 }}>{t("DOCTOR SE MILEIN")}</div>
             <div style={{ fontSize: 15, fontWeight: 600, color: colors[c] }}>
-              {triage.see_doctor_within === "today" ? "Aaj hi" : triage.see_doctor_within === "24hours" ? "24 ghante mein" : triage.see_doctor_within === "week" ? "Is hafte mein" : "Zaroorat nahi · ghar pe aaram"}
+              {triage.see_doctor_within === "today" ? t("Aaj hi") : triage.see_doctor_within === "24hours" ? t("24 ghante mein") : triage.see_doctor_within === "week" ? t("Is hafte mein") : t("Zaroorat nahi · ghar pe aaram")}
             </div>
           </div>
         </GlassCard>
@@ -183,19 +185,19 @@ function TriageContent() {
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {(triage.call_108 || triage.verdict === "emergency" || triage.urgency_color === "red") && (
             <a href="tel:108" style={{ display: "block", background: "rgba(255,71,87,0.9)", border: "none", borderRadius: 100, padding: "16px", textAlign: "center", textDecoration: "none", color: "#fff", fontSize: 18, fontWeight: 800, fontFamily: "var(--font-body)", boxShadow: "0 0 32px rgba(255,71,87,0.4)" }}>
-              🚨 108 ABHI CALL KAREIN
+              🚨 {t("108 ABHI CALL KAREIN")}
             </a>
           )}
           <button onClick={() => router.push("/doctors")} style={{ background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "14px", color: "#04060D", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>
-            📍 Nearest Doctor Dhundho
+            📍 {t("Nearest Doctor Dhundho")}
           </button>
           <button onClick={() => router.push("/chat")} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 100, padding: "14px", color: "var(--text-2)", fontSize: 14, cursor: "pointer", fontFamily: "var(--font-body)" }}>
-            💬 Aur Sawaal Poochhein
+            💬 {t("Aur Sawaal Poochhein")}
           </button>
         </div>
 
         <div style={{ marginTop: 20, padding: "14px 18px", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 12, color: "var(--text-3)", textAlign: "center", lineHeight: 1.6, fontFamily: "var(--font-mono)" }}>
-          ⚠️ YEH AI TRIAGE HAI · FINAL DIAGNOSIS KE LIYE DOCTOR SE MILEIN
+          ⚠️ {t("YEH AI TRIAGE HAI · FINAL DIAGNOSIS KE LIYE DOCTOR SE MILEIN")}
         </div>
       </div>
       <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}`}</style>

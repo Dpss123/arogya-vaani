@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Siren, Building2, Smile, MessageCircle, Sparkles, X } from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import Counter from "@/components/ui/Counter";
+import { useT } from "@/components/LanguageProvider";
 
 type Patient = {
   id: string; phone: string; name?: string;
@@ -25,6 +26,7 @@ export default function DashboardPage() {
   const [stats, setStats] = useState({ total: 0, emergency: 0, clinic: 0, rest: 0 });
   const [aiBrief, setAiBrief] = useState<string | null>(null);
   const [briefLoading, setBriefLoading] = useState(false);
+  const { t } = useT();
 
   const getBrief = async (phone: string) => {
     setBriefLoading(true); setAiBrief(null);
@@ -35,9 +37,9 @@ export default function DashboardPage() {
         body: JSON.stringify({ phone }),
       });
       const data = await res.json();
-      setAiBrief(data.brief || "Brief nahi bana.");
+      setAiBrief(data.brief || t("Brief nahi bana."));
     } catch {
-      setAiBrief("Brief nahi bana. Dobara try karein.");
+      setAiBrief(t("Brief nahi bana. Dobara try karein."));
     } finally {
       setBriefLoading(false);
     }
@@ -76,12 +78,12 @@ export default function DashboardPage() {
     <div style={{ minHeight: "100vh", padding: "32px clamp(20px,4vw,40px) 100px", maxWidth: 1200, margin: "0 auto" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
         <div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>HARIDWAR DISTRICT</div>
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px,3.5vw,38px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "5px 0 0" }}>Doctor Dashboard</h1>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>{t("HARIDWAR DISTRICT")}</div>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px,3.5vw,38px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "5px 0 0" }}>{t("Doctor Dashboard")}</h1>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 14px", borderRadius: 100, border: "1px solid rgba(0,230,118,0.25)", background: "rgba(0,230,118,0.06)" }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00E676", boxShadow: "0 0 8px #00E676", animation: "heartbeat 1.8s infinite" }} />
-          <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#00E676", letterSpacing: "0.06em" }}>LIVE</span>
+          <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#00E676", letterSpacing: "0.06em" }}>{t("LIVE")}</span>
         </div>
       </div>
 
@@ -89,7 +91,7 @@ export default function DashboardPage() {
         {([["Total", stats.total, "#F0F4FF"], ["Emergency", stats.emergency, "#FF4757"], ["Clinic", stats.clinic, "#fbbf24"], ["Aaram", stats.rest, "#00E676"]] as const).map(([l, v, c]) => (
           <GlassCard key={l} accent={c} lift={false} style={{ padding: "16px 18px" }}>
             <div style={{ fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 800, color: c, letterSpacing: "-0.03em" }}><Counter to={v} /></div>
-            <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 3, letterSpacing: "0.04em" }}>{l}</div>
+            <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 3, letterSpacing: "0.04em" }}>{t(l)}</div>
           </GlassCard>
         ))}
       </div>
@@ -97,7 +99,7 @@ export default function DashboardPage() {
       <div style={{ display: "flex", gap: 8, marginBottom: 18, flexWrap: "wrap" }}>
         {(["all", "emergency", "clinic", "rest"] as const).map((f) => (
           <button key={f} onClick={() => setFilter(f)} style={{ padding: "7px 16px", borderRadius: 100, border: `1px solid ${filter === f ? (f === "all" ? "#00E676" : vc(f)) : "var(--border)"}`, background: filter === f ? `${f === "all" ? "#00E676" : vc(f)}15` : "transparent", color: filter === f ? (f === "all" ? "#00E676" : vc(f)) : "var(--text-2)", fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)", textTransform: "capitalize" }}>
-            {f === "all" ? "Sab" : f === "emergency" ? "Emergency" : f === "clinic" ? "Clinic" : "Ghar Pe"}
+            {f === "all" ? t("Sab") : f === "emergency" ? t("Emergency") : f === "clinic" ? t("Clinic") : t("Ghar Pe")}
           </button>
         ))}
       </div>
@@ -122,7 +124,7 @@ export default function DashboardPage() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
                     <span style={{ fontSize: 14, fontWeight: 600, color: "#F0F4FF" }}>{p.name || p.phone}</span>
-                    <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 100, background: `${vc(p.verdict)}15`, color: vc(p.verdict), fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>{vl(p.verdict)}</span>
+                    <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 100, background: `${vc(p.verdict)}15`, color: vc(p.verdict), fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>{t(vl(p.verdict))}</span>
                   </div>
                   <div style={{ fontSize: 12, color: "var(--text-3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.symptoms}</div>
                 </div>
@@ -135,31 +137,31 @@ export default function DashboardPage() {
         {selected && (
           <GlassCard lift={false} style={{ padding: 22, height: "fit-content", position: "sticky", top: 24 }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 18 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>Patient Brief</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{t("Patient Brief")}</div>
               <button onClick={() => setSelected(null)} style={{ background: "transparent", border: "none", color: "var(--text-3)", cursor: "pointer", display: "flex", alignItems: "center", padding: 0 }}><X size={16} strokeWidth={1.8} /></button>
             </div>
             <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: 14, marginBottom: 14 }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)", marginBottom: 3 }}>{selected.name || "Patient"}</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)", marginBottom: 3 }}>{selected.name || t("Patient")}</div>
               <div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{selected.phone}</div>
             </div>
             <div style={{ background: `${vc(selected.verdict)}08`, border: `1px solid ${vc(selected.verdict)}25`, borderRadius: 12, padding: 14, marginBottom: 14 }}>
-              <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: vc(selected.verdict), letterSpacing: "0.08em", marginBottom: 6 }}>AI TRIAGE</div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: vc(selected.verdict), marginBottom: 6 }}>{vl(selected.verdict)}</div>
+              <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: vc(selected.verdict), letterSpacing: "0.08em", marginBottom: 6 }}>{t("AI TRIAGE")}</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: vc(selected.verdict), marginBottom: 6 }}>{t(vl(selected.verdict))}</div>
               <div style={{ fontSize: 12, color: "var(--text-2)", lineHeight: 1.6 }}>{selected.symptoms}</div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <button onClick={() => window.open(`https://wa.me/${selected.phone.replace(/\D/g, "")}`, "_blank")} style={{ width: "100%", background: "#25D366", border: "none", borderRadius: 12, padding: "12px", color: "#fff", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><MessageCircle size={15} color="#fff" strokeWidth={1.8} />WhatsApp Bhejo</button>
+              <button onClick={() => window.open(`https://wa.me/${selected.phone.replace(/\D/g, "")}`, "_blank")} style={{ width: "100%", background: "#25D366", border: "none", borderRadius: 12, padding: "12px", color: "#fff", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><MessageCircle size={15} color="#fff" strokeWidth={1.8} />{t("WhatsApp Bhejo")}</button>
               {selected.verdict === "emergency" && (
-                <button style={{ width: "100%", background: "rgba(255,71,87,0.1)", border: "1px solid rgba(255,71,87,0.3)", borderRadius: 12, padding: "12px", color: "#FF4757", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />108 Alert Bhejo</button>
+                <button style={{ width: "100%", background: "rgba(255,71,87,0.1)", border: "1px solid rgba(255,71,87,0.3)", borderRadius: 12, padding: "12px", color: "#FF4757", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />{t("108 Alert Bhejo")}</button>
               )}
               <button onClick={() => getBrief(selected.phone)} disabled={briefLoading} style={{ width: "100%", background: briefLoading ? "rgba(255,255,255,0.04)" : "rgba(0,180,216,0.12)", border: "1px solid rgba(0,180,216,0.3)", borderRadius: 12, padding: "12px", color: briefLoading ? "var(--text-3)" : "#00B4D8", fontWeight: 600, cursor: briefLoading ? "not-allowed" : "pointer", fontFamily: "var(--font-body)", fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                 <Sparkles size={15} color={briefLoading ? "var(--text-3)" : "#00B4D8"} strokeWidth={1.8} />
-                {briefLoading ? "AI brief bana raha hai..." : "AI Patient Brief"}
+                {briefLoading ? t("AI brief bana raha hai...") : t("AI Patient Brief")}
               </button>
             </div>
             {aiBrief && (
               <div style={{ marginTop: 14, background: "rgba(0,180,216,0.05)", border: "1px solid rgba(0,180,216,0.2)", borderRadius: 12, padding: 14 }}>
-                <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#00B4D8", letterSpacing: "0.06em", marginBottom: 8, display: "flex", alignItems: "center", gap: 5 }}><Sparkles size={13} color="#00B4D8" strokeWidth={1.8} />60-SECOND AI BRIEF</div>
+                <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#00B4D8", letterSpacing: "0.06em", marginBottom: 8, display: "flex", alignItems: "center", gap: 5 }}><Sparkles size={13} color="#00B4D8" strokeWidth={1.8} />{t("60-SECOND AI BRIEF")}</div>
                 <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, whiteSpace: "pre-wrap" }}>{aiBrief}</div>
               </div>
             )}

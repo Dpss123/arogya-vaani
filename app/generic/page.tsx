@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useT } from "@/components/LanguageProvider";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
 import { Pill, Search, IndianRupee, Building2, AlertTriangle } from "lucide-react";
@@ -14,6 +15,7 @@ export default function GenericPage() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Generic | null>(null);
+  const { t } = useT();
 
   const search = async () => {
     if (!name.trim() || loading) return;
@@ -25,10 +27,10 @@ export default function GenericPage() {
         body: JSON.stringify({ medicineName: name.trim() }),
       });
       const data = await res.json();
-      if (!res.ok || data.error) setResult({ error: "Jaankari nahi mil paayi. Dobara try karein." });
+      if (!res.ok || data.error) setResult({ error: t("Jaankari nahi mil paayi. Dobara try karein.") });
       else setResult(data);
     } catch {
-      setResult({ error: "Jaankari nahi mil paayi. Dobara try karein." });
+      setResult({ error: t("Jaankari nahi mil paayi. Dobara try karein.") });
     } finally {
       setLoading(false);
     }
@@ -40,17 +42,17 @@ export default function GenericPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
           <BackButton size={20} />
           <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Branded ka sasta Jan Aushadhi alternative</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>Sasti Generic Dawai</h1>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{t("Branded ka sasta Jan Aushadhi alternative")}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{t("Sasti Generic Dawai")}</h1>
           </div>
         </div>
 
         <GlassCard accent="#00E676" lift={false} style={{ padding: "14px 18px", marginBottom: 12, display: "flex", gap: 12, alignItems: "center" }}>
           <Pill size={24} color="#00E676" strokeWidth={1.8} />
-          <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && name.trim()) search(); }} placeholder="Branded medicine ka naam (e.g. Crocin, Dolo)" style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 15, fontFamily: "var(--font-body)" }} autoFocus />
+          <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && name.trim()) search(); }} placeholder={t("Branded medicine ka naam (e.g. Crocin, Dolo)")} style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 15, fontFamily: "var(--font-body)" }} autoFocus />
         </GlassCard>
         <button onClick={search} disabled={!name.trim() || loading} style={{ width: "100%", background: name.trim() && !loading ? "linear-gradient(135deg,#00E676,#00C4FF)" : "rgba(255,255,255,0.025)", border: name.trim() && !loading ? "none" : "1px solid var(--border)", borderRadius: 100, padding: "15px", fontSize: 15, fontWeight: 600, color: name.trim() && !loading ? "#04060D" : "var(--text-3)", cursor: name.trim() && !loading ? "pointer" : "not-allowed", fontFamily: "var(--font-body)", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-          {loading ? "Dhundh raha hai..." : (<><Search size={15} color={name.trim() ? "#04060D" : "var(--text-3)"} strokeWidth={2} /> Sasta Alternative Dhundho</>)}
+          {loading ? t("Dhundh raha hai...") : (<><Search size={15} color={name.trim() ? "#04060D" : "var(--text-3)"} strokeWidth={2} /> {t("Sasta Alternative Dhundho")}</>)}
         </button>
 
         {result?.error && (
@@ -63,17 +65,17 @@ export default function GenericPage() {
           <div style={{ animation: "fadeUp 0.4s ease forwards" }}>
             <GlassCard accent="#00E676" lift={false} style={{ padding: 22, marginBottom: 14 }}>
               <div style={{ fontSize: 18, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{result.brand || name}</div>
-              <div style={{ fontSize: 13, color: "#00E676", marginTop: 2, marginBottom: 10 }}>Molecule: {result.molecule || "·"}</div>
+              <div style={{ fontSize: 13, color: "#00E676", marginTop: 2, marginBottom: 10 }}>{t("Molecule:")} {result.molecule || "·"}</div>
               {result.use && <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{result.use}</div>}
             </GlassCard>
 
             <div className="m-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
               <GlassCard accent="#FF4757" lift={false} style={{ padding: 16 }}>
-                <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 6 }}>BRANDED (approx)</div>
+                <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 6 }}>{t("BRANDED (approx)")}</div>
                 <div style={{ fontSize: 20, fontWeight: 800, color: "#FF4757", fontFamily: "var(--font-display)" }}>₹{result.brand_price_approx || "·"}</div>
               </GlassCard>
               <GlassCard accent="#00E676" lift={false} style={{ padding: 16 }}>
-                <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 6 }}>JAN AUSHADHI (approx)</div>
+                <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 6 }}>{t("JAN AUSHADHI (approx)")}</div>
                 <div style={{ fontSize: 20, fontWeight: 800, color: "#00E676", fontFamily: "var(--font-display)" }}>₹{result.generic_price_approx || "·"}</div>
               </GlassCard>
             </div>
@@ -86,13 +88,13 @@ export default function GenericPage() {
             <GlassCard accent="#00B4D8" lift={false} style={{ padding: "12px 16px", marginBottom: 14 }}>
               <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, display: "flex", gap: 8, alignItems: "flex-start" }}>
                 <Building2 size={15} color="#00B4D8" strokeWidth={1.8} style={{ flexShrink: 0, marginTop: 3 }} />
-                <span>Nearest <strong style={{ color: "#00B4D8" }}>Jan Aushadhi Kendra</strong> se generic sasti milti hai. Chemist se generic version maangein.</span>
+                <span>{t("Nearest")} <strong style={{ color: "#00B4D8" }}>{t("Jan Aushadhi Kendra")}</strong> {t("se generic sasti milti hai. Chemist se generic version maangein.")}</span>
               </div>
             </GlassCard>
             <GlassCard accent="#FF4757" lift={false} style={{ padding: "12px 16px" }}>
               <div style={{ fontSize: 12, color: "var(--text-3)", lineHeight: 1.7, display: "flex", gap: 8, alignItems: "flex-start" }}>
                 <AlertTriangle size={14} color="#FF4757" strokeWidth={1.8} style={{ flexShrink: 0, marginTop: 2 }} />
-                <span>Keemat AI estimate hai (live nahi). Medicine badalne se pehle doctor/chemist se confirm karein.</span>
+                <span>{t("Keemat AI estimate hai (live nahi). Medicine badalne se pehle doctor/chemist se confirm karein.")}</span>
               </div>
             </GlassCard>
           </div>

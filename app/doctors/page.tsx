@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useT } from "@/components/LanguageProvider";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
 import { MapPin, Search, Check, Square, Stethoscope, Building2, Clock, Star, Map } from "lucide-react";
@@ -19,6 +20,7 @@ export default function DoctorsPage() {
   const [selected, setSelected] = useState<(typeof DOCTORS)[0] | null>(null);
   const [doctors, setDoctors] = useState(DOCTORS);
   const [locating, setLocating] = useState(true);
+  const { t } = useT();
 
   // Try GPS → real nearby facilities (free OpenStreetMap). Fall back to DB,
   // then to the curated list. Never blank.
@@ -58,14 +60,14 @@ export default function DoctorsPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 26 }}>
           <BackButton size={20} />
           <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase", display: "flex", alignItems: "center", gap: 5 }}>{locating ? <><MapPin size={13} color="var(--text-3)" strokeWidth={1.8} /> Aas-paas dhundh rahe hain...</> : `${doctors.length} jagah mili · aapke aas-paas`}</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>Nearest Doctor</h1>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase", display: "flex", alignItems: "center", gap: 5 }}>{locating ? <><MapPin size={13} color="var(--text-3)" strokeWidth={1.8} /> {t("Aas-paas dhundh rahe hain...")}</> : `${doctors.length} jagah mili · aapke aas-paas`}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{t("Nearest Doctor")}</h1>
           </div>
         </div>
         {/* SEARCH */}
         <div style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 14, padding: "12px 16px", marginBottom: 14, display: "flex", gap: 10, alignItems: "center" }}>
           <Search size={18} color="var(--text-3)" strokeWidth={1.8} />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Doctor ka naam, speciality ya clinic..." style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)" }} />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={t("Doctor ka naam, speciality ya clinic...")} style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)" }} />
         </div>
 
         {/* FILTERS */}
@@ -73,12 +75,12 @@ export default function DoctorsPage() {
           <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 10 }}>
             {specialities.map(s => (
               <button key={s} onClick={() => setSpeciality(s)} style={{ padding: "6px 14px", borderRadius: 100, border: `1px solid ${speciality === s ? "rgba(0,230,118,0.4)" : "var(--border)"}`, background: speciality === s ? "rgba(0,230,118,0.1)" : "transparent", color: speciality === s ? "#00E676" : "var(--text-2)", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "var(--font-body)", transition: "all 0.2s" }}>
-                {s}
+                {t(s)}
               </button>
             ))}
           </div>
           <button onClick={() => setAyushmanOnly(!ayushmanOnly)} style={{ padding: "6px 14px", borderRadius: 100, border: `1px solid ${ayushmanOnly ? "rgba(0,230,118,0.4)" : "var(--border)"}`, background: ayushmanOnly ? "rgba(0,230,118,0.1)" : "transparent", color: ayushmanOnly ? "#00E676" : "var(--text-2)", fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)", transition: "all 0.2s", display: "inline-flex", alignItems: "center", gap: 6 }}>
-            {ayushmanOnly ? <Check size={14} color="#00E676" strokeWidth={2} /> : <Square size={14} color="var(--text-2)" strokeWidth={1.8} />} Sirf Ayushman Accepted
+            {ayushmanOnly ? <Check size={14} color="#00E676" strokeWidth={2} /> : <Square size={14} color="var(--text-2)" strokeWidth={1.8} />} {t("Sirf Ayushman Accepted")}
           </button>
         </div>
 
@@ -91,10 +93,10 @@ export default function DoctorsPage() {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
                     <span style={{ fontSize: 15, fontWeight: 700, color: "#F0F4FF" }}>{doctor.name}</span>
-                    {doctor.ayushman && <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: "rgba(0,230,118,0.1)", color: "#00E676", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>AYUSHMAN</span>}
-                    {doctor.free && <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: "rgba(0,180,216,0.1)", color: "#00B4D8", fontFamily: "var(--font-mono)" }}>FREE</span>}
+                    {doctor.ayushman && <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: "rgba(0,230,118,0.1)", color: "#00E676", fontFamily: "var(--font-mono)", letterSpacing: "0.04em" }}>{t("AYUSHMAN")}</span>}
+                    {doctor.free && <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: "rgba(0,180,216,0.1)", color: "#00B4D8", fontFamily: "var(--font-mono)" }}>{t("FREE")}</span>}
                   </div>
-                  <div style={{ fontSize: 13, color: "#00E676", marginBottom: 4 }}>{doctor.speciality}</div>
+                  <div style={{ fontSize: 13, color: "#00E676", marginBottom: 4 }}>{t(doctor.speciality)}</div>
                   <div style={{ fontSize: 12, color: "var(--text-2)", display: "flex", alignItems: "center", gap: 5 }}><Building2 size={13} color="var(--text-2)" strokeWidth={1.8} /> {doctor.clinic}</div>
                   <div style={{ fontSize: 12, color: "var(--text-3)", marginTop: 2, display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}><MapPin size={13} color="var(--text-3)" strokeWidth={1.8} /> {doctor.distance} · <Clock size={13} color="var(--text-3)" strokeWidth={1.8} /> {doctor.timing}</div>
                 </div>
@@ -107,14 +109,14 @@ export default function DoctorsPage() {
                 <div style={{ borderTop: "1px solid var(--border)", padding: "16px 20px", background: "rgba(0,230,118,0.02)" }}>
                   <div style={{ fontSize: 12, color: "var(--text-2)", marginBottom: 12, display: "flex", alignItems: "center", gap: 5 }}><MapPin size={13} color="var(--text-2)" strokeWidth={1.8} /> {doctor.address}</div>
                   <div style={{ display: "flex", gap: 10 }}>
-                    <a href={`tel:${doctor.phone}`} style={{ flex: 1, background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "12px", textAlign: "center", color: "#04060D", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14 }}>📞 Call Karein</a>
-                    <button onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(doctor.address)}`, "_blank")} style={{ flex: 1, background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 100, padding: "12px", color: "#F0F4FF", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14 }}>🗺️ Directions</button>
+                    <a href={`tel:${doctor.phone}`} style={{ flex: 1, background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "12px", textAlign: "center", color: "#04060D", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14 }}>📞 {t("Call Karein")}</a>
+                    <button onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(doctor.address)}`, "_blank")} style={{ flex: 1, background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 100, padding: "12px", color: "#F0F4FF", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14 }}>🗺️ {t("Directions")}</button>
                   </div>
                   {(() => {
                     // Only show WhatsApp for a valid 10-digit Indian mobile (landlines/STD numbers have no WhatsApp).
                     const wa = doctor.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^91/, "");
                     return /^[6-9]\d{9}$/.test(wa) ? (
-                      <a href={`https://wa.me/91${wa}?text=${encodeURIComponent("Namaste, mujhe appointment chahiye. (Arogya Vaani)")}`} target="_blank" rel="noreferrer" style={{ display: "block", marginTop: 10, background: "#25D366", borderRadius: 100, padding: "12px", textAlign: "center", color: "#fff", fontWeight: 600, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14 }}>💬 WhatsApp Pe Appointment Maango</a>
+                      <a href={`https://wa.me/91${wa}?text=${encodeURIComponent("Namaste, mujhe appointment chahiye. (Arogya Vaani)")}`} target="_blank" rel="noreferrer" style={{ display: "block", marginTop: 10, background: "#25D366", borderRadius: 100, padding: "12px", textAlign: "center", color: "#fff", fontWeight: 600, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14 }}>💬 {t("WhatsApp Pe Appointment Maango")}</a>
                     ) : null;
                   })()}
                 </div>
@@ -125,7 +127,7 @@ export default function DoctorsPage() {
           {filtered.length === 0 && (
             <div style={{ textAlign: "center", padding: "48px 24px", color: "var(--text-3)" }}>
               <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
-              <p>Koi doctor nahi mila. Search change karein.</p>
+              <p>{t("Koi doctor nahi mila. Search change karein.")}</p>
             </div>
           )}
         </div>
@@ -134,10 +136,10 @@ export default function DoctorsPage() {
         <GlassCard accent="#FF4757" lift={false} style={{ marginTop: 20, padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ fontSize: 28 }}>🚨</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 2 }}>Emergency hai?</div>
-            <div style={{ fontSize: 12, color: "var(--text-3)" }}>Doctor dhundne ka wait mat karo</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 2 }}>{t("Emergency hai?")}</div>
+            <div style={{ fontSize: 12, color: "var(--text-3)" }}>{t("Doctor dhundne ka wait mat karo")}</div>
           </div>
-          <a href="tel:108" style={{ background: "rgba(255,71,87,0.9)", color: "#fff", border: "none", borderRadius: 100, padding: "10px 20px", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14, flexShrink: 0 }}>108 Call</a>
+          <a href="tel:108" style={{ background: "rgba(255,71,87,0.9)", color: "#fff", border: "none", borderRadius: 100, padding: "10px 20px", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14, flexShrink: 0 }}>{t("108 Call")}</a>
         </GlassCard>
       </div>
     </div>

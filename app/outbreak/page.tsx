@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
+import { useT } from "@/components/LanguageProvider";
 import { Brain, Map, Activity, AlertTriangle, TrendingUp, MapPin, Check, X, Siren, Sparkles } from "lucide-react";
 
 type Cluster = { id: string; location: string; disease: string; cases: number; risk: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; pincode: string; last_reported: string | null; alert_sent: boolean; };
@@ -20,6 +21,7 @@ const RISK_BG = { LOW: "rgba(0,230,118,0.06)", MEDIUM: "rgba(251,191,36,0.06)", 
 const RISK_RGB: Record<string, string> = { LOW: "0,230,118", MEDIUM: "251,191,36", HIGH: "249,115,22", CRITICAL: "255,71,87" };
 
 export default function OutbreakPage() {
+  const { t } = useT();
   const [selected, setSelected] = useState<Cluster | null>(null);
   const [filter, setFilter] = useState<"ALL" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW">("ALL");
   const [clusters, setClusters] = useState<Cluster[]>(MOCK_CLUSTERS);
@@ -48,7 +50,7 @@ export default function OutbreakPage() {
       if (!res.ok || data.error) throw new Error("failed");
       setAiResult(data);
     } catch {
-      setAiResult({ recommended_action: "AI analysis nahi ho paaya. Dobara try karein." });
+      setAiResult({ recommended_action: t("AI analysis nahi ho paaya. Dobara try karein.") });
     } finally {
       setAiLoading(false);
     }
@@ -66,7 +68,7 @@ export default function OutbreakPage() {
     } catch {
       // Roll back the optimistic "Sent!" so we never falsely confirm.
       setAlertedIds(prev => { const n = new Set(prev); n.delete(c.id); return n; });
-      toast.error("DHO alert nahi gaya. Login karein ya dobara try karein.");
+      toast.error(t("DHO alert nahi gaya. Login karein ya dobara try karein."));
     }
   };
 
@@ -84,13 +86,13 @@ export default function OutbreakPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <BackButton size={20} />
           <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Real-time disease surveillance · Uttarakhand</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px,4vw,38px)", fontWeight: 800, letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>Outbreak Detection</h1>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{t("Real-time disease surveillance · Uttarakhand")}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px,4vw,38px)", fontWeight: 800, letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{t("Outbreak Detection")}</h1>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 14px", borderRadius: 100, border: "1px solid rgba(255,71,87,0.25)", background: "rgba(255,71,87,0.06)" }}>
           <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#FF4757", boxShadow: "0 0 8px #FF4757", animation: "pulse 1.5s infinite" }} />
-          <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#FF4757", letterSpacing: "0.06em" }}>LIVE</span>
+          <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#FF4757", letterSpacing: "0.06em" }}>{t("LIVE")}</span>
         </div>
       </div>
 
@@ -106,7 +108,7 @@ export default function OutbreakPage() {
           ].map(stat => (
             <GlassCard key={stat.label} accent={stat.color} lift={false} style={{ padding: "18px 20px" }}>
               <div style={{ fontSize: 28, fontWeight: 800, color: stat.color, fontFamily: "var(--font-display)", letterSpacing: "-0.03em" }}>{stat.value}</div>
-              <div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 4, letterSpacing: "0.04em" }}>{stat.label}</div>
+              <div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 4, letterSpacing: "0.04em" }}>{t(stat.label)}</div>
             </GlassCard>
           ))}
         </div>
@@ -114,21 +116,21 @@ export default function OutbreakPage() {
         {/* HOW IT WORKS */}
         <GlassCard accent="#00E676" lift={false} style={{ padding: 18, marginBottom: 20 }}>
           <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>
-            <Brain size={15} color="#00E676" strokeWidth={1.8} style={{ display: "inline", verticalAlign: "-2px", marginRight: 6 }} /><strong style={{ color: "#00E676" }}>AI Logic:</strong> Jab ek PIN code se 50+ patients same symptoms 72 ghante mein report karein, AI automatically cluster flag karta hai aur District Health Officer ko alert bhejta hai. COVID-19 jaisi outbreaks pehle detect ho sakti hain.
+            <Brain size={15} color="#00E676" strokeWidth={1.8} style={{ display: "inline", verticalAlign: "-2px", marginRight: 6 }} /><strong style={{ color: "#00E676" }}>{t("AI Logic:")}</strong> {t("Jab ek PIN code se 50+ patients same symptoms 72 ghante mein report karein, AI automatically cluster flag karta hai aur District Health Officer ko alert bhejta hai. COVID-19 jaisi outbreaks pehle detect ho sakti hain.")}
           </div>
         </GlassCard>
 
         {/* HEATMAP */}
         {filtered.length > 0 && (
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.1em", marginBottom: 10, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 6 }}><Map size={13} color="var(--text-3)" strokeWidth={1.8} /> Location Heatmap</div>
+            <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.1em", marginBottom: 10, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 6 }}><Map size={13} color="var(--text-3)" strokeWidth={1.8} /> {t("Location Heatmap")}</div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(96px, 1fr))", gap: 8 }}>
               {filtered.map(c => {
                 const intensity = 0.18 + (c.cases / maxCases) * 0.6;
                 return (
                   <div key={c.id} onClick={() => { setSelected(selected?.id === c.id ? null : c); setAiResult(null); }} style={{ background: `rgba(${RISK_RGB[c.risk]},${intensity})`, border: `1px solid rgba(${RISK_RGB[c.risk]},0.5)`, borderRadius: 12, padding: "12px 10px", cursor: "pointer", textAlign: "center" }}>
                     <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", fontFamily: "var(--font-display)", lineHeight: 1 }}>{c.cases}</div>
-                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-mono)", marginTop: 4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.location}</div>
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-mono)", marginTop: 4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t(c.location)}</div>
                   </div>
                 );
               })}
@@ -140,7 +142,7 @@ export default function OutbreakPage() {
         <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
           {(["ALL", "CRITICAL", "HIGH", "MEDIUM", "LOW"] as const).map(f => (
             <button key={f} onClick={() => setFilter(f)} style={{ padding: "6px 14px", borderRadius: 100, border: `1px solid ${filter === f ? (RISK_COLORS[f as keyof typeof RISK_COLORS] || "#00E676") : "var(--border)"}`, background: filter === f ? `${RISK_COLORS[f as keyof typeof RISK_COLORS] || "#00E676"}15` : "transparent", color: filter === f ? (RISK_COLORS[f as keyof typeof RISK_COLORS] || "#00E676") : "var(--text-2)", fontSize: 11, cursor: "pointer", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", transition: "all 0.2s" }}>
-              {f}
+              {t(f)}
             </button>
           ))}
         </div>
@@ -159,15 +161,15 @@ export default function OutbreakPage() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 15, fontWeight: 600, color: "#F0F4FF" }}>{cluster.disease}</span>
-                    <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: `${RISK_COLORS[cluster.risk]}15`, color: RISK_COLORS[cluster.risk], fontFamily: "var(--font-mono)", letterSpacing: "0.06em", fontWeight: 600 }}>{cluster.risk}</span>
-                    {cluster.alert_sent && <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: "rgba(0,230,118,0.1)", color: "#00E676", fontFamily: "var(--font-mono)" }}>DHO ALERTED</span>}
+                    <span style={{ fontSize: 15, fontWeight: 600, color: "#F0F4FF" }}>{t(cluster.disease)}</span>
+                    <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: `${RISK_COLORS[cluster.risk]}15`, color: RISK_COLORS[cluster.risk], fontFamily: "var(--font-mono)", letterSpacing: "0.06em", fontWeight: 600 }}>{t(cluster.risk)}</span>
+                    {cluster.alert_sent && <span style={{ fontSize: 9, padding: "2px 7px", borderRadius: 100, background: "rgba(0,230,118,0.1)", color: "#00E676", fontFamily: "var(--font-mono)" }}>{t("DHO ALERTED")}</span>}
                   </div>
-                  <div style={{ fontSize: 12, color: "var(--text-3)", display: "flex", alignItems: "center", gap: 5 }}><MapPin size={13} color="var(--text-3)" strokeWidth={1.8} /> {cluster.location} · PIN {cluster.pincode}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-3)", display: "flex", alignItems: "center", gap: 5 }}><MapPin size={13} color="var(--text-3)" strokeWidth={1.8} /> {t(cluster.location)} · {t("PIN")} {cluster.pincode}</div>
                 </div>
                 <div style={{ textAlign: "right", flexShrink: 0 }}>
                   <div style={{ fontSize: 22, fontWeight: 800, color: RISK_COLORS[cluster.risk], fontFamily: "var(--font-display)" }}>{cluster.cases}</div>
-                  <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>cases</div>
+                  <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t("cases")}</div>
                 </div>
               </GlassCard>
             ))}
@@ -177,42 +179,42 @@ export default function OutbreakPage() {
           {selected && (
             <GlassCard accent={RISK_COLORS[selected.risk]} lift={false} style={{ padding: 24, height: "fit-content", position: "sticky", top: 24 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>Cluster Detail</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{t("Cluster Detail")}</div>
                 <button onClick={() => setSelected(null)} style={{ background: "transparent", border: "none", color: "var(--text-3)", cursor: "pointer", fontSize: 18 }}>✕</button>
               </div>
               <div style={{ background: RISK_BG[selected.risk], border: `1px solid ${RISK_COLORS[selected.risk]}30`, borderRadius: 12, padding: 16, marginBottom: 16 }}>
-                <div style={{ fontSize: 20, fontWeight: 700, color: RISK_COLORS[selected.risk], fontFamily: "var(--font-display)", marginBottom: 4 }}>{selected.disease}</div>
-                <div style={{ fontSize: 13, color: "var(--text-2)" }}>{selected.location}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: RISK_COLORS[selected.risk], fontFamily: "var(--font-display)", marginBottom: 4 }}>{t(selected.disease)}</div>
+                <div style={{ fontSize: 13, color: "var(--text-2)" }}>{t(selected.location)}</div>
               </div>
               {([
                 ["Total Cases", selected.cases.toString()],
-                ["Risk Level", selected.risk],
+                ["Risk Level", t(selected.risk)],
                 ["PIN Code", selected.pincode],
                 ["Last Report", fmtReport(selected.last_reported)],
                 ["DHO Alert", selected.alert_sent
-                  ? <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><Check size={14} color="#00E676" strokeWidth={1.8} /> Sent</span>
-                  : <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><X size={14} color="#FF4757" strokeWidth={1.8} /> Pending</span>],
+                  ? <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><Check size={14} color="#00E676" strokeWidth={1.8} /> {t("Sent")}</span>
+                  : <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><X size={14} color="#FF4757" strokeWidth={1.8} /> {t("Pending")}</span>],
               ] as [string, React.ReactNode][]).map(([label, value]) => (
                 <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid var(--border)", fontSize: 13 }}>
-                  <span style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 11 }}>{label}</span>
+                  <span style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 11 }}>{t(label)}</span>
                   <span style={{ color: "#F0F4FF", fontWeight: 500 }}>{value}</span>
                 </div>
               ))}
               {!selected.alert_sent && (
                 <button onClick={() => sendDhoAlert(selected)} style={{ width: "100%", marginTop: 16, background: "linear-gradient(135deg,#FF4757,#ff6b35)", border: "none", borderRadius: 100, padding: "13px", color: "#fff", fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7 }}>
                   {alertedIds.has(selected.id)
-                    ? <><Check size={16} color="#fff" strokeWidth={1.8} /> DHO Alert Sent!</>
-                    : <><Siren size={16} color="#fff" strokeWidth={1.8} /> Send DHO Alert</>}
+                    ? <><Check size={16} color="#fff" strokeWidth={1.8} /> {t("DHO Alert Sent!")}</>
+                    : <><Siren size={16} color="#fff" strokeWidth={1.8} /> {t("Send DHO Alert")}</>}
                 </button>
               )}
               <button onClick={() => analyzeCluster(selected)} disabled={aiLoading} style={{ width: "100%", marginTop: 10, background: aiLoading ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "13px", color: aiLoading ? "var(--text-3)" : "#04060D", fontWeight: 700, cursor: aiLoading ? "not-allowed" : "pointer", fontFamily: "var(--font-body)", fontSize: 14, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7 }}>
-                {aiLoading ? "AI analyse kar raha hai..." : <><Sparkles size={16} color="#04060D" strokeWidth={1.8} /> AI Cluster Analysis</>}
+                {aiLoading ? t("AI analyse kar raha hai...") : <><Sparkles size={16} color="#04060D" strokeWidth={1.8} /> {t("AI Cluster Analysis")}</>}
               </button>
               {aiResult && (
                 <div style={{ marginTop: 12, background: "rgba(0,230,118,0.04)", border: "1px solid rgba(0,230,118,0.2)", borderRadius: 12, padding: 14 }}>
-                  <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#00E676", letterSpacing: "0.06em", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}><Sparkles size={13} color="#00E676" strokeWidth={1.8} /> AI VERDICT</div>
-                  {aiResult.probable_disease && <div style={{ fontSize: 13, color: "#F0F4FF", marginBottom: 4 }}><strong>Probable:</strong> {aiResult.probable_disease}</div>}
-                  {aiResult.risk_level && <div style={{ fontSize: 13, color: "#fbbf24", marginBottom: 4 }}><strong>Risk:</strong> {aiResult.risk_level}</div>}
+                  <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#00E676", letterSpacing: "0.06em", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}><Sparkles size={13} color="#00E676" strokeWidth={1.8} /> {t("AI VERDICT")}</div>
+                  {aiResult.probable_disease && <div style={{ fontSize: 13, color: "#F0F4FF", marginBottom: 4 }}><strong>{t("Probable:")}</strong> {aiResult.probable_disease}</div>}
+                  {aiResult.risk_level && <div style={{ fontSize: 13, color: "#fbbf24", marginBottom: 4 }}><strong>{t("Risk:")}</strong> {aiResult.risk_level}</div>}
                   {aiResult.recommended_action && <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.6 }}>{aiResult.recommended_action}</div>}
                 </div>
               )}

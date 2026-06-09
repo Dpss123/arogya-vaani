@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Frown, Activity, HeartPulse, Wheat, Brain, Check, Siren, Bot, Phone, type LucideIcon } from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
+import { useT } from "@/components/LanguageProvider";
 
 type Opt = { label: string; value: number };
 type Q = { text: string; options: Opt[] };
@@ -126,6 +127,7 @@ const SCREENERS: Screener[] = [
 ];
 
 export default function MentalHealthPage() {
+  const { t } = useT();
   const router = useRouter();
   const [key, setKey] = useState("phq9");
   const [started, setStarted] = useState(false);
@@ -162,8 +164,8 @@ export default function MentalHealthPage() {
         score,
         level: crisis ? "High Risk" : band.level,
         advice: crisis
-          ? "Aapne khud ko nuksan ka khayal bataya · yeh serious hai. Please ABHI neeche di gayi helpline pe baat karein. Aap akele nahi hain aur yeh theek ho sakta hai."
-          : band.advice,
+          ? t("Aapne khud ko nuksan ka khayal bataya · yeh serious hai. Please ABHI neeche di gayi helpline pe baat karein. Aap akele nahi hain aur yeh theek ho sakta hai.")
+          : t(band.advice),
         helpline: band.helpline || crisis,
         crisis,
       });
@@ -188,25 +190,25 @@ export default function MentalHealthPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
           <BackButton size={20} />
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}><Brain size={14} color="var(--text-3)" strokeWidth={1.8} />Mental Health Check</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>Apna Mann Check Karein</h1>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}><Brain size={14} color="var(--text-3)" strokeWidth={1.8} />{t("Mental Health Check")}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{t("Apna Mann Check Karein")}</h1>
           </div>
         </div>
-        <p style={{ fontSize: 14, color: "var(--text-3)", lineHeight: 1.7, marginBottom: 22 }}>Free, private screening. Apna test chunein:</p>
+        <p style={{ fontSize: 14, color: "var(--text-3)", lineHeight: 1.7, marginBottom: 22 }}>{t("Free, private screening. Apna test chunein:")}</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
           {SCREENERS.map(s => (
             <button key={s.key} onClick={() => setKey(s.key)} style={{ display: "flex", alignItems: "center", gap: 14, padding: "16px 18px", borderRadius: 16, border: `1px solid ${key === s.key ? "rgba(0,230,118,0.4)" : "var(--border)"}`, background: key === s.key ? "rgba(0,230,118,0.08)" : "rgba(255,255,255,0.025)", cursor: "pointer", textAlign: "left", fontFamily: "var(--font-body)" }}>
               <s.Icon size={26} color="#00E676" strokeWidth={1.8} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "#F0F4FF" }}>{s.label}</div>
-                <div style={{ fontSize: 11, color: "var(--text-3)", lineHeight: 1.5, marginTop: 2 }}>{s.intro}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: "#F0F4FF" }}>{t(s.label)}</div>
+                <div style={{ fontSize: 11, color: "var(--text-3)", lineHeight: 1.5, marginTop: 2 }}>{t(s.intro)}</div>
               </div>
               {key === s.key && <Check size={18} color="#00E676" strokeWidth={2.2} />}
             </button>
           ))}
         </div>
-        <button onClick={() => { setStarted(true); setCurrent(0); setAnswers([]); setResult(null); setAiAdvice(null); }} style={{ width: "100%", background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "16px", fontSize: 16, fontWeight: 600, color: "#04060D", cursor: "pointer", fontFamily: "var(--font-body)" }}>Shuru Karein →</button>
-        <p style={{ marginTop: 16, fontSize: 12, color: "var(--text-3)", lineHeight: 1.6, textAlign: "center" }}>Crisis mein hain? Turant: <strong style={{ color: "#FF4757" }}>KIRAN 1800-599-0019</strong> (24/7 free)</p>
+        <button onClick={() => { setStarted(true); setCurrent(0); setAnswers([]); setResult(null); setAiAdvice(null); }} style={{ width: "100%", background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "16px", fontSize: 16, fontWeight: 600, color: "#04060D", cursor: "pointer", fontFamily: "var(--font-body)" }}>{t("Shuru Karein →")}</button>
+        <p style={{ marginTop: 16, fontSize: 12, color: "var(--text-3)", lineHeight: 1.6, textAlign: "center" }}>{t("Crisis mein hain? Turant:")} <strong style={{ color: "#FF4757" }}>KIRAN 1800-599-0019</strong> {t("(24/7 free)")}</p>
       </div>
     </div>
   );
@@ -216,40 +218,40 @@ export default function MentalHealthPage() {
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "32px clamp(20px,4vw,40px) 100px" }}>
         <div style={{ marginBottom: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}><screener.Icon size={14} color="var(--text-3)" strokeWidth={1.8} />{screener.label}</div>
-          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>Aapka Result</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}><screener.Icon size={14} color="var(--text-3)" strokeWidth={1.8} />{t(screener.label)}</div>
+          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{t("Aapka Result")}</h1>
         </div>
         <GlassCard accent={lc} lift={false} style={{ padding: 32, textAlign: "center", marginBottom: 20 }}>
           <div style={{ fontSize: 52, fontWeight: 900, color: lc, fontFamily: "var(--font-display)", letterSpacing: "-0.04em", marginBottom: 8 }}>{result.score}<span style={{ fontSize: 24 }}>/{screener.maxScore}</span></div>
-          <div style={{ fontSize: 20, fontWeight: 700, color: lc, marginBottom: 16 }}>{result.level} {screener.kind}</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: lc, marginBottom: 16 }}>{t(result.level)} {t(screener.kind)}</div>
           <div style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.75 }}>{result.advice}</div>
         </GlassCard>
         {result.crisis && (
           <GlassCard accent="#FF4757" lift={false} style={{ padding: 18, marginBottom: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 14, fontWeight: 700, color: "#FF4757", marginBottom: 6 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />Aap akele nahi hain</div>
-            <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>Aapne khud ko nuksan ka khayal bataya. Please ABHI kisi se baat karein · neeche helpline pe call karein, yeh free aur confidential hai.</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 14, fontWeight: 700, color: "#FF4757", marginBottom: 6 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />{t("Aap akele nahi hain")}</div>
+            <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>{t("Aapne khud ko nuksan ka khayal bataya. Please ABHI kisi se baat karein · neeche helpline pe call karein, yeh free aur confidential hai.")}</div>
           </GlassCard>
         )}
         {aiAdvice && (
           <GlassCard accent="#00B4D8" lift={false} style={{ padding: 20, marginBottom: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12, fontWeight: 600, color: "#00B4D8", marginBottom: 10, fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}><Bot size={14} color="#00B4D8" strokeWidth={1.8} />AI KI PERSONALISED SALAH</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12, fontWeight: 600, color: "#00B4D8", marginBottom: 10, fontFamily: "var(--font-mono)", letterSpacing: "0.06em" }}><Bot size={14} color="#00B4D8" strokeWidth={1.8} />{t("AI KI PERSONALISED SALAH")}</div>
             <div style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.75, whiteSpace: "pre-wrap" }}>{aiAdvice}</div>
           </GlassCard>
         )}
         {result.helpline && (
           <GlassCard accent="#FF4757" lift={false} style={{ padding: 20, marginBottom: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 12 }}><Phone size={15} color="#FF4757" strokeWidth={1.8} />Free Helplines · Abhi Call Karein</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 12 }}><Phone size={15} color="#FF4757" strokeWidth={1.8} />{t("Free Helplines · Abhi Call Karein")}</div>
             {screener.helplines.map(h => (
               <a key={h.num} href={`tel:${h.num.replace(/-/g, "")}`} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid rgba(255,71,87,0.1)", textDecoration: "none" }}>
-                <div><div style={{ fontSize: 13, color: "#F0F4FF" }}>{h.name}</div><div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{h.sub}</div></div>
+                <div><div style={{ fontSize: 13, color: "#F0F4FF" }}>{t(h.name)}</div><div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t(h.sub)}</div></div>
                 <div style={{ fontSize: 15, fontWeight: 700, color: "#FF4757" }}>{h.num}</div>
               </a>
             ))}
           </GlassCard>
         )}
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={reset} style={{ flex: 1, background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 100, padding: "12px", color: "var(--text-2)", cursor: "pointer", fontFamily: "var(--font-body)" }}>Dobara Lein</button>
-          <button onClick={() => router.push("/chat")} style={{ flex: 1, background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "12px", color: "#04060D", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>Chat Karein</button>
+          <button onClick={reset} style={{ flex: 1, background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 100, padding: "12px", color: "var(--text-2)", cursor: "pointer", fontFamily: "var(--font-body)" }}>{t("Dobara Lein")}</button>
+          <button onClick={() => router.push("/chat")} style={{ flex: 1, background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "12px", color: "#04060D", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>{t("Chat Karein")}</button>
         </div>
       </div>
     </div>
@@ -262,22 +264,22 @@ export default function MentalHealthPage() {
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "32px clamp(20px,4vw,40px) 100px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}><screener.Icon size={14} color="var(--text-3)" strokeWidth={1.8} />Sawaal {current + 1} / {questions.length}</span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}><screener.Icon size={14} color="var(--text-3)" strokeWidth={1.8} />{t("Sawaal")} {current + 1} / {questions.length}</span>
           <span style={{ fontSize: 13, color: "#00E676", fontFamily: "var(--font-mono)" }}>{Math.round(progress)}%</span>
         </div>
         <div style={{ height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 4, overflow: "hidden", marginBottom: 40 }}>
           <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#00E676,#00C4FF)", borderRadius: 4, transition: "width 0.4s ease" }} />
         </div>
         <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.08em", marginBottom: 20 }}>
-          {key === "epds" ? "PICHLE 7 DIN MEIN..." : "PICHLE 2 HAFTE MEIN..."}
+          {key === "epds" ? t("PICHLE 7 DIN MEIN...") : t("PICHLE 2 HAFTE MEIN...")}
         </div>
-        <h2 style={{ fontSize: "clamp(22px,3vw,28px)", fontWeight: 800, color: "#F0F4FF", fontFamily: "var(--font-display)", lineHeight: 1.45, marginBottom: 36, letterSpacing: "-0.025em" }}>{questions[current].text}</h2>
+        <h2 style={{ fontSize: "clamp(22px,3vw,28px)", fontWeight: 800, color: "#F0F4FF", fontFamily: "var(--font-display)", lineHeight: 1.45, marginBottom: 36, letterSpacing: "-0.025em" }}>{t(questions[current].text)}</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {opts.map((opt, i) => (
             <button key={i} onClick={() => handleAnswer(opt.value)} style={{ padding: "16px 20px", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 14, color: "#F0F4FF", fontSize: 15, cursor: "pointer", fontFamily: "var(--font-body)", textAlign: "left", transition: "all 0.15s" }}
               onMouseEnter={e => { e.currentTarget.style.background = "rgba(0,230,118,0.06)"; e.currentTarget.style.borderColor = "rgba(0,230,118,0.2)"; }}
               onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.025)"; e.currentTarget.style.borderColor = "var(--border)"; }}
-            >{opt.label}</button>
+            >{t(opt.label)}</button>
           ))}
         </div>
       </div>

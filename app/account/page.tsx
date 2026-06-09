@@ -6,6 +6,7 @@ import { getPatientKey } from "@/lib/patientId";
 import { supabaseBrowser } from "@/lib/supabaseBrowser";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
+import { useT } from "@/components/LanguageProvider";
 import {
   User, Calendar, Users, Droplet, Building2, MapPin, AlertTriangle, Phone,
   Check, Pencil, MessageCircle, FileText, IdCard, Siren,
@@ -43,6 +44,7 @@ export default function AccountPage() {
     blood_group: "", allergies: "", emergency_contact: "", abha_id: "",
   });
   const [auth, setAuth] = useState<{ name: string; email: string; image: string }>({ name: "", email: "", image: "" });
+  const { t } = useT();
 
   useEffect(() => {
     const saved = localStorage.getItem("av_profile");
@@ -88,10 +90,10 @@ export default function AccountPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: getPatientKey(), ...profile, age: profile.age ? Number(profile.age) : null }),
       });
-      toast.success("Profile save ho gaya!");
+      toast.success(t("Profile save ho gaya!"));
       setEditing(false);
     } catch {
-      toast.error("Save nahi hua, dobara try karein");
+      toast.error(t("Save nahi hua, dobara try karein"));
     } finally {
       setSaving(false);
     }
@@ -136,13 +138,13 @@ export default function AccountPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
           <BackButton size={20} />
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Mera Account</div>
-            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{profile.name || auth.name || "Aapka Naam"}</h1>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{t("Mera Account")}</div>
+            <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: "5px 0 0" }}>{profile.name || auth.name || t("Aapka Naam")}</h1>
           </div>
           {tab === "profile" && (
             <button onClick={editing ? saveProfile : () => setEditing(true)} disabled={saving} style={{ background: editing ? "rgba(0,230,118,0.1)" : "transparent", border: `1px solid ${editing ? "rgba(0,230,118,0.3)" : "var(--border)"}`, color: editing ? "#00E676" : "var(--text-2)", padding: "6px 16px", borderRadius: 100, fontSize: 13, cursor: "pointer", fontFamily: "var(--font-body)", display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
               {saving ? <div style={{ width: 14, height: 14, border: "2px solid rgba(0,230,118,0.3)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /> : (editing ? <Check size={14} color="#00E676" strokeWidth={1.8} /> : <Pencil size={14} color="var(--text-2)" strokeWidth={1.8} />)}
-              {editing ? (saving ? "Saving..." : "Save") : "Edit"}
+              {editing ? (saving ? t("Saving...") : t("Save")) : t("Edit")}
             </button>
           )}
         </div>
@@ -156,7 +158,7 @@ export default function AccountPage() {
               {(profile.name || auth.name) ? (profile.name || auth.name)[0].toUpperCase() : <User size={28} color="#04060D" strokeWidth={1.8} />}
             </div>
           )}
-          <div style={{ fontSize: 20, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{profile.name || auth.name || "Aapka Naam"}</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{profile.name || auth.name || t("Aapka Naam")}</div>
           {auth.email && <div style={{ fontSize: 12, color: "var(--text-2)", marginTop: 5, fontFamily: "var(--font-body)" }}>{auth.email}</div>}
           <div style={{ fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 4 }}>
             {profile.village && `${profile.village}, `}{profile.district}
@@ -170,7 +172,7 @@ export default function AccountPage() {
 
         <div style={{ display: "flex", gap: 8, marginBottom: 18, flexWrap: "wrap" }}>
           {([["profile", "Profile", User], ["history", "History", MessageCircle], ["reports", "Reports", FileText], ["passport", "Passport", IdCard]] as const).map(([key, label, Icon]) => (
-            <button key={key} onClick={() => setTab(key)} style={{ flex: 1, minWidth: 0, padding: "9px 4px", borderRadius: 100, border: `1px solid ${tab === key ? "#00E676" : "var(--border)"}`, background: tab === key ? "rgba(0,230,118,0.08)" : "transparent", color: tab === key ? "#00E676" : "var(--text-3)", fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: tab === key ? 600 : 400, transition: "all 0.2s", whiteSpace: "nowrap", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}><Icon size={14} color={tab === key ? "#00E676" : "var(--text-3)"} strokeWidth={1.8} />{label}</button>
+            <button key={key} onClick={() => setTab(key)} style={{ flex: 1, minWidth: 0, padding: "9px 4px", borderRadius: 100, border: `1px solid ${tab === key ? "#00E676" : "var(--border)"}`, background: tab === key ? "rgba(0,230,118,0.08)" : "transparent", color: tab === key ? "#00E676" : "var(--text-3)", fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)", fontWeight: tab === key ? 600 : 400, transition: "all 0.2s", whiteSpace: "nowrap", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}><Icon size={14} color={tab === key ? "#00E676" : "var(--text-3)"} strokeWidth={1.8} />{t(label)}</button>
           ))}
         </div>
 
@@ -179,7 +181,7 @@ export default function AccountPage() {
           <div>
             {!editing && (
               <button onClick={() => setEditing(true)} style={{ width: "100%", marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "rgba(0,230,118,0.08)", border: "1px solid rgba(0,230,118,0.25)", borderRadius: 12, padding: "13px", color: "#00E676", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14 }}>
-                <Pencil size={15} strokeWidth={1.8} /> Apni details bharein / edit karein
+                <Pencil size={15} strokeWidth={1.8} /> {t("Apni details bharein / edit karein")}
               </button>
             )}
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -187,12 +189,12 @@ export default function AccountPage() {
                 <div key={field.key} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 12, padding: "12px 14px", display: "flex", alignItems: "center", gap: 10 }}>
                   <span style={{ flexShrink: 0, display: "flex" }}><field.icon size={18} color="#00E676" strokeWidth={1.8} /></span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", marginBottom: 3 }}>{field.label.toUpperCase()}</div>
+                    <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", marginBottom: 3 }}>{t(field.label).toUpperCase()}</div>
                     {editing ? (
-                      <input value={profile[field.key]} onChange={(e) => setProfile((prev) => ({ ...prev, [field.key]: e.target.value }))} placeholder={field.placeholder} style={{ background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", width: "100%" }} />
+                      <input value={profile[field.key]} onChange={(e) => setProfile((prev) => ({ ...prev, [field.key]: e.target.value }))} placeholder={t(field.placeholder)} style={{ background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", width: "100%" }} />
                     ) : (
                       <div style={{ fontSize: 14, color: profile[field.key] ? "#F0F4FF" : "var(--text-3)" }}>
-                        {profile[field.key] || field.placeholder}
+                        {profile[field.key] || t(field.placeholder)}
                       </div>
                     )}
                   </div>
@@ -201,15 +203,15 @@ export default function AccountPage() {
             </div>
             {editing && (
               <button onClick={saveProfile} disabled={saving} style={{ width: "100%", marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: saving ? "rgba(255,255,255,0.06)" : "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 12, padding: "14px", color: saving ? "var(--text-3)" : "#04060D", fontWeight: 700, cursor: saving ? "not-allowed" : "pointer", fontFamily: "var(--font-body)", fontSize: 15 }}>
-                {saving ? "Saving..." : <><Check size={16} strokeWidth={2} /> Save Changes</>}
+                {saving ? t("Saving...") : <><Check size={16} strokeWidth={2} /> {t("Save Changes")}</>}
               </button>
             )}
             <GlassCard accent="#FF4757" lift={false} style={{ marginTop: 20, padding: 18 }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />Emergency</div>
-              <div style={{ fontSize: 12, color: "var(--text-3)", marginBottom: 14, lineHeight: 1.6 }}>Koi bhi emergency mein 108 call karein · AI automatically location bhejta hai.</div>
-              <a href="tel:108" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, background: "rgba(255,71,87,0.12)", border: "1px solid rgba(255,71,87,0.3)", borderRadius: 12, padding: "13px", textAlign: "center", color: "#FF4757", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 15 }}><Phone size={16} color="#FF4757" strokeWidth={1.8} />108 Call Karein</a>
+              <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />{t("Emergency")}</div>
+              <div style={{ fontSize: 12, color: "var(--text-3)", marginBottom: 14, lineHeight: 1.6 }}>{t("Koi bhi emergency mein 108 call karein · AI automatically location bhejta hai.")}</div>
+              <a href="tel:108" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7, background: "rgba(255,71,87,0.12)", border: "1px solid rgba(255,71,87,0.3)", borderRadius: 12, padding: "13px", textAlign: "center", color: "#FF4757", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 15 }}><Phone size={16} color="#FF4757" strokeWidth={1.8} />{t("108 Call Karein")}</a>
             </GlassCard>
-            <button onClick={logout} style={{ width: "100%", marginTop: 12, background: "transparent", border: "1px solid var(--border)", borderRadius: 12, padding: "12px", color: "var(--text-3)", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13 }}>Logout</button>
+            <button onClick={logout} style={{ width: "100%", marginTop: 12, background: "transparent", border: "1px solid var(--border)", borderRadius: 12, padding: "12px", color: "var(--text-3)", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13 }}>{t("Logout")}</button>
           </div>
         )}
 
@@ -218,8 +220,8 @@ export default function AccountPage() {
             {messages.length === 0 ? (
               <GlassCard accent="#00E676" lift={false} style={{ textAlign: "center", padding: "48px 24px" }}>
                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}><MessageCircle size={40} color="#00E676" strokeWidth={1.8} /></div>
-                <p style={{ color: "var(--text-3)", fontSize: 14 }}>Abhi tak koi conversation nahi</p>
-                <button onClick={() => router.push("/chat")} style={{ marginTop: 16, background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "12px 24px", color: "#04060D", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>Chat Shuru Karein</button>
+                <p style={{ color: "var(--text-3)", fontSize: 14 }}>{t("Abhi tak koi conversation nahi")}</p>
+                <button onClick={() => router.push("/chat")} style={{ marginTop: 16, background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "12px 24px", color: "#04060D", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>{t("Chat Shuru Karein")}</button>
               </GlassCard>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -238,12 +240,12 @@ export default function AccountPage() {
         {tab === "reports" && (
           <div>
             <button onClick={() => router.push("/report")} style={{ width: "100%", background: "rgba(0,230,118,0.06)", border: "1px dashed rgba(0,230,118,0.25)", borderRadius: 16, padding: "16px", color: "#00E676", cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14, marginBottom: 16, fontWeight: 600 }}>
-              + Nayi Report Upload Karein
+              + {t("Nayi Report Upload Karein")}
             </button>
             {reports.length === 0 ? (
               <GlassCard accent="#00B4D8" lift={false} style={{ textAlign: "center", padding: "32px" }}>
                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}><FileText size={40} color="#00B4D8" strokeWidth={1.8} /></div>
-                <p style={{ color: "var(--text-3)", fontSize: 14 }}>Koi report upload nahi ki abhi tak</p>
+                <p style={{ color: "var(--text-3)", fontSize: 14 }}>{t("Koi report upload nahi ki abhi tak")}</p>
               </GlassCard>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -269,24 +271,24 @@ export default function AccountPage() {
           <div>
             <GlassCard accent="#00E676" lift={false} style={{ padding: 24, marginBottom: 16, textAlign: "center" }}>
               <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}><IdCard size={48} color="#00E676" strokeWidth={1.8} /></div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: "#F0F4FF", fontFamily: "var(--font-display)", marginBottom: 6 }}>Health Passport</div>
-              <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, marginBottom: 20 }}>Aapka poora health record ek jagah. QR code se kisi bhi doctor ke saath share karein.</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: "#F0F4FF", fontFamily: "var(--font-display)", marginBottom: 6 }}>{t("Health Passport")}</div>
+              <div style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, marginBottom: 20 }}>{t("Aapka poora health record ek jagah. QR code se kisi bhi doctor ke saath share karein.")}</div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(`Arogya Vaani Health Passport\nName: ${profile.name || "-"}\nBlood: ${profile.blood_group || "-"}\nAllergies: ${profile.allergies || "None"}\nABHA: ${profile.abha_id || "-"}\nDistrict: ${profile.district}`)}`}
-                alt="Health passport QR code"
+                alt={t("Health passport QR code")}
                 width={160}
                 height={160}
                 style={{ borderRadius: 12, background: "#fff", padding: 8, marginBottom: 20 }}
               />
               {profile.abha_id ? (
                 <div style={{ background: "rgba(0,230,118,0.1)", border: "1px solid rgba(0,230,118,0.25)", borderRadius: 14, padding: "14px 20px" }}>
-                  <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#00E676", marginBottom: 4, letterSpacing: "0.08em" }}>ABHA ID</div>
+                  <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "#00E676", marginBottom: 4, letterSpacing: "0.08em" }}>{t("ABHA ID")}</div>
                   <div style={{ fontSize: 18, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-mono)" }}>{profile.abha_id}</div>
                 </div>
               ) : (
                 <button onClick={() => { setTab("profile"); setEditing(true); }} style={{ background: "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 100, padding: "13px 28px", color: "#04060D", fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14 }}>
-                  + ABHA ID Link Karein
+                  + {t("ABHA ID Link Karein")}
                 </button>
               )}
             </GlassCard>
@@ -295,19 +297,19 @@ export default function AccountPage() {
                 <GlassCard key={label} accent="#00E676" lift={false} style={{ padding: "16px", textAlign: "center" }}>
                   <div style={{ display: "flex", justifyContent: "center", marginBottom: 6 }}><Icon size={24} color="#00E676" strokeWidth={1.8} /></div>
                   <div style={{ fontSize: 22, fontWeight: 800, color: "#00E676", fontFamily: "var(--font-display)", letterSpacing: "-0.02em" }}>{value}</div>
-                  <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 3 }}>{label}</div>
+                  <div style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", marginTop: 3 }}>{t(label)}</div>
                 </GlassCard>
               ))}
             </div>
 
             <GlassCard accent="#00E676" lift={false} style={{ marginTop: 16, padding: 18 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#F0F4FF", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}><Syringe size={14} color="#00E676" strokeWidth={1.8} />Vaccination Records</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#F0F4FF", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}><Syringe size={14} color="#00E676" strokeWidth={1.8} />{t("Vaccination Records")}</div>
               <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-                <input value={newVaccine} onChange={e => setNewVaccine(e.target.value)} onKeyDown={e => { if (e.key === "Enter") addVaccine(); }} placeholder="Vaccine ka naam (e.g. Tetanus, COVID)" style={{ flex: 1, background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", color: "#F0F4FF", fontSize: 13, fontFamily: "var(--font-body)", outline: "none" }} />
-                <button onClick={addVaccine} style={{ background: "rgba(0,230,118,0.12)", border: "1px solid rgba(0,230,118,0.3)", borderRadius: 10, padding: "0 16px", color: "#00E676", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13 }}>+ Add</button>
+                <input value={newVaccine} onChange={e => setNewVaccine(e.target.value)} onKeyDown={e => { if (e.key === "Enter") addVaccine(); }} placeholder={t("Vaccine ka naam (e.g. Tetanus, COVID)")} style={{ flex: 1, background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", color: "#F0F4FF", fontSize: 13, fontFamily: "var(--font-body)", outline: "none" }} />
+                <button onClick={addVaccine} style={{ background: "rgba(0,230,118,0.12)", border: "1px solid rgba(0,230,118,0.3)", borderRadius: 10, padding: "0 16px", color: "#00E676", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13 }}>+ {t("Add")}</button>
               </div>
               {vaccines.length === 0 ? (
-                <div style={{ fontSize: 12, color: "var(--text-3)", textAlign: "center", padding: "8px 0" }}>Abhi koi vaccine record nahi</div>
+                <div style={{ fontSize: 12, color: "var(--text-3)", textAlign: "center", padding: "8px 0" }}>{t("Abhi koi vaccine record nahi")}</div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {vaccines.map((v, i) => (
