@@ -177,6 +177,11 @@ export default function AccountPage() {
         <div>
         {tab === "profile" && (
           <div>
+            {!editing && (
+              <button onClick={() => setEditing(true)} style={{ width: "100%", marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "rgba(0,230,118,0.08)", border: "1px solid rgba(0,230,118,0.25)", borderRadius: 12, padding: "13px", color: "#00E676", fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 14 }}>
+                <Pencil size={15} strokeWidth={1.8} /> Apni details bharein / edit karein
+              </button>
+            )}
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {fields.map((field) => (
                 <div key={field.key} style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", borderRadius: 12, padding: "12px 14px", display: "flex", alignItems: "center", gap: 10 }}>
@@ -194,6 +199,11 @@ export default function AccountPage() {
                 </div>
               ))}
             </div>
+            {editing && (
+              <button onClick={saveProfile} disabled={saving} style={{ width: "100%", marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: saving ? "rgba(255,255,255,0.06)" : "linear-gradient(135deg,#00E676,#00C4FF)", border: "none", borderRadius: 12, padding: "14px", color: saving ? "var(--text-3)" : "#04060D", fontWeight: 700, cursor: saving ? "not-allowed" : "pointer", fontFamily: "var(--font-body)", fontSize: 15 }}>
+                {saving ? "Saving..." : <><Check size={16} strokeWidth={2} /> Save Changes</>}
+              </button>
+            )}
             <GlassCard accent="#FF4757" lift={false} style={{ marginTop: 20, padding: 18 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}><Siren size={15} color="#FF4757" strokeWidth={1.8} />Emergency</div>
               <div style={{ fontSize: 12, color: "var(--text-3)", marginBottom: 14, lineHeight: 1.6 }}>Koi bhi emergency mein 108 call karein · AI automatically location bhejta hai.</div>
