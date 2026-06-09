@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import AppShell from "@/components/AppShell";
+import { LanguageProvider } from "@/components/LanguageProvider";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/logo.png",
+    icon: "/icon.svg",
     apple: "/logo.png",
   },
 };
@@ -29,9 +30,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="hi">
       <body>
-        <AppShell>
-          {children}
-        </AppShell>
+        <LanguageProvider>
+          <AppShell>
+            {children}
+          </AppShell>
+        </LanguageProvider>
         <Toaster
           position="top-center"
           toastOptions={{

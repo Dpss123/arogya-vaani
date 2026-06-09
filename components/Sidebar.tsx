@@ -6,6 +6,7 @@ import {
   User, LayoutDashboard, Siren, type LucideIcon,
 } from "lucide-react";
 import Logo from "./Logo";
+import { useT } from "./LanguageProvider";
 
 const GROUPS: { label: string; items: [LucideIcon, string, string][] }[] = [
   { label: "Main", items: [
@@ -38,6 +39,7 @@ const GROUPS: { label: string; items: [LucideIcon, string, string][] }[] = [
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { t } = useT();
 
   return (
     <aside className="app-sidebar glass" style={{
@@ -52,7 +54,7 @@ export default function Sidebar() {
       <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 16 }}>
         {GROUPS.map((g) => (
           <div key={g.label}>
-            <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", padding: "0 10px 8px" }}>{g.label}</div>
+            <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.12em", textTransform: "uppercase", padding: "0 10px 8px" }}>{t(g.label)}</div>
             {g.items.map(([Icon, label, href]) => {
               const active = pathname === href;
               return (
@@ -66,7 +68,7 @@ export default function Sidebar() {
                   boxShadow: active ? "inset 2px 0 0 #00E676" : "none",
                 }}>
                   <Icon size={17} strokeWidth={active ? 2.4 : 1.9} color={active ? "#00E676" : "currentColor"} />
-                  {label}
+                  {t(label)}
                 </button>
               );
             })}
@@ -79,7 +81,7 @@ export default function Sidebar() {
         padding: "11px", borderRadius: 12, border: "1px solid rgba(255,71,87,0.3)", background: "rgba(255,71,87,0.1)",
         color: "#FF4757", fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13,
       }}>
-        <Siren size={16} strokeWidth={2.2} /> Emergency
+        <Siren size={16} strokeWidth={2.2} /> {t("Emergency")}
       </button>
     </aside>
   );

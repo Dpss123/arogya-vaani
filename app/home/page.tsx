@@ -9,6 +9,7 @@ import FeatureCard from "@/components/ui/FeatureCard";
 import GlassCard from "@/components/ui/GlassCard";
 import Reveal from "@/components/ui/Reveal";
 import LangSelect from "@/components/LangSelect";
+import { useT } from "@/components/LanguageProvider";
 
 const TIPS = [
   "Roz 8 glass paani piyen, kidney stones se bachao",
@@ -40,14 +41,15 @@ const ACTIONS: [LucideIcon, string, string, string, string][] = [
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useT();
   const tip = TIPS[new Date().getDay() % TIPS.length];
 
   return (
     <div style={{ padding: "36px clamp(20px,4vw,44px) 100px", maxWidth: 1120, margin: "0 auto" }}>
       <div className="m-stack-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, gap: 16, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>NAMASKAR</div>
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "6px 0 0" }}>Health Dashboard</h1>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>{t("NAMASKAR")}</div>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "6px 0 0" }}>{t("Health Dashboard")}</h1>
         </div>
         <LangSelect />
       </div>
@@ -59,22 +61,22 @@ export default function Home() {
               <Stethoscope size={22} color="#04060D" strokeWidth={2} />
             </div>
             <div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>AI Health Assistant</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: "#F0F4FF", fontFamily: "var(--font-display)" }}>{t("AI Health Assistant")}</div>
               <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
                 <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#00E676", boxShadow: "0 0 5px #00E676" }} />
-                <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>Online · 12 languages · Gemini + Groq</span>
+                <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t("Online · 12 languages · Gemini + Groq")}</span>
               </div>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "12px 16px", fontSize: 14, color: "var(--text-2)", fontFamily: "var(--font-serif)", fontStyle: "italic" }}>
-            <span>&quot;Apni sehat ki koi bhi baat poochhein...&quot;</span>
+            <span>&quot;{t("Apni sehat ki koi bhi baat poochhein...")}&quot;</span>
             <ArrowRight size={16} color="#00E676" />
           </div>
         </GlassCard>
 
         <GlassCard accent="#00B4D8" lift={false} style={{ padding: 22 }}>
-          <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#00B4D8", letterSpacing: "0.08em", marginBottom: 10 }}>AAJ KI TIP</div>
-          <div style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7 }}>{tip}</div>
+          <div style={{ fontSize: 10, fontFamily: "var(--font-mono)", color: "#00B4D8", letterSpacing: "0.08em", marginBottom: 10 }}>{t("AAJ KI TIP")}</div>
+          <div style={{ fontSize: 14, color: "var(--text-2)", lineHeight: 1.7 }}>{t(tip)}</div>
         </GlassCard>
       </div>
 
@@ -82,18 +84,18 @@ export default function Home() {
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <Siren size={26} color="#FF4757" strokeWidth={2} />
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#FF4757" }}>Emergency? 108 Call Karein</div>
-            <div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>Free ambulance · GPS auto-send · family alert · first-aid</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#FF4757" }}>{t("Emergency? 108 Call Karein")}</div>
+            <div style={{ fontSize: 11, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t("Free ambulance · GPS auto-send · family alert · first-aid")}</div>
           </div>
           <ArrowRight size={18} color="rgba(255,71,87,0.5)" />
         </div>
       </GlassCard>
 
-      <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>All Services</div>
+      <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-3)", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>{t("All Services")}</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px,1fr))", gap: 14 }}>
         {ACTIONS.map(([Icon, label, desc, href, color], i) => (
           <Reveal key={href} delay={(i % 4) * 0.05}>
-            <FeatureCard icon={<Icon size={28} color={color} strokeWidth={1.7} />} title={label} body={desc} accent={color} onClick={() => router.push(href)} />
+            <FeatureCard icon={<Icon size={28} color={color} strokeWidth={1.7} />} title={t(label)} body={t(desc)} accent={color} onClick={() => router.push(href)} />
           </Reveal>
         ))}
       </div>

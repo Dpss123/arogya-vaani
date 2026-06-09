@@ -1,6 +1,7 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
 import { MessageCircle, FileText, Pill, Stethoscope, User, type LucideIcon } from "lucide-react";
+import { useT } from "./LanguageProvider";
 
 const NAV_ITEMS: { href: string; icon: LucideIcon; label: string }[] = [
   { href: "/chat", icon: MessageCircle, label: "Chat" },
@@ -13,6 +14,7 @@ const NAV_ITEMS: { href: string; icon: LucideIcon; label: string }[] = [
 export default function BottomNav() {
   const router = useRouter();
   const pathname = usePathname();
+  const { t } = useT();
 
   // Don't show on landing, login, emergency pages
   const hidden = ["/", "/login", "/emergency"].includes(pathname);
@@ -48,7 +50,7 @@ export default function BottomNav() {
               fontFamily: "var(--font-mono)",
               letterSpacing: "0.04em",
               fontWeight: active ? 600 : 400,
-            }}>{label}</span>
+            }}>{t(label)}</span>
             {active && (
               <div style={{ position: "absolute", top: -9, width: 22, height: 2, borderRadius: 2, background: "#00E676", boxShadow: "0 0 8px #00E676" }} />
             )}
