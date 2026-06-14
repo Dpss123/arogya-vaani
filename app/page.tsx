@@ -122,7 +122,7 @@ export default function Landing() {
         <div className="aurora-wrap"><div className="aurora-blob b1" /><div className="aurora-blob b2" /></div>
 
         <div style={{ position: "relative", display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 40, width: "100%", maxWidth: 1320, margin: "0 auto", alignItems: "center" }} className="hero-grid">
-          <div className="hero-copy" style={{ position: "relative", zIndex: 2 }}>
+          <div>
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ marginBottom: 20 }}>
               <Badge>● LIVE · 4 TRAINED ML MODELS · FREE FOREVER</Badge>
             </motion.div>
@@ -382,9 +382,9 @@ export default function Landing() {
         @media (max-width: 880px) {
           .landing-nav { padding-top: 6px !important; padding-bottom: 6px !important; top: 14px !important; }
           .hero-sec { min-height: auto !important; align-items: flex-start !important; padding-top: 76px !important; padding-bottom: 36px !important; }
-          .hero-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
-          .hero-3d { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; opacity: 0.4 !important; z-index: 0 !important; pointer-events: none !important; }
-          .hero-h1 { font-size: clamp(40px, 11vw, 60px) !important; }
+          .hero-grid { grid-template-columns: 1.3fr 0.7fr !important; gap: 10px !important; align-items: center !important; }
+          .hero-3d { height: 320px !important; }
+          .hero-h1 { font-size: clamp(26px, 7vw, 44px) !important; }
           .bento > div { grid-column: span 12 !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
         }
