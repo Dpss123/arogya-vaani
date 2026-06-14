@@ -17,10 +17,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (bare) { setAuthed(true); return; }
+    if (bare) return;
     let active = true;
-    setAuthed(null);
     (async () => {
+      setAuthed(null);
       try {
         // 1) Supabase email/password session (localStorage — no network)
         const { data } = await supabaseBrowser.auth.getSession();
