@@ -382,9 +382,8 @@ export default function Landing() {
         @media (max-width: 880px) {
           .landing-nav { padding-top: 6px !important; padding-bottom: 6px !important; top: 14px !important; }
           .hero-sec { min-height: auto !important; align-items: flex-start !important; padding-top: 76px !important; padding-bottom: 36px !important; }
-          .hero-grid { grid-template-columns: 1.3fr 0.7fr !important; gap: 10px !important; align-items: center !important; }
-          .hero-3d { height: 320px !important; }
-          .hero-h1 { font-size: clamp(26px, 7vw, 44px) !important; }
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-3d { height: clamp(150px, 25vh, 200px) !important; order: -1; }
           .bento > div { grid-column: span 12 !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
         }
