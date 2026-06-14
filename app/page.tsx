@@ -115,7 +115,7 @@ export default function Landing() {
       </AnimatePresence>
 
       {/* HERO */}
-      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", padding: "96px 6vw 44px" }}>
+      <section className="hero-sec" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", padding: "96px 6vw 44px" }}>
         <div className="grid-bg" style={{ position: "absolute", inset: 0, opacity: 0.6, maskImage: "radial-gradient(ellipse at center, black, transparent 75%)" }} />
         <div style={{ position: "absolute", top: "10%", right: "-5%", width: 500, height: 500, background: "radial-gradient(circle, rgba(0,196,255,0.07), transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "5%", left: "-5%", width: 500, height: 500, background: "radial-gradient(circle, rgba(0,230,118,0.06), transparent 70%)", pointerEvents: "none" }} />
@@ -380,8 +380,9 @@ export default function Landing() {
         .nav-burger { display: inline-flex; align-items: center; justify-content: center; }
         @media (min-width: 880px) { .nav-link { display: inline-flex !important; } .nav-desktop { display: flex !important; } .nav-burger { display: none !important; } }
         @media (max-width: 880px) {
+          .hero-sec { min-height: auto !important; align-items: flex-start !important; padding-top: 84px !important; padding-bottom: 36px !important; }
           .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-3d { height: clamp(200px, 36vh, 270px) !important; order: -1; }
+          .hero-3d { height: clamp(150px, 25vh, 200px) !important; order: -1; }
           .bento > div { grid-column: span 12 !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
         }
