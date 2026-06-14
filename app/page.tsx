@@ -69,7 +69,7 @@ export default function Landing() {
       <Cursor />
 
       {/* NAV */}
-      <nav className="glass" style={{
+      <nav className="glass landing-nav" style={{
         position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)", zIndex: 200,
         width: "min(940px, 92vw)", borderRadius: 100, padding: "10px 12px 10px 22px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -77,7 +77,7 @@ export default function Landing() {
         boxShadow: scrolled ? "0 8px 40px rgba(0,230,118,0.08)" : "none",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          <Logo size={27} />
+          <Logo size={24} />
           <span className="nav-brand" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em", color: "#F0F4FF", whiteSpace: "nowrap" }}>Arogya Vaani</span>
         </div>
         <div className="nav-desktop" style={{ alignItems: "center", gap: 26 }}>
@@ -147,10 +147,10 @@ export default function Landing() {
 
           {/* 3D / glow */}
           <div style={{ position: "relative", height: 520, display: "flex", alignItems: "center", justifyContent: "center" }} className="hero-3d">
-            <div style={{ position: "absolute", width: 360, height: 360, background: "radial-gradient(circle, rgba(0,230,118,0.18), transparent 65%)", filter: "blur(20px)" }} />
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 300, height: 300, background: "radial-gradient(circle, rgba(0,230,118,0.18), transparent 65%)", filter: "blur(20px)" }} />
             <div style={{ position: "absolute", inset: 0 }}><Hero3D /></div>
             {/* CSS fallback ring (visible on mobile where 3D is skipped) */}
-            <div style={{ position: "absolute", width: 200, height: 200, borderRadius: "50%", border: "1px solid rgba(0,230,118,0.25)", animation: "glowpulse 3s infinite" }} />
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 150, height: 150, borderRadius: "50%", border: "1px solid rgba(0,230,118,0.25)", animation: "glowpulse 3s infinite" }} />
           </div>
         </div>
       </section>
@@ -380,7 +380,8 @@ export default function Landing() {
         .nav-burger { display: inline-flex; align-items: center; justify-content: center; }
         @media (min-width: 880px) { .nav-link { display: inline-flex !important; } .nav-desktop { display: flex !important; } .nav-burger { display: none !important; } }
         @media (max-width: 880px) {
-          .hero-sec { min-height: auto !important; align-items: flex-start !important; padding-top: 84px !important; padding-bottom: 36px !important; }
+          .landing-nav { padding-top: 6px !important; padding-bottom: 6px !important; top: 14px !important; }
+          .hero-sec { min-height: auto !important; align-items: flex-start !important; padding-top: 76px !important; padding-bottom: 36px !important; }
           .hero-grid { grid-template-columns: 1fr !important; }
           .hero-3d { height: clamp(150px, 25vh, 200px) !important; order: -1; }
           .bento > div { grid-column: span 12 !important; }
