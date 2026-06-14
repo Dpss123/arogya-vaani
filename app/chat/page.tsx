@@ -5,35 +5,19 @@ import toast from "react-hot-toast";
 import { FileText, Siren, User, Paperclip, Mic, Square, ArrowRight } from "lucide-react";
 import LangSelect from "@/components/LangSelect";
 import BackButton from "@/components/ui/BackButton";
+import BotFace from "@/components/BotFace";
 import { getLang } from "@/lib/lang";
 import { useT } from "@/components/LanguageProvider";
 
 type Message = { id: string; role: "patient" | "ai"; content: string; time: string; };
 
-// One white "eyelid" that drops over an eye to make the bot blink.
-const eyelidStyle = (left: number): React.CSSProperties => ({
-  position: "absolute", left: `${left}%`, top: "29%", width: "18%", height: "15%",
-  background: "#FFFFFF", borderRadius: "0 0 60% 60%", transformOrigin: "top center",
-  transform: "scaleY(0)", animation: "botBlink 4.2s ease-in-out infinite",
-});
-
 function AiAvatar({ size = 32 }: { size?: number }) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/bot-avatar.png" alt="" width={size} height={size} style={{ width: size, height: size, flexShrink: 0, alignSelf: "flex-end", objectFit: "contain" }} />
-  );
+  return <span style={{ alignSelf: "flex-end", display: "flex", flexShrink: 0 }}><BotFace size={size} /></span>;
 }
 
 // Floating, eye-blinking bot mascot for the welcome greeting.
 function BotMascot({ size = 104 }: { size?: number }) {
-  return (
-    <div style={{ width: size, height: size, position: "relative", flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 12px 22px rgba(59,63,224,0.42))" }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/bot-avatar.png" alt="Arogya Vaani AI" width={size} height={size} style={{ width: "100%", height: "100%", display: "block" }} />
-      <span style={eyelidStyle(28.7)} />
-      <span style={eyelidStyle(52.7)} />
-    </div>
-  );
+  return <BotFace size={size} blink float glow />;
 }
 
 export default function ChatPage() {
@@ -176,7 +160,7 @@ export default function ChatPage() {
         </div>
         <div style={{ textAlign: "center", marginTop: 8, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t("AI ADVICE · EMERGENCY → 108")}</div>
       </div>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}@keyframes wave{0%,100%{transform:scale(0.5)}50%{transform:scale(1)}}@keyframes botBlink{0%,90%,100%{transform:scaleY(0)}93%,96%{transform:scaleY(1)}}`}</style>
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}@keyframes wave{0%,100%{transform:scale(0.5)}50%{transform:scale(1)}}`}</style>
     </div>
   );
 }
