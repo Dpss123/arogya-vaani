@@ -66,6 +66,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
+  // Chat is a focused, full-screen conversation: it owns its header + input bar,
+  // so skip the app chrome (top bar, sidebar, bottom nav, floating bot) and padding.
+  if (pathname === "/chat") return <>{children}</>;
+
   return (
     <>
       {/* Mobile top bar — brand + language (hidden on desktop via .app-topbar) */}

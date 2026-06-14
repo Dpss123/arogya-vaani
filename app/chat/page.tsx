@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { FileText, Siren, User, Paperclip, Mic, Square, ArrowRight } from "lucide-react";
+import { Paperclip, Mic, Square, ArrowRight } from "lucide-react";
 import LangSelect from "@/components/LangSelect";
 import BackButton from "@/components/ui/BackButton";
 import BotAvatar from "@/components/ui/BotAvatar";
@@ -41,7 +40,6 @@ function BotMascot({ size = 104 }: { size?: number }) {
 }
 
 export default function ChatPage() {
-  const router = useRouter();
   const { t } = useT();
   const [messages, setMessages] = useState<Message[]>([{
     id: "1", role: "ai",
@@ -152,11 +150,8 @@ export default function ChatPage() {
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.06em" }}>{t("Online · Hindi + English")}</span>
           </div>
         </div>
-        <div className="m-wrap" style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
-          <span className="lang-desktop"><LangSelect /></span>
-          <button onClick={() => router.push("/report")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(0,230,118,0.08)", border: "1px solid rgba(0,230,118,0.15)", color: "#00E676", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><FileText size={14} /> {t("Report")}</button>
-          <button onClick={() => router.push("/emergency")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,71,87,0.08)", border: "1px solid rgba(255,71,87,0.2)", color: "#FF4757", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><Siren size={14} /> {t("Emergency")}</button>
-          <button onClick={() => router.push("/account")} style={{ display: "flex", alignItems: "center", background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", padding: 8, borderRadius: 100, cursor: "pointer" }}><User size={15} /></button>
+        <div style={{ marginLeft: "auto" }}>
+          <LangSelect />
         </div>
       </div>
 
