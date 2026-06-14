@@ -80,7 +80,7 @@ export default function Landing() {
           <Logo size={27} />
           <span className="nav-brand" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em", color: "#F0F4FF", whiteSpace: "nowrap" }}>Arogya Vaani</span>
         </div>
-        <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 26 }}>
+        <div className="nav-desktop" style={{ alignItems: "center", gap: 26 }}>
           {[["Services", "#services"], ["Platform", "#platform"], ["Impact", "#impact"], ["Tech", "#tech"]].map(([l, h]) => (
             <a key={l} href={h} style={{ fontSize: 13, color: "var(--text-2)", textDecoration: "none", display: "none" }} className="nav-link">{l}</a>
           ))}
@@ -379,7 +379,6 @@ export default function Landing() {
         .nav-desktop { display: none; }
         .nav-burger { display: inline-flex; align-items: center; justify-content: center; }
         @media (min-width: 880px) { .nav-link { display: inline-flex !important; } .nav-desktop { display: flex !important; } .nav-burger { display: none !important; } }
-        @media (max-width: 640px) { .nav-brand { display: none; } }
         @media (max-width: 880px) {
           .hero-grid { grid-template-columns: 1fr !important; }
           .hero-3d { height: clamp(140px, 30vh, 200px) !important; order: -1; }
