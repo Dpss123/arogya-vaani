@@ -159,7 +159,7 @@ export default function ChatPage() {
           </div>
         </div>
         <div className="m-wrap" style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
-          <LangSelect />
+          <span className="lang-desktop"><LangSelect /></span>
           <button onClick={() => router.push("/report")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(0,230,118,0.08)", border: "1px solid rgba(0,230,118,0.15)", color: "#00E676", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><FileText size={14} /> {t("Report")}</button>
           <button onClick={() => router.push("/emergency")} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,71,87,0.08)", border: "1px solid rgba(255,71,87,0.2)", color: "#FF4757", padding: "7px 14px", borderRadius: 100, fontSize: 12, cursor: "pointer", fontFamily: "var(--font-body)" }}><Siren size={14} /> {t("Emergency")}</button>
           <button onClick={() => router.push("/account")} style={{ display: "flex", alignItems: "center", background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", padding: 8, borderRadius: 100, cursor: "pointer" }}><User size={15} /></button>

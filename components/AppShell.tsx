@@ -1,11 +1,12 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, User } from "lucide-react";
+import { Menu } from "lucide-react";
 import BottomNav from "./BottomNav";
 import Sidebar from "./Sidebar";
 import BrandSpinner from "./BrandSpinner";
 import Logo from "./Logo";
+import LangSelect from "./LangSelect";
 import { supabaseBrowser } from "@/lib/supabaseBrowser";
 
 // Public routes (no login needed). Emergency stays open on purpose — never
@@ -68,11 +69,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <Logo size={21} withText textSize={16} />
           </div>
         </div>
-        <button onClick={() => router.push("/account")} aria-label="Account" style={{
-          width: 38, height: 38, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
-          background: "linear-gradient(135deg, rgba(0,230,118,0.16), rgba(0,196,255,0.16))",
-          border: "1px solid rgba(0,230,118,0.32)", color: "#00E676",
-        }}><User size={18} /></button>
+        <LangSelect />
       </header>
 
       <Sidebar open={navOpen} onClose={() => setNavOpen(false)} />

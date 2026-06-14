@@ -55,7 +55,7 @@ export default function Home() {
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>{t("NAMASKAR")}</div>
           <h1 className="shimmer-text" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "6px 0 0" }}>{t("Health Dashboard")}</h1>
         </div>
-        <LangSelect />
+        <span className="lang-desktop"><LangSelect /></span>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 14, marginBottom: 14 }} className="dash-row">
