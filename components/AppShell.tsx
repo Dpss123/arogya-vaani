@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import BottomNav from "./BottomNav";
 import Sidebar from "./Sidebar";
 import BrandSpinner from "./BrandSpinner";
@@ -51,18 +51,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {/* Mobile top bar — hamburger + brand (hidden on desktop via .app-topbar) */}
-      <header className="app-topbar glass" style={{
-        position: "fixed", top: 0, left: 0, right: 0, height: 52, zIndex: 120,
-        alignItems: "center", gap: 12, padding: "0 14px", borderBottom: "1px solid var(--border)", borderRadius: 0,
+      {/* Mobile top bar — hamburger + brand + account (hidden on desktop via .app-topbar) */}
+      <header className="app-topbar" style={{
+        position: "fixed", top: 0, left: 0, right: 0, height: 56, zIndex: 120,
+        alignItems: "center", justifyContent: "space-between", padding: "0 14px",
+        background: "linear-gradient(180deg, rgba(13,21,42,0.92) 0%, rgba(8,12,24,0.86) 100%)",
+        backdropFilter: "blur(18px) saturate(160%)", WebkitBackdropFilter: "blur(18px) saturate(160%)",
+        borderBottom: "1px solid rgba(0,230,118,0.14)", boxShadow: "0 6px 26px rgba(0,0,0,0.38)",
       }}>
-        <button onClick={() => setNavOpen(true)} aria-label="Open menu" style={{
-          background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", color: "#F0F4FF",
-          borderRadius: 10, padding: 7, cursor: "pointer", display: "flex",
-        }}><Menu size={20} /></button>
-        <div onClick={() => router.push("/home")} style={{ cursor: "pointer", display: "flex" }}>
-          <Logo size={20} withText textSize={15} />
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <button onClick={() => setNavOpen(true)} aria-label="Open menu" style={{
+            background: "rgba(255,255,255,0.06)", border: "1px solid var(--border)", color: "#EAF0FF",
+            borderRadius: 12, width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+          }}><Menu size={19} /></button>
+          <div onClick={() => router.push("/home")} style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+            <Logo size={21} withText textSize={16} />
+          </div>
         </div>
+        <button onClick={() => router.push("/account")} aria-label="Account" style={{
+          width: 38, height: 38, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+          background: "linear-gradient(135deg, rgba(0,230,118,0.16), rgba(0,196,255,0.16))",
+          border: "1px solid rgba(0,230,118,0.32)", color: "#00E676",
+        }}><User size={18} /></button>
       </header>
 
       <Sidebar open={navOpen} onClose={() => setNavOpen(false)} />
