@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BottomNav from "./BottomNav";
 import Sidebar from "./Sidebar";
 import FloatingBot from "./FloatingBot";
@@ -19,6 +19,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const bare = BARE.includes(pathname);
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [navOpen, setNavOpen] = useState(false);
+  const [barHidden, setBarHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
     if (bare) return;
@@ -38,6 +40,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     })();
     return () => { active = false; };
   }, [pathname, bare, router]);
+
+  // Smart auto-hide top bar: slide it away when scrolling down, reveal on scroll up.
+  useEffect(() => {
+    if (bare) return;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 60) setBarHidden(false);
+      else if (y > lastY.current + 6) setBarHidden(true);
+      else if (y < lastY.current - 6) setBarHidden(false);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [bare]);
 
   if (bare) return <>{children}</>;
 
@@ -59,6 +75,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         background: "linear-gradient(180deg, rgba(13,21,42,0.92) 0%, rgba(8,12,24,0.86) 100%)",
         backdropFilter: "blur(18px) saturate(160%)", WebkitBackdropFilter: "blur(18px) saturate(160%)",
         borderBottom: "1px solid rgba(0,230,118,0.14)", boxShadow: "0 6px 26px rgba(0,0,0,0.38)",
+        transform: barHidden ? "translateY(-100%)" : "translateY(0)",
+        transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)",
       }}>
         <div onClick={() => router.push("/home")} style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
           <Logo size={22} withText textSize={16} />
