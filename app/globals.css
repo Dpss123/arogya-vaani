@@ -145,6 +145,12 @@ input:focus, textarea:focus { border-color: rgba(0,230,118,0.5) !important; box-
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 
+/* mobile perf: lighter aurora blur + fewer blobs */
+@media (max-width: 768px) {
+  .aurora-blob { filter: blur(44px); opacity: 0.2; }
+  .aurora-blob.b3 { display: none; }
+}
+
 /* marquee pauses on hover */
 .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
 

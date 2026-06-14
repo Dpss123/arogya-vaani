@@ -222,7 +222,7 @@ export default function Landing() {
             12 services. <span className="shimmer-text">All on WhatsApp.</span>
           </h2>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))", gap: 16, marginTop: 48 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))", gap: 16, marginTop: 48 }}>
           {SERVICES.map((s, i) => (
             <Reveal key={s.title} delay={(i % 3) * 0.06}>
               <FeatureCard icon={s.icon} title={s.title} body={s.body} tags={s.tags} accent={s.accent} float floatDelay={(i % 6) * 0.4} onClick={() => router.push("/home")} />
@@ -261,7 +261,7 @@ export default function Landing() {
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#00E676", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 8 }}>Representative scenarios · illustrative</div>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,3.5vw,46px)", fontWeight: 700, letterSpacing: "-0.03em", margin: 0 }}>What it looks like in a village.</h2>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: 16, marginTop: 44 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 16, marginTop: 44 }}>
           {[
             { q: "Pehli baar kisi ne mujhe Hindi mein samjhaya ki meri report mein kya likha hai.", who: "RD", name: "Ramkali Devi, 58", loc: "Jwalapur" },
             { q: "Ab mere paas har patient aane se pehle unka AI brief ready hota hai.", who: "RK", name: "Dr. Rajesh Kumar", loc: "PHC Jwalapur" },
