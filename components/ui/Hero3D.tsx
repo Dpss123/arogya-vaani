@@ -8,8 +8,7 @@ export default function Hero3D() {
   const mount = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || window.matchMedia("(hover: none)").matches
-        || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let active = true;
     let cleanup = () => {};
 
@@ -19,6 +18,7 @@ export default function Hero3D() {
       const el = mount.current;
       const w = el.clientWidth || 1;
       const h = el.clientHeight || 1;
+      const isMobile = w < 768;   // lighter geometry on phones for smoothness
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
@@ -26,7 +26,7 @@ export default function Hero3D() {
 
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       renderer.setSize(w, h);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
       el.appendChild(renderer.domElement);
 
       const helix = new THREE.Group();
@@ -43,7 +43,7 @@ export default function Hero3D() {
       const disposables: { dispose: () => void }[] = [];
 
       // ── backbone strands as dense glowing points ──
-      const SEG = 600;
+      const SEG = isMobile ? 260 : 600;
       const a: number[] = [];
       const b: number[] = [];
       for (let i = 0; i <= SEG; i++) {
@@ -99,7 +99,7 @@ export default function Hero3D() {
 
       // ── ambient stars ──
       const stars: number[] = [];
-      for (let i = 0; i < 600; i++) stars.push((Math.random() - 0.5) * 44, (Math.random() - 0.5) * 44, (Math.random() - 0.5) * 22);
+      for (let i = 0; i < (isMobile ? 220 : 600); i++) stars.push((Math.random() - 0.5) * 44, (Math.random() - 0.5) * 44, (Math.random() - 0.5) * 22);
       const starGeo = new THREE.BufferGeometry();
       starGeo.setAttribute("position", new THREE.Float32BufferAttribute(stars, 3));
       const starMat = new THREE.PointsMaterial({ color: 0x66ffcc, size: 0.05, transparent: true, opacity: 0.38 });

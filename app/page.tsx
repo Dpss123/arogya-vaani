@@ -381,7 +381,7 @@ export default function Landing() {
         @media (min-width: 880px) { .nav-link { display: inline-flex !important; } .nav-desktop { display: flex !important; } .nav-burger { display: none !important; } }
         @media (max-width: 880px) {
           .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-3d { height: clamp(140px, 30vh, 200px) !important; order: -1; }
+          .hero-3d { height: clamp(200px, 36vh, 270px) !important; order: -1; }
           .bento > div { grid-column: span 12 !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
         }
