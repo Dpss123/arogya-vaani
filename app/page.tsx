@@ -338,13 +338,13 @@ export default function Landing() {
           </div>
           <div>
             <div style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--text-3)", marginBottom: 14, letterSpacing: "0.08em" }}>COMPANY</div>
-            {["Trixo Technologies", "Haridwar, Uttarakhand", "hello@trixo.in"].map((l) => (
+            {["Arogya Vaani", "Haridwar, Uttarakhand", "hello@trixo.in"].map((l) => (
               <div key={l} style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 9 }}>{l}</div>
             ))}
           </div>
         </div>
         <div style={{ maxWidth: 1320, margin: "40px auto 0", paddingTop: 20, borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
-          © 2025 Trixo Technologies · Arogya Vaani · Built with care in Haridwar
+          © 2025 Arogya Vaani · Built &amp; designed by Dheerendra Pratap Singh · Haridwar
         </div>
       </footer>
 
