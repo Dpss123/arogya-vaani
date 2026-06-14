@@ -99,16 +99,26 @@ export default function Landing() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMenuOpen(false)}
               style={{ position: "fixed", inset: 0, background: "rgba(4,6,13,0.6)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", zIndex: 300 }} />
             <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="glass" style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(66vw, 240px)", zIndex: 301, padding: "20px 16px", display: "flex", flexDirection: "column", gap: 4, borderRadius: "24px 0 0 24px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                <Logo size={26} />
-                <button onClick={() => setMenuOpen(false)} aria-label="Close menu" style={{ background: "transparent", border: "none", color: "var(--text-2)", cursor: "pointer", display: "flex" }}><X size={22} /></button>
+              style={{
+                position: "fixed", top: 0, right: 0, bottom: 0, width: "min(72vw, 252px)", zIndex: 301,
+                padding: "20px 16px 20px", display: "flex", flexDirection: "column", gap: 2, borderRadius: "22px 0 0 22px",
+                background: "linear-gradient(180deg, #0c1428 0%, #070c18 100%)",
+                borderLeft: "1px solid rgba(0,230,118,0.22)", boxShadow: "-24px 0 60px rgba(0,0,0,0.55)",
+                backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
+              }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 16, marginBottom: 10, borderBottom: "1px solid var(--border-soft)" }}>
+                <Logo size={20} withText textSize={15} />
+                <button onClick={() => setMenuOpen(false)} aria-label="Close menu" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", color: "var(--text-2)", cursor: "pointer", display: "flex", borderRadius: 10, padding: 6 }}><X size={17} /></button>
               </div>
               {[["Services", "#services"], ["Platform", "#platform"], ["Impact", "#impact"], ["Tech", "#tech"]].map(([l, h]) => (
-                <a key={l} href={h} onClick={() => setMenuOpen(false)} style={{ padding: "13px 4px", fontSize: 16, color: "#F0F4FF", textDecoration: "none", borderBottom: "1px solid var(--border-soft)", fontFamily: "var(--font-body)" }}>{l}</a>
+                <a key={l} href={h} onClick={() => setMenuOpen(false)}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 6px", fontSize: 15, fontWeight: 500, color: "#EAF0FF", textDecoration: "none", borderBottom: "1px solid var(--border-soft)", fontFamily: "var(--font-body)" }}>
+                  {l}<span style={{ color: "var(--text-3)", fontSize: 18, lineHeight: 1 }}>›</span>
+                </a>
               ))}
-              <button onClick={() => { setMenuOpen(false); router.push("/login"); }} style={{ marginTop: 16, padding: "13px", borderRadius: 100, border: "1px solid var(--border)", background: "transparent", color: "#F0F4FF", fontSize: 15, cursor: "pointer", fontFamily: "var(--font-body)" }}>Login</button>
-              <button onClick={() => { setMenuOpen(false); router.push("/home"); }} style={{ marginTop: 10, padding: "13px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#00E676,#00C4FF)", color: "#04060D", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)" }}>Start Free →</button>
+              <button onClick={() => { setMenuOpen(false); router.push("/login"); }} style={{ marginTop: 18, padding: "12px", borderRadius: 100, border: "1px solid var(--border)", background: "transparent", color: "#F0F4FF", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>Login</button>
+              <button onClick={() => { setMenuOpen(false); router.push("/home"); }} style={{ marginTop: 10, padding: "12px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#00E676,#00C4FF)", color: "#04060D", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)" }}>Start Free →</button>
+              <div style={{ marginTop: "auto", paddingTop: 18, fontSize: 11, color: "var(--text-3)", textAlign: "center", letterSpacing: "0.03em" }}>Free forever · 12 languages</div>
             </motion.div>
           </>
         )}
