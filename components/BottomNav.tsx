@@ -7,7 +7,7 @@ const NAV_ITEMS: { href: string; icon: LucideIcon; label: string }[] = [
   { href: "/home", icon: Home, label: "Dashboard" },
   { href: "/report", icon: FileText, label: "Report" },
   { href: "/medicine", icon: Pill, label: "Medicine" },
-  { href: "/diagnostics", icon: Microscope, label: "Diagnostics" },
+  { href: "/diagnostics", icon: Microscope, label: "Diagnose" },
 ];
 
 export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
@@ -35,7 +35,7 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
             key={href}
             onClick={() => router.push(href)}
             style={{
-              position: "relative", flex: 1, background: "transparent", border: "none",
+              position: "relative", flex: 1, minWidth: 0, background: "transparent", border: "none",
               display: "flex", flexDirection: "column", alignItems: "center",
               gap: 3, padding: "2px 0", cursor: "pointer",
             }}
@@ -47,7 +47,7 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
               style={{ filter: active ? "drop-shadow(0 0 6px rgba(0,230,118,0.7))" : "none", transition: "all 0.2s" }}
             />
             <span style={{
-              fontSize: 10,
+              fontSize: 10, lineHeight: 1, whiteSpace: "nowrap",
               color: active ? "#00E676" : "var(--text-3)",
               fontFamily: "var(--font-mono)",
               letterSpacing: "0.04em",
@@ -60,11 +60,11 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
         );
       })}
       <button onClick={onMenu} aria-label="Menu" style={{
-        position: "relative", flex: 1, background: "transparent", border: "none",
+        position: "relative", flex: 1, minWidth: 0, background: "transparent", border: "none",
         display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "2px 0", cursor: "pointer",
       }}>
         <Menu size={19} strokeWidth={1.9} color="rgba(240,244,255,0.4)" />
-        <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", fontWeight: 400 }}>{t("Menu")}</span>
+        <span style={{ fontSize: 10, lineHeight: 1, whiteSpace: "nowrap", color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", fontWeight: 400 }}>{t("Menu")}</span>
       </button>
     </nav>
   );
