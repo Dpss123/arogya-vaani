@@ -105,10 +105,11 @@ export default function ChatPage() {
     if (isListening) { keepListeningRef.current = false; recognitionRef.current?.stop(); setIsListening(false); return; }
 
     const baseText = input.trim() ? input.trim() + " " : "";   // keep what is already typed
+    const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
     let finalText = "";
     const recognition = new SR();
     recognition.lang = SPEECH_LOCALE[getLang()] || "hi-IN";   // listen in the chosen language
-    recognition.continuous = true;                            // keep listening across sentences
+    recognition.continuous = !isMobile;                       // desktop: hands-free; phones: single utterance (continuous is unreliable there) + auto-restart below
     recognition.interimResults = true;                        // live partial text in the box
     recognition.onresult = (e) => {
       let interim = "";
