@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { FileText, Siren, User, Paperclip, Mic, Square, ArrowRight } from "lucide-react";
 import LangSelect from "@/components/LangSelect";
 import BackButton from "@/components/ui/BackButton";
+import BotAvatar from "@/components/ui/BotAvatar";
 import { getLang } from "@/lib/lang";
 import { useT } from "@/components/LanguageProvider";
 
@@ -27,21 +28,14 @@ type SRInstance = {
 };
 
 function AiAvatar({ size = 32 }: { size?: number }) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/bot-avatar.png" alt="" width={size} height={size} style={{ width: size, height: size, flexShrink: 0, alignSelf: "flex-end", objectFit: "contain" }} />
-  );
+  return <BotAvatar size={size} blink={false} style={{ alignSelf: "flex-end" }} />;
 }
 
-// Floating, blinking bot mascot for the welcome greeting.
-// Two frames crossfade: eyes open (bot-avatar) and a quick blink (bot-avatar-blink).
+// Floating, blinking bot mascot for the welcome greeting (custom SVG, clean blink).
 function BotMascot({ size = 104 }: { size?: number }) {
   return (
-    <div style={{ position: "relative", width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 12px 22px rgba(0,230,118,0.4))" }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/bot-avatar.png" alt="Arogya Vaani AI" width={size} height={size} style={{ width: "100%", height: "100%", display: "block" }} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/bot-avatar-blink.png" alt="" width={size} height={size} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: 0, animation: "botBlink 4s ease-in-out infinite" }} />
+    <div style={{ width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.4))" }}>
+      <BotAvatar size={size} />
     </div>
   );
 }
