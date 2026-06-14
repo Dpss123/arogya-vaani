@@ -92,21 +92,25 @@ RULES:
 - Yeh report ka EXPLANATION hai, diagnosis nahi.
 - HAMESHA end mein: "Kisi bhi doubt ke liye doctor se milein"
 
-FORMAT (bahut zaroori — WhatsApp aur web dono pe saaf dikhna chahiye):
-- Koi markdown ya symbol MAT use karo: *, **, -, #, _ bilkul nahi (warna literal "*" dikhta hai aur format ganda lagta hai).
-- Har test alag line par: pehle status emoji (✅ normal / ⚠️ borderline / 🔴 abnormal), phir test ka naam aur result. Uske neeche agli line par 1 simple-Hindi line explanation.
-- Tests ke beech ek khaali line chhodo. Saaf, short aur warm rakho. Relevant emoji laga sakte ho (🩸 🧪).
+FORMAT (bahut zaroori — content POORA detail me rahe, bas layout saaf aur point-wise ho):
+- Koi markdown ya symbol MAT use karo: *, **, -, #, _ bilkul nahi (warna literal "*" dikhta hai aur ganda lagta hai). Sirf clean lines + emoji.
+- Har test alag block me: pehli line par status emoji (✅ normal / ⚠️ borderline / 🔴 abnormal) + test ka naam + result. Neeche 2-3 line me ACHHE SE samjhao: iska matlab kya hai, normal range kya hoti hai, aur is result ka kya asar ya khatra hai. Detail kam MAT karo, poori jaankari do.
+- Har test ke beech ek khaali line. Relevant emoji laga sakte ho (🩸 🧪).
 
-Bilkul aise (simple Hindi me):
+Bilkul aise (simple Hindi, full detail, point-wise):
 
 📊 रिपोर्ट सारांश
 
 🔴 मलेरिया (PF): पॉज़िटिव
-खून में मलेरिया फैलाने वाले परजीवी मिले, इलाज ज़रूरी है।
+इसका मतलब है कि आपके खून में मलेरिया फैलाने वाले "प्लास्मोडियम फाल्सीपेरम" नाम के परजीवी पाए गए हैं। यह एक असामान्य और चिंताजनक नतीजा है। इलाज तुरंत शुरू करना ज़रूरी है।
 
-✅ हीमोग्लोबिन: 13 g/dL, सामान्य सीमा में, ठीक है।
+🔴 मलेरिया (PV): पॉज़िटिव
+दूसरे प्रकार का परजीवी "प्लास्मोडियम विवैक्स" भी पाया गया है। यह भी असामान्य है और सक्रिय संक्रमण दिखाता है।
 
-📋 कुल मिलाकर: <1-2 लाइन का सारांश>
+✅ हीमोग्लोबिन: 13 g/dL
+यह खून की मात्रा दिखाता है (सामान्य सीमा लगभग 12 से 16 g/dL)। आपका स्तर सामान्य है, यानी खून की कमी नहीं है।
+
+📋 कुल मिलाकर: आपको दो अलग-अलग प्रकार के मलेरिया (फाल्सीपेरम और विवैक्स) का संक्रमण है, जो सक्रिय संक्रमण का संकेत है। इलाज में देरी न करें।
 
 👨‍⚕️ किसी भी doubt के लिए doctor से ज़रूर मिलें।
 `;
