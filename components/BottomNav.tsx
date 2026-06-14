@@ -1,17 +1,16 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
-import { MessageCircle, FileText, Pill, Stethoscope, User, type LucideIcon } from "lucide-react";
+import { Menu, FileText, Pill, Stethoscope, User, type LucideIcon } from "lucide-react";
 import { useT } from "./LanguageProvider";
 
 const NAV_ITEMS: { href: string; icon: LucideIcon; label: string }[] = [
-  { href: "/chat", icon: MessageCircle, label: "Chat" },
   { href: "/report", icon: FileText, label: "Report" },
   { href: "/medicine", icon: Pill, label: "Medicine" },
   { href: "/doctors", icon: Stethoscope, label: "Doctors" },
   { href: "/account", icon: User, label: "Account" },
 ];
 
-export default function BottomNav() {
+export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
   const { t } = useT();
@@ -26,6 +25,13 @@ export default function BottomNav() {
       borderTop: "1px solid var(--border)", borderRadius: 0,
       padding: "9px 0 max(9px, env(safe-area-inset-bottom))",
     }}>
+      <button onClick={onMenu} aria-label="Menu" style={{
+        position: "relative", flex: 1, background: "transparent", border: "none",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "4px 0", cursor: "pointer",
+      }}>
+        <Menu size={21} strokeWidth={1.9} color="rgba(240,244,255,0.4)" />
+        <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", fontWeight: 400 }}>{t("Menu")}</span>
+      </button>
       {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
         const active = pathname === href;
         return (
