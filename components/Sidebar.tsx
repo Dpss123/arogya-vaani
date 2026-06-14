@@ -3,7 +3,7 @@ import { useRouter, usePathname } from "next/navigation";
 import {
   Home, MessageCircle, Microscope, FileText, Pill, Brain, HeartPulse, Baby,
   Apple, TrendingUp, Activity, Landmark, Stethoscope, Cross, ClipboardList,
-  User, LayoutDashboard, Siren, type LucideIcon,
+  User, LayoutDashboard, Siren, X, type LucideIcon,
 } from "lucide-react";
 import Logo from "./Logo";
 import { useT } from "./LanguageProvider";
@@ -36,19 +36,25 @@ const GROUPS: { label: string; items: [LucideIcon, string, string][] }[] = [
   ]},
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ open = false, onClose }: { open?: boolean; onClose?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
   const { t } = useT();
+  const go = (href: string) => { router.push(href); onClose?.(); };
 
   return (
-    <aside className="app-sidebar glass" style={{
-      position: "fixed", top: 0, left: 0, bottom: 0, width: 248, zIndex: 90,
-      borderRight: "1px solid var(--border)", borderRadius: 0,
-      padding: "20px 14px",
-    }}>
-      <div onClick={() => router.push("/")} style={{ display: "flex", alignItems: "center", padding: "4px 10px 20px", cursor: "pointer" }}>
-        <Logo size={26} withText textSize={16} />
+    <>
+      <div className={`app-nav-backdrop${open ? " open" : ""}`} onClick={onClose} aria-hidden />
+      <aside className={`app-sidebar glass${open ? " open" : ""}`} style={{
+        position: "fixed", top: 0, left: 0, bottom: 0, width: 248,
+        borderRight: "1px solid var(--border)", borderRadius: 0,
+        padding: "20px 14px",
+      }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 6px 18px" }}>
+        <div onClick={() => go("/home")} style={{ display: "flex", cursor: "pointer" }}>
+          <Logo size={24} withText textSize={16} />
+        </div>
+        <button className="sidebar-close" onClick={onClose} aria-label="Close menu" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 10, padding: 6, cursor: "pointer" }}><X size={17} /></button>
       </div>
 
       <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 16 }}>
@@ -58,7 +64,7 @@ export default function Sidebar() {
             {g.items.map(([Icon, label, href]) => {
               const active = pathname === href;
               return (
-                <button key={href} onClick={() => router.push(href)} style={{
+                <button key={href} onClick={() => go(href)} style={{
                   width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "9px 10px",
                   borderRadius: 11, border: "none", cursor: "pointer", textAlign: "left",
                   fontFamily: "var(--font-body)", fontSize: 13.5, marginBottom: 2,
@@ -76,13 +82,14 @@ export default function Sidebar() {
         ))}
       </div>
 
-      <button onClick={() => router.push("/emergency")} style={{
+      <button onClick={() => go("/emergency")} style={{
         marginTop: 12, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
         padding: "11px", borderRadius: 12, border: "1px solid rgba(255,71,87,0.3)", background: "rgba(255,71,87,0.1)",
         color: "#FF4757", fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)", fontSize: 13,
       }}>
         <Siren size={16} strokeWidth={2.2} /> {t("Emergency")}
       </button>
-    </aside>
+      </aside>
+    </>
   );
 }

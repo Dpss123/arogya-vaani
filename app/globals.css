@@ -172,11 +172,27 @@ input, textarea, select, button { -webkit-appearance: none; appearance: none; }
 a, button, .clickable { transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
 
 /* ── app shell layout ── */
-.app-main { min-height: 100vh; }
-.app-sidebar { display: none; }
+/* Mobile: a fixed top bar (hamburger + brand) and the sidebar as a slide-in
+   drawer. Desktop (>=1024px): no top bar, sidebar permanently docked left. */
+.app-main { min-height: 100vh; padding-top: 52px; }
+.app-topbar { display: flex; }
+.app-nav-backdrop { display: none; }
+.app-nav-backdrop.open {
+  display: block; position: fixed; inset: 0; z-index: 305;
+  background: rgba(4,6,13,0.6); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+}
+.app-sidebar {
+  display: flex; flex-direction: column; z-index: 310;
+  transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.app-sidebar.open { transform: translateX(0); box-shadow: 24px 0 60px rgba(0,0,0,0.55); }
+.sidebar-close { display: flex; align-items: center; justify-content: center; }
 @media (min-width: 1024px) {
-  .app-sidebar { display: flex; flex-direction: column; }
-  .app-main { padding-left: 248px; }
+  .app-topbar { display: none; }
+  .sidebar-close { display: none; }
+  .app-nav-backdrop, .app-nav-backdrop.open { display: none; }
+  .app-main { padding-top: 0; padding-left: 248px; }
+  .app-sidebar { transform: none; transition: none; z-index: 90; }
   nav.bottom-nav { display: none; }
 }
 
