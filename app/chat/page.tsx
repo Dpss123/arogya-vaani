@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { Paperclip, Mic, Square, ArrowRight } from "lucide-react";
 import LangSelect from "@/components/LangSelect";
 import BackButton from "@/components/ui/BackButton";
-import BotAvatar from "@/components/ui/BotAvatar";
 import { getLang } from "@/lib/lang";
 import { useT } from "@/components/LanguageProvider";
 
@@ -27,14 +26,18 @@ type SRInstance = {
 };
 
 function AiAvatar({ size = 32 }: { size?: number }) {
-  return <BotAvatar size={size} blink={false} style={{ alignSelf: "flex-end" }} />;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src="/bot-avatar.png" alt="" width={size} height={size} style={{ width: size, height: size, flexShrink: 0, alignSelf: "flex-end", objectFit: "contain" }} />
+  );
 }
 
-// Floating, blinking bot mascot for the welcome greeting (custom SVG, clean blink).
+// Floating bot mascot for the welcome greeting (brand icon, gentle float).
 function BotMascot({ size = 104 }: { size?: number }) {
   return (
     <div style={{ width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.4))" }}>
-      <BotAvatar size={size} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bot-avatar.png" alt="Arogya Vaani AI" width={size} height={size} style={{ width: "100%", height: "100%", display: "block", objectFit: "contain" }} />
     </div>
   );
 }

@@ -202,10 +202,6 @@ a, button, .clickable { transition: background-color 0.15s ease, border-color 0.
   /* no bottom nav on desktop — sit in the bottom-right corner */
   .floating-bot { right: 24px; bottom: 24px; }
 }
-
-/* Blinking round eyes for the SVG BotAvatar (scaleY in place) */
-.bot-eyes { transform-box: fill-box; transform-origin: center; animation: eyeBlink 3.8s ease-in-out infinite; }
-@keyframes eyeBlink { 0%, 90%, 100% { transform: scaleY(1); } 94%, 97% { transform: scaleY(0.12); } }
 @media (min-width: 1024px) {
   .app-topbar { display: none; }
   .lang-desktop { display: inline-flex; align-items: center; }

@@ -1,8 +1,7 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
-import BotAvatar from "./ui/BotAvatar";
 
-// Floating AI assistant launcher — the blinking bot mascot pinned to the lower-left
+// Floating AI assistant launcher — the brand bot icon pinned to the lower-right
 // that opens the chat. Rendered only inside the authenticated AppShell; hidden on
 // the chat page itself (you are already there).
 export default function FloatingBot() {
@@ -12,7 +11,8 @@ export default function FloatingBot() {
 
   return (
     <button onClick={() => router.push("/chat")} aria-label="Ask the AI assistant" className="floating-bot">
-      <BotAvatar size={58} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bot-avatar.png" alt="AI assistant" width={54} height={54} style={{ width: 54, height: 54, objectFit: "contain", display: "block" }} />
     </button>
   );
 }
