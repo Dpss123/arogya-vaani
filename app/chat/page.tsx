@@ -17,12 +17,15 @@ function AiAvatar({ size = 32 }: { size?: number }) {
   );
 }
 
-// Floating bot mascot for the welcome greeting.
+// Floating, blinking bot mascot for the welcome greeting.
+// Two frames crossfade: eyes open (bot-avatar) and a quick blink (bot-avatar-blink).
 function BotMascot({ size = 104 }: { size?: number }) {
   return (
-    <div style={{ width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 12px 22px rgba(0,230,118,0.4))" }}>
+    <div style={{ position: "relative", width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 12px 22px rgba(0,230,118,0.4))" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/bot-avatar.png" alt="Arogya Vaani AI" width={size} height={size} style={{ width: "100%", height: "100%", display: "block" }} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bot-avatar-blink.png" alt="" width={size} height={size} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: 0, animation: "botBlink 4s ease-in-out infinite" }} />
     </div>
   );
 }
