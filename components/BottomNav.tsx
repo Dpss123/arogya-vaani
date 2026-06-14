@@ -20,9 +20,12 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
   if (hidden) return null;
 
   return (
-    <nav className="bottom-nav glass" style={{
+    <nav className="bottom-nav" style={{
       position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100,
-      borderTop: "1px solid var(--border)", borderRadius: 0,
+      background: "linear-gradient(180deg, rgba(13,21,42,0.94) 0%, rgba(8,12,24,0.97) 100%)",
+      backdropFilter: "blur(18px) saturate(160%)", WebkitBackdropFilter: "blur(18px) saturate(160%)",
+      borderTop: "1px solid rgba(0,230,118,0.14)", borderRadius: 0,
+      boxShadow: "0 -6px 26px rgba(0,0,0,0.38)",
       padding: "5px 0 max(6px, env(safe-area-inset-bottom))",
     }}>
       <button onClick={onMenu} aria-label="Menu" style={{
