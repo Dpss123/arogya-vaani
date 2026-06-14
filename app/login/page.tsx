@@ -68,6 +68,7 @@ export default function LoginPage() {
       <div className="login-brand grid-bg" style={{ flex: 1, position: "relative", padding: "56px 56px", flexDirection: "column", justifyContent: "space-between", borderRight: "1px solid var(--border)", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-10%", left: "-10%", width: 480, height: 480, background: "radial-gradient(circle, rgba(0,230,118,0.1), transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-10%", right: "-10%", width: 480, height: 480, background: "radial-gradient(circle, rgba(0,196,255,0.08), transparent 70%)", pointerEvents: "none" }} />
+        <div className="aurora-blob b1" /><div className="aurora-blob b2" />
 
         <Logo size={32} withText textSize={20} />
 

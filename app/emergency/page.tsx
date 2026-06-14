@@ -83,7 +83,7 @@ export default function EmergencyPage() {
         <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(26px,4vw,38px)", letterSpacing: "-0.025em", color: "#FF4757", margin: "8px 0 14px" }}>{t("Emergency?")}</h1>
         <div style={{ fontSize: 15, color: "var(--text-2)", lineHeight: 1.8, marginBottom: 36 }}>{t("Is button ko dabane se 108 ambulance ko GPS location aur symptoms turant bhej diye jayenge.")}</div>
 
-        <button onClick={handleEmergency} disabled={sending} style={{ width: 180, height: 180, borderRadius: "50%", background: sending ? "rgba(255,71,87,0.2)" : "rgba(255,71,87,0.9)", border: "4px solid #FF4757", boxShadow: "0 0 40px rgba(255,71,87,0.4)", color: "#fff", fontSize: 20, fontWeight: 800, cursor: "pointer", fontFamily: "var(--font-body)", marginBottom: 32, transition: "all 0.2s", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "pre-line" }}>
+        <button onClick={handleEmergency} disabled={sending} style={{ width: "clamp(150px,46vw,190px)", height: "clamp(150px,46vw,190px)", borderRadius: "50%", background: sending ? "rgba(255,71,87,0.2)" : "rgba(255,71,87,0.9)", border: "4px solid #FF4757", boxShadow: "0 0 40px rgba(255,71,87,0.4)", color: "#fff", fontSize: "clamp(17px,5vw,20px)", fontWeight: 800, cursor: "pointer", fontFamily: "var(--font-body)", marginBottom: 32, transition: "all 0.2s", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "pre-line" }}>
           {sending ? t("Bhej raha hoon...") : <><Siren size={28} color="#fff" strokeWidth={1.8} />{t("EMERGENCY\nALERT")}</>}
         </button>
 
