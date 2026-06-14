@@ -192,21 +192,20 @@ export default function ChatPage() {
         </div>
       )}
 
-      <div style={{ padding: "12px clamp(16px,4vw,28px) 20px", borderTop: "1px solid var(--border)", flexShrink: 0 }}>
-        <div style={{ display: "flex", gap: 10, alignItems: "flex-end", maxWidth: 720, margin: "0 auto" }}>
+      <div style={{ padding: "8px clamp(16px,4vw,28px) 10px", borderTop: "1px solid var(--border)", flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "flex-end", maxWidth: 720, margin: "0 auto" }}>
           <input type="file" ref={fileRef} accept="image/*,.pdf" onChange={handleReportUpload} style={{ display: "none" }} />
-          <button onClick={() => fileRef.current?.click()} disabled={uploadingReport} style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", color: "var(--text-2)", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button onClick={() => fileRef.current?.click()} disabled={uploadingReport} style={{ width: 42, height: 42, borderRadius: "50%", background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", color: "var(--text-2)", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
             {uploadingReport ? <div style={{ width: 16, height: 16, border: "2px solid rgba(0,230,118,0.3)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /> : <Paperclip size={18} />}
           </button>
-          <div style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 24, padding: "10px 16px" }}>
-            <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }} placeholder={t("Apni problem batayein...")} rows={1} style={{ width: "100%", background: "transparent", border: "none", outline: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", resize: "none", lineHeight: 1.5 }} />
+          <div className="chat-input-box" style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 24, padding: "10px 16px", transition: "border-color 0.2s, box-shadow 0.2s" }}>
+            <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }} placeholder={t("Apni problem batayein...")} rows={1} style={{ width: "100%", background: "transparent", border: "none", outline: "none", boxShadow: "none", color: "#F0F4FF", fontSize: 14, fontFamily: "var(--font-body)", resize: "none", lineHeight: 1.5 }} />
           </div>
-          <button onClick={handleVoice} style={{ width: 44, height: 44, borderRadius: "50%", background: isListening ? "rgba(255,71,87,0.15)" : "rgba(255,255,255,0.03)", border: `1px solid ${isListening ? "rgba(255,71,87,0.4)" : "var(--border)"}`, color: isListening ? "#FF4757" : "var(--text-2)", animation: isListening ? "micpulse 1.2s ease-out infinite" : undefined, cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button onClick={handleVoice} style={{ width: 42, height: 42, borderRadius: "50%", background: isListening ? "rgba(255,71,87,0.15)" : "rgba(255,255,255,0.03)", border: `1px solid ${isListening ? "rgba(255,71,87,0.4)" : "var(--border)"}`, color: isListening ? "#FF4757" : "var(--text-2)", animation: isListening ? "micpulse 1.2s ease-out infinite" : undefined, cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
             {isListening ? <Square size={16} fill="currentColor" /> : <Mic size={18} />}
           </button>
-          <button onClick={() => sendMessage(input)} disabled={!input.trim() || loading} style={{ width: 44, height: 44, borderRadius: "50%", background: input.trim() && !loading ? "linear-gradient(135deg,#00E676,#00C4FF)" : "rgba(255,255,255,0.03)", border: "none", color: input.trim() && !loading ? "#04060D" : "var(--text-3)", cursor: input.trim() && !loading ? "pointer" : "not-allowed", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}><ArrowRight size={18} /></button>
+          <button onClick={() => sendMessage(input)} disabled={!input.trim() || loading} style={{ width: 42, height: 42, borderRadius: "50%", background: input.trim() && !loading ? "linear-gradient(135deg,#00E676,#00C4FF)" : "rgba(255,255,255,0.03)", border: "none", color: input.trim() && !loading ? "#04060D" : "var(--text-3)", cursor: input.trim() && !loading ? "pointer" : "not-allowed", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}><ArrowRight size={18} /></button>
         </div>
-        <div style={{ textAlign: "center", marginTop: 8, fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>{t("AI ADVICE · EMERGENCY → 108")}</div>
       </div>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}@keyframes wave{0%,100%{transform:scale(0.5)}50%{transform:scale(1)}}`}</style>
     </div>

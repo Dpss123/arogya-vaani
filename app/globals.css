@@ -141,6 +141,8 @@ body {
 /* ── a11y + reduced motion ── */
 :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 input:focus, textarea:focus { border-color: rgba(0,230,118,0.5) !important; box-shadow: 0 0 0 3px rgba(0,230,118,0.12); outline: none; transition: box-shadow 0.2s var(--ease), border-color 0.2s var(--ease); }
+/* Chat input: focus ring on the rounded pill (container), not the inner textarea */
+.chat-input-box:focus-within { border-color: rgba(0,230,118,0.4) !important; box-shadow: 0 0 0 3px rgba(0,230,118,0.08); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
