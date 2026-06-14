@@ -1,13 +1,13 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, FileText, Pill, Stethoscope, User, type LucideIcon } from "lucide-react";
+import { Menu, Home, FileText, Pill, Microscope, type LucideIcon } from "lucide-react";
 import { useT } from "./LanguageProvider";
 
 const NAV_ITEMS: { href: string; icon: LucideIcon; label: string }[] = [
+  { href: "/home", icon: Home, label: "Dashboard" },
   { href: "/report", icon: FileText, label: "Report" },
   { href: "/medicine", icon: Pill, label: "Medicine" },
-  { href: "/doctors", icon: Stethoscope, label: "Doctors" },
-  { href: "/account", icon: User, label: "Account" },
+  { href: "/diagnostics", icon: Microscope, label: "Diagnostics" },
 ];
 
 export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
@@ -28,13 +28,6 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
       boxShadow: "0 -6px 26px rgba(0,0,0,0.38)",
       padding: "5px 0 max(6px, env(safe-area-inset-bottom))",
     }}>
-      <button onClick={onMenu} aria-label="Menu" style={{
-        position: "relative", flex: 1, background: "transparent", border: "none",
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "2px 0", cursor: "pointer",
-      }}>
-        <Menu size={19} strokeWidth={1.9} color="rgba(240,244,255,0.4)" />
-        <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", fontWeight: 400 }}>{t("Menu")}</span>
-      </button>
       {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
         const active = pathname === href;
         return (
@@ -66,6 +59,13 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
           </button>
         );
       })}
+      <button onClick={onMenu} aria-label="Menu" style={{
+        position: "relative", flex: 1, background: "transparent", border: "none",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "2px 0", cursor: "pointer",
+      }}>
+        <Menu size={19} strokeWidth={1.9} color="rgba(240,244,255,0.4)" />
+        <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", fontWeight: 400 }}>{t("Menu")}</span>
+      </button>
     </nav>
   );
 }
