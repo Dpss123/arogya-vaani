@@ -41,6 +41,29 @@ export async function askGemini(prompt: string): Promise<string> {
   }
 }
 
+// Streaming variant for the chat UI — yields text chunks as they are generated
+// so the reply appears instantly, token by token. Falls back to a single Groq
+// chunk if Gemini streaming fails, then to the sentinel. (askGemini above is
+// left untouched for triage / WhatsApp / other non-streaming callers.)
+export async function* askGeminiStream(prompt: string): AsyncGenerator<string> {
+  try {
+    const result = await geminiFlash.generateContentStream(prompt);
+    for await (const chunk of result.stream) {
+      const t = chunk.text();
+      if (t) yield t;
+    }
+  } catch (error) {
+    console.error("Gemini stream error, trying Groq fallback:", error);
+    try {
+      const { groqText } = await import("./groq");
+      yield await groqText(prompt);
+    } catch (e2) {
+      console.error("Groq fallback failed:", e2);
+      yield GEMINI_ERROR_MESSAGE;
+    }
+  }
+}
+
 // Helper — send image + prompt to Gemini Vision
 export async function askGeminiVision(
   imageBase64: string,

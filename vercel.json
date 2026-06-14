@@ -4,6 +4,9 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
+  "crons": [
+    { "path": "/api/keep-warm", "schedule": "*/10 * * * *" }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

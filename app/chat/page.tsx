@@ -56,10 +56,28 @@ export default function ChatPage() {
     addMessage("patient", text);
     setInput("");
     setLoading(true);
+    const aiId = (Date.now() + 1).toString();
+    const aiTime = new Date().toLocaleTimeString("hi-IN", { hour: "2-digit", minute: "2-digit" });
     try {
       const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text, history: messages.slice(-6), lang: getLang() }) });
-      const data = await res.json();
-      addMessage("ai", data.reply || t("Kuch problem aayi. Dobara try karein."));
+      if (!res.body) { addMessage("ai", t("Kuch problem aayi. Dobara try karein.")); return; }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = "";
+      let started = false;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        if (!started && acc.trim()) {
+          started = true;
+          setLoading(false);
+          setMessages(prev => [...prev, { id: aiId, role: "ai", content: acc, time: aiTime }]);
+        } else if (started) {
+          setMessages(prev => prev.map(m => (m.id === aiId ? { ...m, content: acc } : m)));
+        }
+      }
+      if (!started) addMessage("ai", t("Kuch problem aayi. Dobara try karein."));
     } catch { addMessage("ai", t("Network error. Please check connection.")); }
     finally { setLoading(false); }
   };
