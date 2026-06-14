@@ -37,7 +37,7 @@ function BotMascot({ size = 104 }: { size?: number }) {
   return (
     <div style={{ width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.4))" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/bot-avatar.png" alt="Arogya Vaani AI" width={size} height={size} style={{ width: "100%", height: "100%", display: "block", objectFit: "contain" }} />
+      <img src="/bot-avatar.png" alt="Arogya Vaani" width={size} height={size} style={{ width: "100%", height: "100%", display: "block", objectFit: "contain" }} />
     </div>
   );
 }
@@ -46,7 +46,7 @@ export default function ChatPage() {
   const { t } = useT();
   const [messages, setMessages] = useState<Message[]>([{
     id: "1", role: "ai",
-    content: t("Namaskar! Main Arogya Vaani AI hoon.\n\nApni sehat ki koi bhi baat poochhein, Hindi ya English mein.\n\nReport bhejne ke liye neeche clip button, aur bolne ke liye mic button dabayein.\n\nYeh AI advice hai, serious symptoms mein 108 call karein."),
+    content: t("Namaskar! Main Arogya Vaani hoon.\n\nApni sehat ki koi bhi baat poochhein, Hindi ya English mein.\n\nReport bhejne ke liye neeche clip button, aur bolne ke liye mic button dabayein.\n\nYeh AI advice hai, serious symptoms mein 108 call karein."),
     time: new Date().toLocaleTimeString("hi-IN", { hour: "2-digit", minute: "2-digit" })
   }]);
   const [input, setInput] = useState("");
@@ -162,7 +162,7 @@ export default function ChatPage() {
         <BackButton size={19} style={{ flexShrink: 0 }} />
         <AiAvatar size={36} />
         <div style={{ minWidth: 0 }}>
-          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(17px,2.2vw,21px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: 0 }}>{t("Arogya Vaani AI")}</h1>
+          <h1 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(17px,2.2vw,21px)", letterSpacing: "-0.025em", color: "#F0F4FF", margin: 0 }}>{t("Arogya Vaani")}</h1>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 1 }}>
             <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#00E676", boxShadow: "0 0 8px #00E676", animation: "heartbeat 1.8s infinite" }} />
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-3)", letterSpacing: "0.06em" }}>{t("Online · Hindi + English")}</span>
