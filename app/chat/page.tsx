@@ -10,6 +10,22 @@ import { useT } from "@/components/LanguageProvider";
 
 type Message = { id: string; role: "patient" | "ai"; content: string; time: string; };
 
+// Map the app's language to a speech-recognition locale, so the mic listens in
+// the user's chosen language (not only Hindi).
+const SPEECH_LOCALE: Record<string, string> = {
+  hinglish: "hi-IN", hindi: "hi-IN", english: "en-IN", tamil: "ta-IN",
+  telugu: "te-IN", bengali: "bn-IN", marathi: "mr-IN", gujarati: "gu-IN",
+  kannada: "kn-IN", punjabi: "pa-IN", odia: "or-IN", malayalam: "ml-IN",
+};
+type SREvent = { resultIndex: number; results: { length: number; [i: number]: { isFinal: boolean; [j: number]: { transcript: string } } } };
+type SRInstance = {
+  lang: string; continuous: boolean; interimResults: boolean;
+  onresult: ((e: SREvent) => void) | null;
+  onend: (() => void) | null;
+  onerror: ((e: { error: string }) => void) | null;
+  start: () => void; stop: () => void;
+};
+
 function AiAvatar({ size = 32 }: { size?: number }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -44,6 +60,7 @@ export default function ChatPage() {
   const [uploadingReport, setUploadingReport] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<SRInstance | null>(null);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
@@ -83,17 +100,31 @@ export default function ChatPage() {
   };
 
   const handleVoice = () => {
-    const w = window as Window & { SpeechRecognition?: new() => { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: { results: { [k: number]: { [k: number]: { transcript: string } } } }) => void) | null; onend: (() => void) | null; onerror: (() => void) | null; start: () => void; stop: () => void; }; webkitSpeechRecognition?: new() => { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: { results: { [k: number]: { [k: number]: { transcript: string } } } }) => void) | null; onend: (() => void) | null; onerror: (() => void) | null; start: () => void; stop: () => void; } };
+    const w = window as Window & { SpeechRecognition?: new () => SRInstance; webkitSpeechRecognition?: new () => SRInstance };
     const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SR) { toast.error(t("Chrome use karein voice ke liye")); return; }
-    if (isListening) { setIsListening(false); return; }
+    // tapping the mic again stops listening
+    if (isListening) { recognitionRef.current?.stop(); setIsListening(false); return; }
     const recognition = new SR();
-    recognition.lang = "hi-IN";
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.onresult = (e) => { setInput(e.results[0][0].transcript); setIsListening(false); };
+    recognition.lang = SPEECH_LOCALE[getLang()] || "hi-IN";   // listen in the chosen language
+    recognition.continuous = true;                            // keep listening across sentences
+    recognition.interimResults = true;                        // live partial text in the box
+    let finalText = "";
+    recognition.onresult = (e) => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const tr = e.results[i][0].transcript;
+        if (e.results[i].isFinal) finalText += tr + " ";
+        else interim += tr;
+      }
+      setInput((finalText + interim).trim());
+    };
     recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => { toast.error(t("Mic access do")); setIsListening(false); };
+    recognition.onerror = (ev) => {
+      if (ev.error === "not-allowed" || ev.error === "service-not-allowed") toast.error(t("Mic access do"));
+      setIsListening(false);
+    };
+    recognitionRef.current = recognition;
     recognition.start();
     setIsListening(true);
   };
