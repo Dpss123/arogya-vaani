@@ -45,7 +45,7 @@ export default function Sidebar() {
     <aside className="app-sidebar glass" style={{
       position: "fixed", top: 0, left: 0, bottom: 0, width: 248, zIndex: 90,
       borderRight: "1px solid var(--border)", borderRadius: 0,
-      display: "flex", flexDirection: "column", padding: "20px 14px",
+      padding: "20px 14px",
     }}>
       <div onClick={() => router.push("/")} style={{ display: "flex", alignItems: "center", padding: "4px 10px 20px", cursor: "pointer" }}>
         <Logo size={26} withText textSize={16} />
