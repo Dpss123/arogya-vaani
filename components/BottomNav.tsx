@@ -23,13 +23,13 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
     <nav className="bottom-nav glass" style={{
       position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100,
       borderTop: "1px solid var(--border)", borderRadius: 0,
-      padding: "9px 0 max(9px, env(safe-area-inset-bottom))",
+      padding: "5px 0 max(6px, env(safe-area-inset-bottom))",
     }}>
       <button onClick={onMenu} aria-label="Menu" style={{
         position: "relative", flex: 1, background: "transparent", border: "none",
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "4px 0", cursor: "pointer",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "2px 0", cursor: "pointer",
       }}>
-        <Menu size={21} strokeWidth={1.9} color="rgba(240,244,255,0.4)" />
+        <Menu size={19} strokeWidth={1.9} color="rgba(240,244,255,0.4)" />
         <span style={{ fontSize: 10, color: "var(--text-3)", fontFamily: "var(--font-mono)", letterSpacing: "0.04em", fontWeight: 400 }}>{t("Menu")}</span>
       </button>
       {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
@@ -41,11 +41,11 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
             style={{
               position: "relative", flex: 1, background: "transparent", border: "none",
               display: "flex", flexDirection: "column", alignItems: "center",
-              gap: 4, padding: "4px 0", cursor: "pointer",
+              gap: 3, padding: "2px 0", cursor: "pointer",
             }}
           >
             <Icon
-              size={21}
+              size={19}
               strokeWidth={active ? 2.4 : 1.9}
               color={active ? "#00E676" : "rgba(240,244,255,0.4)"}
               style={{ filter: active ? "drop-shadow(0 0 6px rgba(0,230,118,0.7))" : "none", transition: "all 0.2s" }}
@@ -58,7 +58,7 @@ export default function BottomNav({ onMenu }: { onMenu?: () => void }) {
               fontWeight: active ? 600 : 400,
             }}>{t(label)}</span>
             {active && (
-              <div style={{ position: "absolute", top: -9, width: 22, height: 2, borderRadius: 2, background: "#00E676", boxShadow: "0 0 8px #00E676" }} />
+              <div style={{ position: "absolute", top: -5, width: 22, height: 2, borderRadius: 2, background: "#00E676", boxShadow: "0 0 8px #00E676" }} />
             )}
           </button>
         );

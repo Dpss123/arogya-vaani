@@ -191,14 +191,14 @@ a, button, .clickable { transition: background-color 0.15s ease, border-color 0.
 
 /* Floating AI launcher — lower-left, above the bottom nav (clean: float + soft shadow, no glow/dot) */
 .floating-bot {
-  position: fixed; left: 14px; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 110;
+  position: fixed; right: 14px; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 110;
   background: transparent; border: none; padding: 0; cursor: pointer; display: flex;
   animation: floaty 3.2s ease-in-out infinite;
   filter: drop-shadow(0 6px 14px rgba(0,0,0,0.45));
 }
 @media (min-width: 1024px) {
-  /* clear the docked sidebar; there is no bottom nav on desktop */
-  .floating-bot { left: 268px; bottom: 24px; }
+  /* no bottom nav on desktop — sit in the bottom-right corner */
+  .floating-bot { right: 24px; bottom: 24px; }
 }
 
 /* Blinking round eyes for the SVG BotAvatar (scaleY in place) */
