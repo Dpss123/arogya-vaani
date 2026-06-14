@@ -45,17 +45,21 @@ export default function Home() {
   const tip = TIPS[new Date().getDay() % TIPS.length];
 
   return (
-    <div style={{ padding: "36px clamp(20px,4vw,44px) 100px", maxWidth: 1120, margin: "0 auto" }}>
+    <>
+      <div aria-hidden style={{ position: "fixed", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
+        <div className="aurora-blob b1" /><div className="aurora-blob b2" /><div className="aurora-blob b3" />
+      </div>
+      <div style={{ position: "relative", zIndex: 1, padding: "36px clamp(20px,4vw,44px) 100px", maxWidth: 1120, margin: "0 auto" }}>
       <div className="m-stack-flex" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28, gap: 16, flexWrap: "wrap" }}>
         <div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>{t("NAMASKAR")}</div>
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "6px 0 0" }}>{t("Health Dashboard")}</h1>
+          <h1 className="shimmer-text" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(28px,4vw,42px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "6px 0 0" }}>{t("Health Dashboard")}</h1>
         </div>
         <LangSelect />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 14, marginBottom: 14 }} className="dash-row">
-        <GlassCard accent="#00E676" onClick={() => router.push("/chat")} style={{ padding: 26 }}>
+        <GlassCard accent="#00E676" glow onClick={() => router.push("/chat")} style={{ padding: 26 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
             <div style={{ width: 44, height: 44, borderRadius: 14, background: "linear-gradient(135deg,#00E676,#00B4D8)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Stethoscope size={22} color="#04060D" strokeWidth={2} />
@@ -95,12 +99,13 @@ export default function Home() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px,1fr))", gap: 14 }}>
         {ACTIONS.map(([Icon, label, desc, href, color], i) => (
           <Reveal key={href} delay={(i % 4) * 0.05}>
-            <FeatureCard icon={<Icon size={28} color={color} strokeWidth={1.7} />} title={t(label)} body={t(desc)} accent={color} onClick={() => router.push(href)} />
+            <FeatureCard icon={<Icon size={28} color={color} strokeWidth={1.7} />} title={t(label)} body={t(desc)} accent={color} float floatDelay={(i % 6) * 0.45} onClick={() => router.push(href)} />
           </Reveal>
         ))}
       </div>
 
       <style>{`@media (max-width: 760px){ .dash-row { grid-template-columns: 1fr !important; } }`}</style>
-    </div>
+      </div>
+    </>
   );
 }

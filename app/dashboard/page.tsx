@@ -77,10 +77,11 @@ export default function DashboardPage() {
 
   return (
     <div style={{ minHeight: "100vh", padding: "32px clamp(20px,4vw,40px) 100px", maxWidth: 1200, margin: "0 auto" }}>
+      <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: -1, overflow: "hidden", pointerEvents: "none" }}><div className="aurora-blob b1" /><div className="aurora-blob b2" /></div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
         <div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-3)", letterSpacing: "0.08em" }}>{t("HARIDWAR DISTRICT")}</div>
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px,3.5vw,38px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "5px 0 0" }}>{t("Doctor Dashboard")}</h1>
+          <h1 className="shimmer-text" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px,3.5vw,38px)", fontWeight: 800, letterSpacing: "-0.025em", margin: "5px 0 0" }}>{t("Doctor Dashboard")}</h1>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 14px", borderRadius: 100, border: "1px solid rgba(0,230,118,0.25)", background: "rgba(0,230,118,0.06)" }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00E676", boxShadow: "0 0 8px #00E676", animation: "heartbeat 1.8s infinite" }} />

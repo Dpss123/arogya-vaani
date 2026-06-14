@@ -92,6 +92,7 @@ export default function Landing() {
         <div className="grid-bg" style={{ position: "absolute", inset: 0, opacity: 0.6, maskImage: "radial-gradient(ellipse at center, black, transparent 75%)" }} />
         <div style={{ position: "absolute", top: "10%", right: "-5%", width: 500, height: 500, background: "radial-gradient(circle, rgba(0,196,255,0.07), transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "5%", left: "-5%", width: 500, height: 500, background: "radial-gradient(circle, rgba(0,230,118,0.06), transparent 70%)", pointerEvents: "none" }} />
+        <div className="aurora-wrap"><div className="aurora-blob b1" /><div className="aurora-blob b2" /></div>
 
         <div style={{ position: "relative", display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 40, width: "100%", maxWidth: 1320, margin: "0 auto", alignItems: "center" }} className="hero-grid">
           <div>
@@ -159,7 +160,7 @@ export default function Landing() {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 16, marginTop: 48 }} className="bento">
           {/* AI Diagnostics · 4 trained models */}
-          <GlassCard accent="#00E676" style={{ gridColumn: "span 7", padding: 28, minHeight: 260 }}>
+          <GlassCard accent="#00E676" glow style={{ gridColumn: "span 7", padding: 28, minHeight: 260 }}>
             <Badge><Dna size={14} strokeWidth={1.8} /> AI DIAGNOSTICS ENGINE</Badge>
             <div style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 700, margin: "16px 0 6px" }}>4 real trained models. Live.</div>
             <div style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 20, lineHeight: 1.6 }}>Not just an LLM · actual CNNs/ViTs deployed on Hugging Face, with Gemini→Groq fallback.</div>
@@ -224,7 +225,7 @@ export default function Landing() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))", gap: 16, marginTop: 48 }}>
           {SERVICES.map((s, i) => (
             <Reveal key={s.title} delay={(i % 3) * 0.06}>
-              <FeatureCard icon={s.icon} title={s.title} body={s.body} tags={s.tags} accent={s.accent} onClick={() => router.push("/home")} />
+              <FeatureCard icon={s.icon} title={s.title} body={s.body} tags={s.tags} accent={s.accent} float floatDelay={(i % 6) * 0.4} onClick={() => router.push("/home")} />
             </Reveal>
           ))}
         </div>
