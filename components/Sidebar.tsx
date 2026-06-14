@@ -3,7 +3,7 @@ import { useRouter, usePathname } from "next/navigation";
 import {
   Home, MessageCircle, Microscope, FileText, Pill, Brain, HeartPulse, Baby,
   Apple, TrendingUp, Activity, Landmark, Stethoscope, Cross, ClipboardList,
-  User, LayoutDashboard, Siren, X, type LucideIcon,
+  User, LayoutDashboard, Siren, type LucideIcon,
 } from "lucide-react";
 import Logo from "./Logo";
 import { useT } from "./LanguageProvider";
@@ -51,11 +51,8 @@ export default function Sidebar({ open = false, onClose }: { open?: boolean; onC
         padding: "20px 12px",
         background: "linear-gradient(180deg, #0c1428 0%, #070c18 100%)",
       }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 6px 16px", marginBottom: 6, borderBottom: "1px solid var(--border-soft)" }}>
-        <div onClick={() => go("/home")} style={{ display: "flex", cursor: "pointer" }}>
-          <Logo size={24} withText textSize={16} />
-        </div>
-        <button className="sidebar-close" onClick={onClose} aria-label="Close menu" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 10, padding: 6, cursor: "pointer" }}><X size={17} /></button>
+      <div onClick={() => go("/home")} style={{ display: "flex", alignItems: "center", cursor: "pointer", padding: "2px 6px 16px", marginBottom: 6, borderBottom: "1px solid var(--border-soft)" }}>
+        <Logo size={24} withText textSize={16} />
       </div>
 
       <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 16 }}>
