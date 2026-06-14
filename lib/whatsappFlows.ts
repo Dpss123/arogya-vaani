@@ -7,7 +7,7 @@ import { setSession, clearSession } from "./whatsappSession";
 export async function sendMainMenu(to: string) {
   await sendWhatsAppList(
     to,
-    "Namaste! 🙏 Main aapka *free health saathi* hoon.\n\nNeeche se koi service chunein — ya seedha apni problem likh dein (Hindi ya English mein).",
+    "Namaste! 🙏 Main aapka *free health saathi* hoon.\n\nNeeche se koi service chunein — ya seedha apni problem likh dein (kisi bhi bhasha mein).",
     "Services dekhein",
     [
       { id: "svc_symptom", title: "🩺 Lakshan batao", description: "Bukhar, dard, etc — AI se salah" },

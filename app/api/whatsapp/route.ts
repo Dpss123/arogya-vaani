@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
     const historyText = history
       .map((m: { role: string; content: string }) => `${m.role === "patient" ? "Patient" : "AI"}: ${m.content}`)
       .join("\n");
-    const prompt = `${CHAT_SYSTEM_PROMPT}\n\nPrevious:\n${historyText}\n\nPatient: "${text}"\n\nResponse (Hindi, 3-4 lines). End by suggesting they type 'menu' for more services:`;
+    const prompt = `${CHAT_SYSTEM_PROMPT}\n\nPrevious:\n${historyText}\n\nPatient: "${text}"\n\nReply in the SAME language the patient wrote in (3-4 lines). End by suggesting they type 'menu' for more services:`;
     const reply = await askGemini(prompt);
     await sendWhatsAppMessage(from, reply);
     await saveMessage(from, "ai", reply);
