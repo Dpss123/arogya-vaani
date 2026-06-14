@@ -5,19 +5,26 @@ import toast from "react-hot-toast";
 import { FileText, Siren, User, Paperclip, Mic, Square, ArrowRight } from "lucide-react";
 import LangSelect from "@/components/LangSelect";
 import BackButton from "@/components/ui/BackButton";
-import BotFace from "@/components/BotFace";
 import { getLang } from "@/lib/lang";
 import { useT } from "@/components/LanguageProvider";
 
 type Message = { id: string; role: "patient" | "ai"; content: string; time: string; };
 
 function AiAvatar({ size = 32 }: { size?: number }) {
-  return <span style={{ alignSelf: "flex-end", display: "flex", flexShrink: 0 }}><BotFace size={size} /></span>;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src="/bot-avatar.png" alt="" width={size} height={size} style={{ width: size, height: size, flexShrink: 0, alignSelf: "flex-end", objectFit: "contain" }} />
+  );
 }
 
-// Floating, eye-blinking bot mascot for the welcome greeting.
+// Floating bot mascot for the welcome greeting.
 function BotMascot({ size = 104 }: { size?: number }) {
-  return <BotFace size={size} blink float glow />;
+  return (
+    <div style={{ width: size, height: size, flexShrink: 0, animation: "floaty 3.2s ease-in-out infinite", filter: "drop-shadow(0 12px 22px rgba(0,230,118,0.4))" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bot-avatar.png" alt="Arogya Vaani AI" width={size} height={size} style={{ width: "100%", height: "100%", display: "block" }} />
+    </div>
+  );
 }
 
 export default function ChatPage() {

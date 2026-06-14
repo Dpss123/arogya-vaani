@@ -58,7 +58,6 @@ body {
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
 @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes botBlink { 0%,90%,100% { transform: scaleY(1); } 93%,96% { transform: scaleY(0.12); } }
 @keyframes glowpulse { 0%,100% { opacity: 0.45; } 50% { opacity: 1; } }
 @keyframes heartbeat { 0%,100% { box-shadow:0 0 0 0 rgba(0,230,118,0.5);} 50% { box-shadow:0 0 0 6px rgba(0,230,118,0);} }
 
