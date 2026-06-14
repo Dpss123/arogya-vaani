@@ -354,7 +354,7 @@ export default function Landing() {
         @media (max-width: 640px) { .nav-brand { display: none; } }
         @media (max-width: 880px) {
           .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-3d { height: 320px !important; order: -1; }
+          .hero-3d { height: clamp(140px, 30vh, 200px) !important; order: -1; }
           .bento > div { grid-column: span 12 !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
         }
