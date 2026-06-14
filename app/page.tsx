@@ -130,7 +130,7 @@ export default function Landing() {
 
       {/* STATS — below the fold, animate on scroll */}
       <section style={{ borderTop: "1px solid var(--border)", padding: "32px 6vw" }}>
-        <div className="m-gap-sm" style={{ maxWidth: 1320, margin: "0 auto", display: "flex", gap: 52, flexWrap: "wrap" }}>
+        <div className="m-gap-sm" style={{ maxWidth: 1320, margin: "0 auto", display: "flex", justifyContent: "space-between", gap: 40, flexWrap: "wrap" }}>
           {[["700", "M+", "Rural Indians unreached"], ["12", "", "Indian languages"], ["4", "", "Trained ML models"], ["0", "", "Cost to patient (₹)"]].map(([n, s, l]) => (
             <div key={l}>
               <div style={{ fontFamily: "var(--font-display)", fontSize: 34, fontWeight: 800, color: "#00E676", letterSpacing: "-0.03em" }}>
