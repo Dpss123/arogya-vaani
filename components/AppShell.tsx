@@ -3,6 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import BottomNav from "./BottomNav";
 import Sidebar from "./Sidebar";
+import BrandSpinner from "./BrandSpinner";
 import { supabaseBrowser } from "@/lib/supabaseBrowser";
 
 // Public routes (no login needed). Emergency stays open on purpose — never
@@ -40,8 +41,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   if (authed !== true) {
     return (
       <div style={{ minHeight: "100vh", background: "#06090f", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: 40, height: 40, border: "3px solid rgba(0,230,118,0.15)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+        <BrandSpinner size={62} />
       </div>
     );
   }

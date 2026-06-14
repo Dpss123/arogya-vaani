@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Siren, Building2, Smile, MessageCircle, Sparkles, X } from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import Counter from "@/components/ui/Counter";
+import BrandSpinner from "@/components/BrandSpinner";
 import { useT } from "@/components/LanguageProvider";
 
 type Patient = {
@@ -108,7 +109,7 @@ export default function DashboardPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
           {loading ? (
             <div style={{ display: "flex", justifyContent: "center", padding: 50 }}>
-              <div style={{ width: 32, height: 32, border: "3px solid rgba(0,230,118,0.2)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
+              <BrandSpinner size={52} />
             </div>
           ) : filtered.map((p) => (
             <GlassCard key={p.id} accent={vc(p.verdict)} onClick={() => { setSelected(selected?.id === p.id ? null : p); setAiBrief(null); }}

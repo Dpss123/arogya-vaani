@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { getPatientKey } from "@/lib/patientId";
 import GlassCard from "@/components/ui/GlassCard";
 import BackButton from "@/components/ui/BackButton";
+import BrandSpinner from "@/components/BrandSpinner";
 import { useT } from "@/components/LanguageProvider";
 import { TrendingUp, TrendingDown, ArrowRight, AlertTriangle, Search, Check } from "lucide-react";
 
@@ -60,8 +61,7 @@ export default function PredictivePage() {
 
         {loading ? (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, padding: "60px 0" }}>
-            <div style={{ width: 44, height: 44, border: "3px solid rgba(0,230,118,0.2)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-            <p style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 13 }}>{t("AI aapki health analyse kar raha hai...")}</p>
+            <BrandSpinner size={58} text={t("AI aapki health analyse kar raha hai...")} />
           </div>
         ) : errored ? (
           <GlassCard accent="#FF4757" lift={false} style={{ padding: 24, textAlign: "center" }}>

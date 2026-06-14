@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import GlassCard from "@/components/ui/GlassCard";
 import { Smile, Stethoscope, Siren, AlertTriangle, Clock } from "lucide-react";
 import BackButton from "@/components/ui/BackButton";
+import BrandSpinner from "@/components/BrandSpinner";
 import { useT } from "@/components/LanguageProvider";
 
 type TriageData = {
@@ -79,9 +80,7 @@ function TriageContent() {
 
   if (loading) return (
     <div style={{ minHeight: "100vh", background: "#06090f", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
-      <div style={{ width: 48, height: 48, border: "3px solid rgba(0,230,118,0.2)", borderTopColor: "#00E676", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-      <p style={{ color: "var(--text-3)", fontFamily: "var(--font-mono)", fontSize: 13 }}>{t("AI triage kar raha hai...")}</p>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      <BrandSpinner size={64} text={t("AI triage kar raha hai...")} />
     </div>
   );
 
