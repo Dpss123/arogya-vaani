@@ -19,8 +19,8 @@ export async function GET() {
     if (res.ok) {
       return NextResponse.json({ ok: true, tokenValid: true, verified_name: data.verified_name, quality: data.quality_rating });
     }
-    const err = (data as { error?: { message?: string; code?: number } }).error;
-    return NextResponse.json({ ok: false, tokenValid: false, httpStatus: res.status, code: err?.code ?? null, metaError: err?.message ?? null });
+    const err = (data as { error?: Record<string, unknown> }).error ?? null;
+    return NextResponse.json({ ok: false, tokenValid: false, httpStatus: res.status, error: err });
   } catch (e) {
     return NextResponse.json({ ok: false, reason: "fetch-failed", error: String(e) });
   }
