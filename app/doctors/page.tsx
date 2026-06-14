@@ -133,13 +133,15 @@ export default function DoctorsPage() {
         </div>
 
         {/* EMERGENCY */}
-        <GlassCard accent="#FF4757" lift={false} style={{ marginTop: 20, padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 28 }}>🚨</span>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 2 }}>{t("Emergency hai?")}</div>
-            <div style={{ fontSize: 12, color: "var(--text-3)" }}>{t("Doctor dhundne ka wait mat karo")}</div>
+        <GlassCard accent="#FF4757" lift={false} style={{ marginTop: 20 }}>
+          <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ fontSize: 28 }}>🚨</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: "#FF4757", marginBottom: 2 }}>{t("Emergency hai?")}</div>
+              <div style={{ fontSize: 12, color: "var(--text-3)" }}>{t("Doctor dhundne ka wait mat karo")}</div>
+            </div>
+            <a href="tel:108" style={{ background: "rgba(255,71,87,0.9)", color: "#fff", border: "none", borderRadius: 100, padding: "10px 20px", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14, flexShrink: 0 }}>{t("108 Call")}</a>
           </div>
-          <a href="tel:108" style={{ background: "rgba(255,71,87,0.9)", color: "#fff", border: "none", borderRadius: 100, padding: "10px 20px", fontWeight: 700, textDecoration: "none", fontFamily: "var(--font-body)", fontSize: 14, flexShrink: 0 }}>{t("108 Call")}</a>
         </GlassCard>
       </div>
     </div>
