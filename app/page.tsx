@@ -99,7 +99,7 @@ export default function Landing() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMenuOpen(false)}
               style={{ position: "fixed", inset: 0, background: "rgba(4,6,13,0.6)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", zIndex: 300 }} />
             <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="glass" style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(80vw, 300px)", zIndex: 301, padding: "22px 20px", display: "flex", flexDirection: "column", gap: 4, borderRadius: "24px 0 0 24px" }}>
+              className="glass" style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(66vw, 240px)", zIndex: 301, padding: "20px 16px", display: "flex", flexDirection: "column", gap: 4, borderRadius: "24px 0 0 24px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                 <Logo size={26} />
                 <button onClick={() => setMenuOpen(false)} aria-label="Close menu" style={{ background: "transparent", border: "none", color: "var(--text-2)", cursor: "pointer", display: "flex" }}><X size={22} /></button>
