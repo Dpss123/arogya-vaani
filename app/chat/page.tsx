@@ -140,7 +140,7 @@ export default function ChatPage() {
 
   return (
     <div style={{ height: "100dvh", overflow: "hidden", display: "flex", flexDirection: "column", background: "#06090f" }}>
-      <div className="m-wrap" style={{ padding: "11px clamp(16px,4vw,28px)", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+      <div style={{ padding: "11px clamp(16px,4vw,28px)", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
         <BackButton size={19} style={{ flexShrink: 0 }} />
         <AiAvatar size={36} />
         <div style={{ minWidth: 0 }}>
