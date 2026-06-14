@@ -12,7 +12,7 @@ export default function FloatingBot() {
   return (
     <button onClick={() => router.push("/chat")} aria-label="Ask the AI assistant" className="floating-bot">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/bot-avatar.png" alt="AI assistant" width={54} height={54} style={{ width: 54, height: 54, objectFit: "contain", display: "block" }} />
+      <img src="/bot-avatar.png" alt="AI assistant" width={50} height={50} style={{ width: 50, height: 50, objectFit: "contain", display: "block" }} />
     </button>
   );
 }
