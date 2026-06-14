@@ -56,8 +56,11 @@ export default function ChatPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<SRInstance | null>(null);
+  const keepListeningRef = useRef(false);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  // Stop the mic if the user leaves the chat while it is listening
+  useEffect(() => () => { keepListeningRef.current = false; recognitionRef.current?.stop(); }, []);
 
   const addMessage = (role: "patient" | "ai", content: string) => {
     setMessages(prev => [...prev, { id: Date.now().toString(), role, content, time: new Date().toLocaleTimeString("hi-IN", { hour: "2-digit", minute: "2-digit" }) }]);
@@ -99,12 +102,14 @@ export default function ChatPage() {
     const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SR) { toast.error(t("Chrome use karein voice ke liye")); return; }
     // tapping the mic again stops listening
-    if (isListening) { recognitionRef.current?.stop(); setIsListening(false); return; }
+    if (isListening) { keepListeningRef.current = false; recognitionRef.current?.stop(); setIsListening(false); return; }
+
+    const baseText = input.trim() ? input.trim() + " " : "";   // keep what is already typed
+    let finalText = "";
     const recognition = new SR();
     recognition.lang = SPEECH_LOCALE[getLang()] || "hi-IN";   // listen in the chosen language
     recognition.continuous = true;                            // keep listening across sentences
     recognition.interimResults = true;                        // live partial text in the box
-    let finalText = "";
     recognition.onresult = (e) => {
       let interim = "";
       for (let i = e.resultIndex; i < e.results.length; i++) {
@@ -112,15 +117,24 @@ export default function ChatPage() {
         if (e.results[i].isFinal) finalText += tr + " ";
         else interim += tr;
       }
-      setInput((finalText + interim).trim());
+      setInput((baseText + finalText + interim).trim());
     };
-    recognition.onend = () => setIsListening(false);
+    recognition.onend = () => {
+      // Chrome ends the session after a short silence — restart while the mic is still on
+      if (keepListeningRef.current) { try { recognition.start(); } catch { setIsListening(false); } }
+      else setIsListening(false);
+    };
     recognition.onerror = (ev) => {
-      if (ev.error === "not-allowed" || ev.error === "service-not-allowed") toast.error(t("Mic access do"));
-      setIsListening(false);
+      if (["not-allowed", "service-not-allowed", "audio-capture", "network"].includes(ev.error)) {
+        if (ev.error !== "network") toast.error(t("Mic access do"));
+        keepListeningRef.current = false;
+        setIsListening(false);
+      }
+      // no-speech / aborted → let onend restart so a pause does not cut it off
     };
     recognitionRef.current = recognition;
-    recognition.start();
+    keepListeningRef.current = true;
+    try { recognition.start(); } catch { /* already started */ }
     setIsListening(true);
   };
 
