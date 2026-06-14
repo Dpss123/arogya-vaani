@@ -75,8 +75,9 @@ export default function Landing() {
         borderColor: scrolled ? "rgba(0,230,118,0.25)" : "var(--border)",
         boxShadow: scrolled ? "0 8px 40px rgba(0,230,118,0.08)" : "none",
       }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Logo size={27} withText textSize={17} />
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+          <Logo size={27} />
+          <span className="nav-brand" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em", color: "#F0F4FF", whiteSpace: "nowrap" }}>Arogya Vaani</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
           {[["Services", "#services"], ["Platform", "#platform"], ["Impact", "#impact"], ["Tech", "#tech"]].map(([l, h]) => (
@@ -350,6 +351,7 @@ export default function Landing() {
 
       <style>{`
         @media (min-width: 880px) { .nav-link { display: inline-flex !important; } }
+        @media (max-width: 640px) { .nav-brand { display: none; } }
         @media (max-width: 880px) {
           .hero-grid { grid-template-columns: 1fr !important; }
           .hero-3d { height: 320px !important; order: -1; }
