@@ -46,11 +46,12 @@ export default function Sidebar({ open = false, onClose }: { open?: boolean; onC
     <>
       <div className={`app-nav-backdrop${open ? " open" : ""}`} onClick={onClose} aria-hidden />
       <aside className={`app-sidebar glass${open ? " open" : ""}`} style={{
-        position: "fixed", top: 0, left: 0, bottom: 0, width: 248,
-        borderRight: "1px solid var(--border)", borderRadius: 0,
-        padding: "20px 14px",
+        position: "fixed", top: 0, left: 0, bottom: 0,
+        borderRight: "1px solid rgba(0,230,118,0.18)", borderRadius: 0,
+        padding: "20px 12px",
+        background: "linear-gradient(180deg, #0c1428 0%, #070c18 100%)",
       }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 6px 18px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "2px 6px 16px", marginBottom: 6, borderBottom: "1px solid var(--border-soft)" }}>
         <div onClick={() => go("/home")} style={{ display: "flex", cursor: "pointer" }}>
           <Logo size={24} withText textSize={16} />
         </div>
