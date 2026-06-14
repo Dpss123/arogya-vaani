@@ -31,6 +31,15 @@
   --teal-glow: rgba(0,230,118,0.16);
   --cyan-glow: rgba(0,196,255,0.12);
 
+  /* — motion + elevation (premium) — */
+  --ease: cubic-bezier(0.16,1,0.3,1);
+  --ease-spring: cubic-bezier(0.34,1.4,0.5,1);
+  --radius: 22px;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.30);
+  --shadow-md: 0 14px 36px rgba(0,0,0,0.45);
+  --shadow-lg: 0 30px 70px rgba(0,0,0,0.55);
+  --shadow-glow: 0 18px 50px rgba(0,230,118,0.26);
+
   /* fonts */
   --font-display: 'Space Grotesk', 'Playfair Display', sans-serif;
   --font-serif: 'Instrument Serif', 'Playfair Display', serif;
@@ -89,6 +98,57 @@ body {
 }
 .glow-teal { box-shadow: 0 0 12px rgba(0,230,118,0.3); }
 .glow-red { box-shadow: 0 0 12px rgba(255,71,87,0.3); }
+
+/* ── premium motion utilities ── */
+@keyframes auroraDrift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(24px,-18px) scale(1.12); } 66% { transform: translate(-18px,16px) scale(0.94); } }
+@property --bs { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes borderspin { to { --bs: 360deg; } }
+@keyframes shine { 0% { transform: translateX(-120%) skewX(-18deg); } 55%,100% { transform: translateX(360%) skewX(-18deg); } }
+
+.gradient-text {
+  background: linear-gradient(120deg, var(--teal), var(--cyan) 48%, var(--saffron));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.glass-premium {
+  background: rgba(11,19,34,0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0,230,118,0.12);
+}
+.glow-border { position: relative; }
+.glow-border::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 0;
+  background: conic-gradient(from var(--bs), transparent 0deg, var(--teal) 55deg, var(--cyan) 120deg, transparent 200deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: borderspin 5s linear infinite; opacity: 0.85;
+}
+/* drifting aurora blobs behind heroes (drop inside a position:relative section) */
+.aurora-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.30; mix-blend-mode: screen; animation: auroraDrift 16s ease-in-out infinite; }
+.aurora-blob.b1 { width: 46vw; height: 46vw; max-width: 560px; max-height: 560px; top: -14%; left: -8%; background: radial-gradient(circle, rgba(0,230,118,0.55), transparent 68%); animation-duration: 17s; }
+.aurora-blob.b2 { width: 40vw; height: 40vw; max-width: 480px; max-height: 480px; bottom: -16%; right: -6%; background: radial-gradient(circle, rgba(0,196,255,0.45), transparent 68%); animation-duration: 21s; animation-delay: -3s; }
+.aurora-blob.b3 { width: 34vw; height: 34vw; max-width: 420px; max-height: 420px; top: 36%; left: 44%; background: radial-gradient(circle, rgba(255,149,0,0.30), transparent 70%); animation-duration: 25s; animation-delay: -7s; }
+/* fine grain overlay (premium texture) */
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.04; border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── a11y + reduced motion ── */
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* marquee pauses on hover */
+.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+/* 3-column grids collapse on phones (opt-in className) */
+@media (max-width: 640px) { .m-3col { grid-template-columns: 1fr 1fr !important; } }
+@media (max-width: 380px) { .m-3col { grid-template-columns: 1fr !important; } }
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-thumb { background: rgba(0,230,118,0.3); border-radius: 4px; }

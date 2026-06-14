@@ -1,13 +1,15 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import React from "react";
 
-// Scroll-into-view reveal wrapper.
+// Scroll-into-view reveal wrapper (fade + slide-up). Static for reduced-motion.
 export default function Reveal({
   children, delay = 0, y = 28, style,
 }: {
   children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties;
 }) {
+  const reduce = useReducedMotion();
+  if (reduce) return <div style={style}>{children}</div>;
   return (
     <motion.div
       initial={{ opacity: 0, y }}

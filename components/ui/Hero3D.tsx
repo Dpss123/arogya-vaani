@@ -8,7 +8,8 @@ export default function Hero3D() {
   const mount = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || window.matchMedia("(hover: none)").matches) return;
+    if (typeof window === "undefined" || window.matchMedia("(hover: none)").matches
+        || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let active = true;
     let cleanup = () => {};
 
