@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/ui/Button";
 import FeatureCard from "@/components/ui/FeatureCard";
 import GlassCard from "@/components/ui/GlassCard";
@@ -15,7 +15,7 @@ import Logo from "@/components/Logo";
 import {
   Stethoscope, FileText, Scan, ScanFace, Eye, Pill, Brain, Baby,
   Activity, Utensils, Landmark, HeartHandshake,
-  Dna, Microscope, Smile, MapPin, Siren, Globe, Sparkles,
+  Dna, Microscope, Smile, MapPin, Siren, Globe, Sparkles, Menu, X,
 } from "lucide-react";
 
 // WhatsApp number for the "Chat on WhatsApp" CTA. Meta TEST number for now —
@@ -57,6 +57,7 @@ const ROADMAP = [
 export default function Landing() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
@@ -79,14 +80,39 @@ export default function Landing() {
           <Logo size={27} />
           <span className="nav-brand" style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em", color: "#F0F4FF", whiteSpace: "nowrap" }}>Arogya Vaani</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
+        <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 26 }}>
           {[["Services", "#services"], ["Platform", "#platform"], ["Impact", "#impact"], ["Tech", "#tech"]].map(([l, h]) => (
             <a key={l} href={h} style={{ fontSize: 13, color: "var(--text-2)", textDecoration: "none", display: "none" }} className="nav-link">{l}</a>
           ))}
           <button onClick={() => router.push("/login")} style={{ background: "transparent", border: "none", color: "var(--text-2)", fontSize: 13, cursor: "pointer", fontFamily: "var(--font-body)" }}>Login</button>
           <button onClick={() => router.push("/home")} style={{ background: "linear-gradient(135deg,#00E676,#00C4FF)", color: "#04060D", border: "none", borderRadius: 100, padding: "9px 18px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "var(--font-body)" }}>Start Free →</button>
         </div>
+        <button className="nav-burger" onClick={() => setMenuOpen(true)} aria-label="Open menu" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", color: "#F0F4FF", borderRadius: 12, padding: 9, cursor: "pointer" }}>
+          <Menu size={20} />
+        </button>
       </nav>
+
+      {/* MOBILE DRAWER */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMenuOpen(false)}
+              style={{ position: "fixed", inset: 0, background: "rgba(4,6,13,0.6)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", zIndex: 300 }} />
+            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }}
+              className="glass" style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(80vw, 300px)", zIndex: 301, padding: "22px 20px", display: "flex", flexDirection: "column", gap: 4, borderRadius: "24px 0 0 24px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <Logo size={26} />
+                <button onClick={() => setMenuOpen(false)} aria-label="Close menu" style={{ background: "transparent", border: "none", color: "var(--text-2)", cursor: "pointer", display: "flex" }}><X size={22} /></button>
+              </div>
+              {[["Services", "#services"], ["Platform", "#platform"], ["Impact", "#impact"], ["Tech", "#tech"]].map(([l, h]) => (
+                <a key={l} href={h} onClick={() => setMenuOpen(false)} style={{ padding: "13px 4px", fontSize: 16, color: "#F0F4FF", textDecoration: "none", borderBottom: "1px solid var(--border-soft)", fontFamily: "var(--font-body)" }}>{l}</a>
+              ))}
+              <button onClick={() => { setMenuOpen(false); router.push("/login"); }} style={{ marginTop: 16, padding: "13px", borderRadius: 100, border: "1px solid var(--border)", background: "transparent", color: "#F0F4FF", fontSize: 15, cursor: "pointer", fontFamily: "var(--font-body)" }}>Login</button>
+              <button onClick={() => { setMenuOpen(false); router.push("/home"); }} style={{ marginTop: 10, padding: "13px", borderRadius: 100, border: "none", background: "linear-gradient(135deg,#00E676,#00C4FF)", color: "#04060D", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "var(--font-body)" }}>Start Free →</button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* HERO */}
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", padding: "96px 6vw 44px" }}>
@@ -350,7 +376,9 @@ export default function Landing() {
       </footer>
 
       <style>{`
-        @media (min-width: 880px) { .nav-link { display: inline-flex !important; } }
+        .nav-desktop { display: none; }
+        .nav-burger { display: inline-flex; align-items: center; justify-content: center; }
+        @media (min-width: 880px) { .nav-link { display: inline-flex !important; } .nav-desktop { display: flex !important; } .nav-burger { display: none !important; } }
         @media (max-width: 640px) { .nav-brand { display: none; } }
         @media (max-width: 880px) {
           .hero-grid { grid-template-columns: 1fr !important; }
